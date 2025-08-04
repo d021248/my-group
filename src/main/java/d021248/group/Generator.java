@@ -6,5 +6,5 @@ import java.util.Set;
 public interface Generator<T extends Element> {
 
     Set<T> generate(Set<T> generators);
-
+    
 }
