@@ -1,6 +1,7 @@
 package d021248.group.symmetric;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 class PermutationUtil {
@@ -9,7 +10,7 @@ class PermutationUtil {
 
     static Map<Integer, Integer> toMap(Permutation perm) {
         // Build the set of all elements involved
-        var elements = new java.util.HashSet<Integer>();
+        var elements = new HashSet<Integer>();
         for (var trans : perm.cycles()) {
             elements.addAll(trans);
         }

@@ -1,14 +1,16 @@
 package d021248.group.symmetric;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import d021248.group.api.Element;
 
 public record Permutation(List<List<Integer>> cycles) implements Element {
-
     public Permutation(List<List<Integer>> cycles) {
         validate(cycles);
         this.cycles = normalize(cycles);
@@ -55,6 +57,42 @@ public record Permutation(List<List<Integer>> cycles) implements Element {
             }
         }
         return transpositions;
+    }
+
+    /**
+     * Returns the permutation as a mapping from integer to integer.
+     * The mapping is computed by applying all transpositions in order.
+     */
+    private Map<Integer, Integer> asMapping() {
+        Map<Integer, Integer> map = new HashMap<>();
+        // Collect all elements
+        for (List<Integer> t : cycles) {
+            map.putIfAbsent(t.get(0), t.get(0));
+            map.putIfAbsent(t.get(1), t.get(1));
+        }
+        // Apply transpositions in order
+        for (List<Integer> t : cycles) {
+            int a = t.get(0);
+            int b = t.get(1);
+            int temp = map.get(a);
+            map.put(a, map.get(b));
+            map.put(b, temp);
+        }
+        return map;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Permutation other))
+            return false;
+        return this.asMapping().equals(other.asMapping());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(asMapping());
     }
 
     @Override
