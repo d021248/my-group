@@ -1,7 +1,6 @@
 package d021248.group.symmetric;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,57 +9,63 @@ import d021248.group.api.Element;
 
 public record Permutation(List<List<Integer>> cycles) implements Element {
 
-    public Permutation {
+    public Permutation(List<List<Integer>> cycles) {
         validate(cycles);
+        this.cycles = normalize(cycles);
     }
 
     private static void validate(List<List<Integer>> cycles) {
         if (cycles == null) {
             throw new IllegalArgumentException("Cycles list cannot be null");
         }
-        Set<Integer> seen = new HashSet<>();
         for (List<Integer> cycle : cycles) {
             if (cycle == null || cycle.isEmpty()) {
                 throw new IllegalArgumentException("Each cycle must be non-null and non-empty");
             }
+            Set<Integer> seenInCycle = new HashSet<>();
             for (Integer elem : cycle) {
                 if (elem == null) {
                     throw new IllegalArgumentException("Cycle elements must be non-null");
                 }
-                if (!seen.add(elem)) {
-                    throw new IllegalArgumentException("Duplicate element in cycles: " + elem);
+                if (!seenInCycle.add(elem)) {
+                    throw new IllegalArgumentException("Duplicate element in a cycle: " + elem);
                 }
             }
         }
     }
 
+    /**
+     * Normalize cycles to a sequence of transpositions.
+     * Each cycle (a1 a2 ... an) becomes (a1 a2), (a1 a3), ..., (a1 an)
+     * 
+     * @param cycles input cycles
+     * @return list of transpositions (each as a 2-element list)
+     */
+    private static List<List<Integer>> normalize(List<List<Integer>> cycles) {
+        List<List<Integer>> transpositions = new ArrayList<>();
+        for (List<Integer> cycle : cycles) {
+            if (cycle.size() <= 1)
+                continue;
+            Integer first = cycle.get(0);
+            for (int i = cycle.size() - 1; i > 0; i--) {
+                List<Integer> trans = new ArrayList<>();
+                trans.add(first);
+                trans.add(cycle.get(i));
+                transpositions.add(trans);
+            }
+        }
+        return transpositions;
+    }
+
     @Override
     public Permutation inverse() {
-        var map = PermutationUtil.toMap(this);
-        var invMap = new HashMap<Integer, Integer>();
-        for (var e : map.entrySet()) {
-            invMap.put(e.getValue(), e.getKey());
+        List<List<Integer>> reversed = new ArrayList<>();
+        for (int i = cycles.size() - 1; i >= 0; i--) {
+            List<Integer> t = cycles.get(i);
+            // Swap elements for clarity, though (a b) = (b a)
+            reversed.add(List.of(t.get(1), t.get(0)));
         }
-        // Reconstruct cycles from inverse map
-        Set<Integer> all = new HashSet<>(map.keySet());
-        List<List<Integer>> resultCycles = new ArrayList<>();
-        Set<Integer> seen = new HashSet<>();
-        for (Integer start : all) {
-            if (seen.contains(start)) {
-                continue;
-            }
-            List<Integer> cycle = new ArrayList<>();
-            int x = start;
-            do {
-                cycle.add(x);
-                seen.add(x);
-                x = invMap.getOrDefault(x, x);
-            } while (x != start && !seen.contains(x));
-            if (cycle.size() > 1) {
-                resultCycles.add(cycle);
-            }
-        }
-        return new Permutation(resultCycles);
+        return new Permutation(reversed);
     }
 
     @Override
