@@ -1,6 +1,7 @@
 package d021248.group.symmetric;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +37,7 @@ public record Permutation(List<List<Integer>> cycles) implements Element {
     @Override
     public Permutation inverse() {
         var map = PermutationUtil.toMap(this);
-        var invMap = new java.util.HashMap<Integer, Integer>();
+        var invMap = new HashMap<Integer, Integer>();
         for (var e : map.entrySet()) {
             invMap.put(e.getValue(), e.getKey());
         }
