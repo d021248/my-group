@@ -28,9 +28,9 @@ public class SymmetricGroup extends AbstractGroup<Permutation> {
         for (int i = 1; i <= n; i++) {
             nCycle.add(i);
         }
-        gens.add(new Permutation(List.of(nCycle)));
+        gens.add(new Permutation(List.of(nCycle), n));
         // transposition: (1 2)
-        gens.add(new Permutation(List.of(List.of(1, 2))));
+        gens.add(new Permutation(List.of(List.of(1, 2)), n));
         return gens;
     }
 

@@ -9,8 +9,8 @@ import d021248.group.api.Element;
 
 public record Permutation(Map<Integer, Integer> mapping) implements Element {
 
-    public Permutation(List<List<Integer>> cycles) {
-        this(Collections.unmodifiableMap(PermutationUtil.fromCycles(PermutationUtil.validated(cycles))));
+    public Permutation(List<List<Integer>> cycles, int n) {
+        this(Collections.unmodifiableMap(PermutationUtil.fromCycles(PermutationUtil.validated(cycles), n)));
     }
 
     @Override

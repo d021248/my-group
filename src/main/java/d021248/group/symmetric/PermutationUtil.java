@@ -32,22 +32,21 @@ public class PermutationUtil {
     }
 
     /**
-     * Converts cycles to a mapping from integer to integer.
+     * Converts cycles to a mapping from integer to integer, ensuring all points
+     * 1..n are included.
      */
-    public static Map<Integer, Integer> fromCycles(List<List<Integer>> cycles) {
+    public static Map<Integer, Integer> fromCycles(List<List<Integer>> cycles, int n) {
         Map<Integer, Integer> map = new HashMap<>();
-        // Initialize all elements to map to themselves
-        for (List<Integer> cycle : cycles) {
-            for (Integer elem : cycle) {
-                map.putIfAbsent(elem, elem);
-            }
+        // Initialize all elements 1..n to map to themselves
+        for (int i = 1; i <= n; i++) {
+            map.put(i, i);
         }
         // Apply cycles
         for (List<Integer> cycle : cycles) {
-            int n = cycle.size();
-            for (int i = 0; i < n; i++) {
+            int m = cycle.size();
+            for (int i = 0; i < m; i++) {
                 int from = cycle.get(i);
-                int to = cycle.get((i + 1) % n);
+                int to = cycle.get((i + 1) % m);
                 map.put(from, to);
             }
         }

@@ -11,19 +11,19 @@ public class Main {
     public static void main(String[] args) {
         logger.info("Application started.");
 
-        // Example 1: Create S_3 and list all elements
-        SymmetricGroup s3 = new SymmetricGroup(4);
-        Set<Permutation> elements = s3.elements();
-        logger.info("Elements of S_3 ({} total): {}", elements.size(), elements);
+        // Example 1: Create S_4 and list all elements
+        SymmetricGroup s4 = new SymmetricGroup(4);
+        Set<Permutation> elements = s4.elements();
+        logger.info("Elements of S_4 ({} total): {}", elements.size(), elements);
 
         // Example 2: Show generators
-        Set<Permutation> generators = SymmetricGroup.generators(3);
-        logger.info("Generators of S_3: {}", generators);
+        Set<Permutation> generators = SymmetricGroup.generators(4);
+        logger.info("Generators of S_4: {}", generators);
 
         // Example 3: Multiply two elements
         Permutation a = elements.iterator().next();
         Permutation b = generators.iterator().next();
-        Permutation product = s3.operation().calculate(a, b);
+        Permutation product = s4.operation().calculate(a, b);
         logger.info("Product of {} and {} is {}", a, b, product);
 
         // Example 4: Inverse of an element
