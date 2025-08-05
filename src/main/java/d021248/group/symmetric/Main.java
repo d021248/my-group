@@ -12,7 +12,7 @@ public class Main {
         logger.info("Application started.");
 
         // Example 1: Create S_3 and list all elements
-        SymmetricGroup s3 = new SymmetricGroup(3);
+        SymmetricGroup s3 = new SymmetricGroup(4);
         Set<Permutation> elements = s3.elements();
         logger.info("Elements of S_3 ({} total): {}", elements.size(), elements);
 
