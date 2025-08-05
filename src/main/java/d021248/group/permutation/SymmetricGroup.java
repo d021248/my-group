@@ -5,9 +5,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SymmetricGroupGeneratorFactory {
-    // Private constructor to prevent instantiation
-    private SymmetricGroupGeneratorFactory() {
+import d021248.group.AbstractGroup;
+
+public class SymmetricGroup extends AbstractGroup<Permutation> {
+
+    public SymmetricGroup(int n) {
+        super(generators(n), new PermutationMultiplication());
     }
 
     /**
@@ -30,4 +33,5 @@ public class SymmetricGroupGeneratorFactory {
         gens.add(new Permutation(List.of(List.of(1, 2))));
         return gens;
     }
+
 }
