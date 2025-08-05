@@ -1,10 +1,10 @@
-package d021248.group.permutation;
+package d021248.group.symmetric;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import d021248.group.Operation;
+import d021248.group.api.Operation;
 
 public class PermutationMultiplication implements Operation<Permutation> {
 

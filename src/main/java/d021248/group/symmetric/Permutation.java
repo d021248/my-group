@@ -1,11 +1,11 @@
-package d021248.group.permutation;
+package d021248.group.symmetric;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import d021248.group.Element;
+import d021248.group.api.Element;
 
 public record Permutation(List<List<Integer>> cycles) implements Element {
 

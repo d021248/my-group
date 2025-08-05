@@ -1,9 +1,9 @@
-package d021248.group.permutation;
+package d021248.group.symmetric;
 
 import java.util.Set;
 import java.util.logging.Logger;
 
-import d021248.group.Generator;
+import d021248.group.base.Generator;
 
 public class Main {
     public static void main(String[] args) {

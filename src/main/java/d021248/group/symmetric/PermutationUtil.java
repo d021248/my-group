@@ -1,4 +1,4 @@
-package d021248.group.permutation;
+package d021248.group.symmetric;
 
 import java.util.HashMap;
 import java.util.Map;

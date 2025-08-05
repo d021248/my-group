@@ -1,11 +1,11 @@
-package d021248.group.permutation;
+package d021248.group.symmetric;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import d021248.group.AbstractGroup;
+import d021248.group.base.AbstractGroup;
 
 public class SymmetricGroup extends AbstractGroup<Permutation> {
 

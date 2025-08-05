@@ -1,6 +1,10 @@
-package d021248.group;
+package d021248.group.base;
 
 import java.util.Set;
+
+import d021248.group.api.Element;
+import d021248.group.api.Group;
+import d021248.group.api.Operation;
 
 public abstract class AbstractGroup<T extends Element> implements Group<T> {
 

@@ -1,4 +1,4 @@
-package d021248.group;
+package d021248.group.base;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+
+import d021248.group.api.Element;
+import d021248.group.api.Operation;
 
 public class Generator {
 

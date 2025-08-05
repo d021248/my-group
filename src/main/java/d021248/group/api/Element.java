@@ -1,4 +1,4 @@
-package d021248.group;
+package d021248.group.api;
 
 @FunctionalInterface
 public interface Element {
