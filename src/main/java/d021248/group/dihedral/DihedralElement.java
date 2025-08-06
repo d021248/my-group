@@ -10,17 +10,11 @@ import d021248.group.api.Element;
 public record DihedralElement(int rotation, int reflection, int order) implements Element {
     @Override
     public DihedralElement inverse() {
-        if (reflection == 0) {
-            // Inverse of rotation: (n - rotation) mod n
-            return new DihedralElement((order - rotation) % order, 0, order);
-        } else {
-            // Inverse of reflection: itself
-            return this;
-        }
+        return DihedralHelper.inverse(this);
     }
 
     @Override
     public String toString() {
-        return reflection == 0 ? String.format("r^%d", rotation) : String.format("r^%d s", rotation);
+        return DihedralHelper.toString(this);
     }
 }
