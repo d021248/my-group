@@ -1,51 +1,53 @@
 package d021248.group.base;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 
 import d021248.group.api.Element;
 import d021248.group.api.Operation;
 
+/**
+ * Utility class for generating all elements of a group from its generators.
+ */
 public class Generator {
-
     // Private constructor to prevent instantiation
     private Generator() {
     }
 
+    /**
+     * Generates the closure of a set of generators under the given operation.
+     *
+     * @param generators the set of generators
+     * @param operation  the group operation
+     * @return the set of all elements generated
+     */
     public static <T extends Element> Set<T> generate(Set<T> generators, Operation<T> operation) {
+        var result = new HashSet<T>();
+        var queue = new ArrayDeque<T>();
 
-        Set<T> result = new HashSet<>();
-        Queue<T> queue = new ArrayDeque<>();
+        // Add all generators and their inverses
+        var allGens = generators.stream()
+                .flatMap(g -> Arrays.stream(new Element[] { g, g.inverse() }))
+                .map(e -> (T) e)
+                .toList();
 
-        List<T> allGens = new ArrayList<>();
-        for (T g : generators) {
-            allGens.add(g);
-            @SuppressWarnings("unchecked")
-            T inverse = (T) g.inverse();
-            allGens.add(inverse);
-        }
-
-        // Add all generators to the queue and result to start the process
-        for (T g : allGens) {
+        for (var g : allGens) {
             if (result.add(g)) {
                 queue.add(g);
             }
         }
 
         while (!queue.isEmpty()) {
-            T current = queue.poll();
-            for (T g : allGens) {
-                T next = operation.calculate(current, g);
+            var current = queue.poll();
+            for (var g : allGens) {
+                var next = operation.calculate(current, g);
                 if (result.add(next)) {
                     queue.add(next);
                 }
             }
         }
-        return result;
+        return Set.copyOf(result);
     }
-
 }
