@@ -17,7 +17,7 @@ public class Main {
         logger.info("Elements of S_4 ({} total): {}", elements.size(), elements);
 
         // Example 2: Show generators
-        Set<Permutation> generators = SymmetricGroup.generators(4);
+        Set<Permutation> generators = SymmetricGroupHelper.getGenerators(4);
         logger.info("Generators of S_4: {}", generators);
 
         // Example 3: Multiply two elements
@@ -29,6 +29,12 @@ public class Main {
         // Example 4: Inverse of an element
         Permutation inv = a.inverse();
         logger.info("Inverse of {} is {}", a, inv);
+
+        // Example 5: Apply a permutation to a string using PermutationHelper.apply
+        String input = "ABCD";
+        Permutation perm = elements.iterator().next(); // Use the first permutation as an example
+        String permutedString = PermutationHelper.apply(perm, input);
+        logger.info("Applying permutation {} to '{}' using apply() gives '{}'", perm, input, permutedString);
     }
 
 }
