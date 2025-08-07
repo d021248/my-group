@@ -5,6 +5,8 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import d021248.group.base.Cayley;
+
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
 
@@ -29,5 +31,10 @@ public class Main {
         // Example 4: Inverse of an element
         CyclicElement inv = a.inverse();
         logger.info("Inverse of {} is {}", a, inv);
+
+        // Example 5: Cayley representation of C_6
+        Cayley<CyclicElement> cayley = new Cayley<>(c6);
+        Set<d021248.group.symmetric.Permutation> cayleySubgroup = cayley.cayleySubgroup();
+        logger.info("Cayley subgroup of C_6 ({} permutations): {}", cayleySubgroup.size(), cayleySubgroup);
     }
 }
