@@ -1,6 +1,7 @@
 package d021248.group.base;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 import d021248.group.api.Element;
 import d021248.group.api.Group;
@@ -14,6 +15,11 @@ public abstract class AbstractGroup<T extends Element> implements Group<T> {
     protected AbstractGroup(Set<T> elements, Operation<T> operation) {
         this.elements = Generator.generate(elements, operation);
         this.operation = operation;
+    }
+
+    protected AbstractGroup(Supplier<Set<T>> supplier, Operation<T> operation) {
+        this(supplier.get(), operation);
+
     }
 
     @Override

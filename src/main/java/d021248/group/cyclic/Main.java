@@ -23,7 +23,7 @@ public class Main {
         // Example 3: Add two elements
         CyclicElement a = new CyclicElement(2, 6);
         CyclicElement b = new CyclicElement(5, 6);
-        CyclicElement sum = c6.operation().calculate(a, b);
+        CyclicElement sum = c6.operation().apply(a, b);
         logger.info("Sum of {} and {} is {}", a, b, sum);
 
         // Example 4: Inverse of an element

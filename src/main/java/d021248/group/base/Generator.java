@@ -42,7 +42,7 @@ public class Generator {
         while (!queue.isEmpty()) {
             var current = queue.poll();
             for (var g : allGens) {
-                var next = operation.calculate(current, g);
+                var next = operation.apply(current, g);
                 if (result.add(next)) {
                     queue.add(next);
                 }

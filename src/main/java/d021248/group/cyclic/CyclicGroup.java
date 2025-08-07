@@ -1,8 +1,5 @@
 package d021248.group.cyclic;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import d021248.group.base.AbstractGroup;
 
 /**
@@ -14,15 +11,6 @@ public class CyclicGroup extends AbstractGroup<CyclicElement> {
     public CyclicGroup(int n) {
         super(CyclicGroupHelper.getGenerators(n), new CyclicOperation());
         this.order = n;
-    }
-
-    @Override
-    public Set<CyclicElement> elements() {
-        Set<CyclicElement> elements = new HashSet<>();
-        for (int i = 0; i < order; i++) {
-            elements.add(new CyclicElement(i, order));
-        }
-        return elements;
     }
 
     public int order() {

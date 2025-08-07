@@ -1,6 +1,8 @@
 package d021248.group.symmetric;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Utility class for permutation logic and operations.
@@ -66,26 +68,6 @@ public final class PermutationHelper {
     }
 
     /**
-     * Multiplies two permutations (composition).
-     *
-     * @param left  the left permutation
-     * @param right the right permutation
-     * @return the composed permutation
-     * @throws IllegalArgumentException if sizes do not match
-     */
-    public static Permutation multiply(final Permutation left, final Permutation right) {
-        final int n = left.mapping().length;
-        if (right.mapping().length != n) {
-            throw new IllegalArgumentException("Permutations must be of the same size");
-        }
-        final int[] result = new int[n];
-        for (int i = 0; i < n; i++) {
-            result[i] = left.mapping()[right.mapping()[i] - 1];
-        }
-        return new Permutation(result);
-    }
-
-    /**
      * Applies a permutation to an Object array.
      *
      * @param perm  the permutation
@@ -126,37 +108,6 @@ public final class PermutationHelper {
     }
 
     /**
-     * Generate all permutations of n elements, calling the consumer for each.
-     *
-     * @param n        number of elements
-     * @param consumer action to perform for each permutation
-     */
-    public static void generateAllPermutations(int n, java.util.function.Consumer<Permutation> consumer) {
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++)
-            arr[i] = i + 1;
-        permute(arr, 0, consumer);
-    }
-
-    private static void permute(int[] arr, int k, java.util.function.Consumer<Permutation> consumer) {
-        if (k == arr.length) {
-            consumer.accept(new Permutation(Arrays.copyOf(arr, arr.length)));
-        } else {
-            for (int i = k; i < arr.length; i++) {
-                swap(arr, i, k);
-                permute(arr, k + 1, consumer);
-                swap(arr, i, k);
-            }
-        }
-    }
-
-    private static void swap(int[] arr, int i, int j) {
-        int tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
-    }
-
-    /**
      * Returns true if the permutation is even, false if odd.
      *
      * @param mapping the permutation mapping (1-based)
@@ -174,10 +125,29 @@ public final class PermutationHelper {
                     j = mapping[j] - 1;
                     len++;
                 }
-                if (len > 0)
+                if (len > 0) {
                     transpositions += len - 1;
+                }
             }
         }
         return transpositions % 2 == 0;
+    }
+
+    /**
+     * Validates a permutation mapping array.
+     * Throws IllegalArgumentException if invalid.
+     */
+    public static void validate(int[] mapping) {
+        int n = mapping.length;
+        if (n == 0) {
+            throw new IllegalArgumentException("Permutation mapping must not be empty");
+        }
+        Set<Integer> seen = new HashSet<>();
+        for (int v : mapping) {
+            if (v < 1 || v > n || !seen.add(v)) {
+                throw new IllegalArgumentException(
+                        "Invalid permutation mapping: must contain each integer from 1 to " + n + " exactly once");
+            }
+        }
     }
 }

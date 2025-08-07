@@ -7,7 +7,7 @@ import d021248.group.api.Operation;
  */
 public class DihedralOperation implements Operation<DihedralElement> {
     @Override
-    public DihedralElement calculate(DihedralElement a, DihedralElement b) {
+    public DihedralElement apply(DihedralElement a, DihedralElement b) {
         int n = a.order();
         if (a.reflection() == 0 && b.reflection() == 0) {
             // rotation * rotation

@@ -18,11 +18,11 @@ import d021248.group.api.Element;
  * </ul>
  */
 public record Permutation(int[] mapping) implements Element {
-    /**
-     * Returns the inverse of this permutation.
-     *
-     * @return the inverse permutation
-     */
+
+    public Permutation {
+        PermutationHelper.validate(mapping);
+    }
+
     @Override
     public Permutation inverse() {
         return PermutationHelper.inverse(mapping);

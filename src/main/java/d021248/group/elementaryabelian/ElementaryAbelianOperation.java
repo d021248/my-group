@@ -4,7 +4,7 @@ import d021248.group.api.Operation;
 
 public class ElementaryAbelianOperation implements Operation<ElementaryAbelianElement> {
     @Override
-    public ElementaryAbelianElement calculate(ElementaryAbelianElement left, ElementaryAbelianElement right) {
+    public ElementaryAbelianElement apply(ElementaryAbelianElement left, ElementaryAbelianElement right) {
         int n = left.values().length;
         int p = left.p();
         int[] result = new int[n];

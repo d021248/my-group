@@ -1,7 +1,8 @@
 package d021248.group.api;
 
-@FunctionalInterface
-public interface Operation<T extends Element> {
+import java.util.function.BiFunction;
 
-    T calculate(T left, T right);
+@FunctionalInterface
+public interface Operation<T extends Element> extends BiFunction<T, T, T> {
+
 }

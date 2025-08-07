@@ -3,11 +3,14 @@ package d021248.group.symmetric;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Utility methods for permutations.
- */
-public class SymmetricGroupHelper {
-    private SymmetricGroupHelper() {
+import d021248.group.api.GeneratingSystem;
+
+public class PermutationGeneratingSystem implements GeneratingSystem<Permutation> {
+
+    private final int n;
+
+    PermutationGeneratingSystem(int n) {
+        this.n = n;
     }
 
     /**
@@ -17,7 +20,9 @@ public class SymmetricGroupHelper {
      * @param n the size of the symmetric group
      * @return a set of generator permutations
      */
-    public static Set<Permutation> getGenerators(int n) {
+    @Override
+    public Set<Permutation> get() {
+
         Set<Permutation> generators = new HashSet<>();
         // n-cycle: (1 2 ... n)
         int[] nCycle = new int[n];
@@ -38,4 +43,5 @@ public class SymmetricGroupHelper {
         generators.add(new Permutation(transposition));
         return generators;
     }
+
 }

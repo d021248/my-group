@@ -33,10 +33,10 @@ class OperationTest {
     }
 
     @Test
-    void testCalculate() {
+    void testapply() {
         Operation<AddElement> add = (l, r) -> new AddElement(l.getValue() + r.getValue());
         AddElement a = new AddElement(2);
         AddElement b = new AddElement(3);
-        assertEquals(new AddElement(5), add.calculate(a, b));
+        assertEquals(new AddElement(5), add.apply(a, b));
     }
 }

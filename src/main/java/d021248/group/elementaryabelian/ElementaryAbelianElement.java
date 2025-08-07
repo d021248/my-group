@@ -10,10 +10,12 @@ import d021248.group.api.Element;
 public record ElementaryAbelianElement(int[] values, int p) implements Element {
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!(obj instanceof ElementaryAbelianElement(var otherValues, var otherP)))
+        }
+        if (!(obj instanceof ElementaryAbelianElement(var otherValues, var otherP))) {
             return false;
+        }
         return p == otherP && Arrays.equals(values, otherValues);
     }
 

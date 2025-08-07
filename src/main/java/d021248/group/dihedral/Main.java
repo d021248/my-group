@@ -23,7 +23,7 @@ public class Main {
         // Example 3: Multiply two elements
         DihedralElement a = new DihedralElement(1, 0, 4); // r
         DihedralElement b = new DihedralElement(0, 1, 4); // s
-        DihedralElement product = d4.operation().calculate(a, b);
+        DihedralElement product = d4.operation().apply(a, b);
         logger.info("Product of {} and {} is {}", a, b, product);
 
         // Example 4: Inverse of an element

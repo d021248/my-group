@@ -17,13 +17,13 @@ public class Main {
         logger.info("Elements of S_4 ({} total): {}", elements.size(), elements);
 
         // Example 2: Show generators
-        Set<Permutation> generators = SymmetricGroupHelper.getGenerators(4);
+        Set<Permutation> generators = new PermutationGeneratingSystem(4).get();
         logger.info("Generators of S_4: {}", generators);
 
         // Example 3: Multiply two elements
         Permutation a = elements.iterator().next();
         Permutation b = generators.iterator().next();
-        Permutation product = s4.operation().calculate(a, b);
+        Permutation product = s4.operation().apply(a, b);
         logger.info("Product of {} and {} is {}", a, b, product);
 
         // Example 4: Inverse of an element

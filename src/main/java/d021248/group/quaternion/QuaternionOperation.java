@@ -16,7 +16,7 @@ public class QuaternionOperation implements Operation<QuaternionElement> {
     };
 
     @Override
-    public QuaternionElement calculate(QuaternionElement a, QuaternionElement b) {
+    public QuaternionElement apply(QuaternionElement a, QuaternionElement b) {
         return new QuaternionElement(TABLE[a.value()][b.value()]);
     }
 }

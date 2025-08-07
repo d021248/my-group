@@ -23,7 +23,7 @@ class CyclicGroupTest {
         CyclicGroup c6 = new CyclicGroup(6);
         CyclicElement a = new CyclicElement(2, 6);
         CyclicElement b = new CyclicElement(5, 6);
-        assertEquals(new CyclicElement(1, 6), c6.operation().calculate(a, b));
+        assertEquals(new CyclicElement(1, 6), c6.operation().apply(a, b));
     }
 
     @Test

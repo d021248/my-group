@@ -60,6 +60,6 @@ class GroupTest {
         Operation<IntElement> op = (l, r) -> new IntElement((l.getValue() + r.getValue()) % 2);
         Group<IntElement> group = new IntGroup(elems, op);
         assertEquals(elems, group.elements());
-        assertEquals(0, group.operation().calculate(new IntElement(1), new IntElement(1)).getValue());
+        assertEquals(0, group.operation().apply(new IntElement(1), new IntElement(1)).getValue());
     }
 }

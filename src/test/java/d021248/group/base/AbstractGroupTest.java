@@ -46,6 +46,6 @@ class AbstractGroupTest {
     void testElementsAndOperation() {
         Mod2Group group = new Mod2Group();
         assertEquals(Set.of(new Mod2Element(0), new Mod2Element(1)), group.elements());
-        assertEquals(new Mod2Element(0), group.operation().calculate(new Mod2Element(1), new Mod2Element(1)));
+        assertEquals(new Mod2Element(0), group.operation().apply(new Mod2Element(1), new Mod2Element(1)));
     }
 }

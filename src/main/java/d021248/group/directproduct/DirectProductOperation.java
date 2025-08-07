@@ -14,9 +14,9 @@ public class DirectProductOperation<A extends Element, B extends Element>
     }
 
     @Override
-    public DirectProductElement<A, B> calculate(DirectProductElement<A, B> left, DirectProductElement<A, B> right) {
+    public DirectProductElement<A, B> apply(DirectProductElement<A, B> left, DirectProductElement<A, B> right) {
         return new DirectProductElement<>(
-                opA.calculate(left.first(), right.first()),
-                opB.calculate(left.second(), right.second()));
+                opA.apply(left.first(), right.first()),
+                opB.apply(left.second(), right.second()));
     }
 }
