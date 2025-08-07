@@ -124,4 +124,60 @@ public final class PermutationHelper {
         }
         return sb.toString();
     }
+
+    /**
+     * Generate all permutations of n elements, calling the consumer for each.
+     *
+     * @param n        number of elements
+     * @param consumer action to perform for each permutation
+     */
+    public static void generateAllPermutations(int n, java.util.function.Consumer<Permutation> consumer) {
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++)
+            arr[i] = i + 1;
+        permute(arr, 0, consumer);
+    }
+
+    private static void permute(int[] arr, int k, java.util.function.Consumer<Permutation> consumer) {
+        if (k == arr.length) {
+            consumer.accept(new Permutation(Arrays.copyOf(arr, arr.length)));
+        } else {
+            for (int i = k; i < arr.length; i++) {
+                swap(arr, i, k);
+                permute(arr, k + 1, consumer);
+                swap(arr, i, k);
+            }
+        }
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+
+    /**
+     * Returns true if the permutation is even, false if odd.
+     *
+     * @param mapping the permutation mapping (1-based)
+     */
+    public static boolean isEven(int[] mapping) {
+        int n = mapping.length;
+        boolean[] visited = new boolean[n];
+        int transpositions = 0;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                int len = 0;
+                int j = i;
+                while (!visited[j]) {
+                    visited[j] = true;
+                    j = mapping[j] - 1;
+                    len++;
+                }
+                if (len > 0)
+                    transpositions += len - 1;
+            }
+        }
+        return transpositions % 2 == 0;
+    }
 }

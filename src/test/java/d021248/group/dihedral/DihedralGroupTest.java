@@ -25,7 +25,7 @@ class DihedralGroupTest {
         DihedralElement a = new DihedralElement(1, 0, 3); // r
         DihedralElement b = new DihedralElement(0, 1, 3); // s
         assertEquals(new DihedralElement(1, 1, 3), d3.operation().calculate(a, b));
-        assertEquals(new DihedralElement(2, 0, 3), d3.operation().calculate(b, b));
+        assertEquals(new DihedralElement(0, 0, 3), d3.operation().calculate(b, b)); // expect r^0 (identity)
     }
 
     @Test
