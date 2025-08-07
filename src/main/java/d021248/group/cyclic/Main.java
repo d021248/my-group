@@ -17,7 +17,7 @@ public class Main {
         logger.info("Elements of C_6 ({} total): {}", elements.size(), elements);
 
         // Example 2: Show generators
-        Set<CyclicElement> generators = CyclicGroupHelper.getGenerators(6);
+        Set<CyclicElement> generators = new CyclicGroupGeneratingSystem(6).get();
         logger.info("Generators of C_6: {}", generators);
 
         // Example 3: Add two elements

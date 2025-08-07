@@ -9,7 +9,7 @@ public class CyclicGroup extends AbstractGroup<CyclicElement> {
     private final int order;
 
     public CyclicGroup(int n) {
-        super(CyclicGroupHelper.getGenerators(n), new CyclicOperation());
+        super(new CyclicGroupGeneratingSystem(n), new CyclicOperation());
         this.order = n;
     }
 
