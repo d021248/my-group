@@ -9,7 +9,9 @@ import java.util.Set;
 
 import d021248.group.api.Element;
 import d021248.group.api.Group;
+import d021248.group.api.Operation;
 import d021248.group.symmetric.Permutation;
+import d021248.group.symmetric.PermutationOperation;
 
 /**
  * Cayley representation of a group: embeds the group as a subgroup of the
@@ -68,5 +70,25 @@ public class Cayley<T extends Element> {
      */
     public Group<T> getGroup() {
         return group;
+    }
+
+    /**
+     * Returns the Cayley isomorphic image as a Group<Permutation> (subgroup of the
+     * symmetric group).
+     */
+    public Group<Permutation> asSymmetricGroup() {
+        Set<Permutation> perms = cayleySubgroup();
+        Operation<Permutation> op = new PermutationOperation();
+        return new Group<Permutation>() {
+            @Override
+            public Set<Permutation> elements() {
+                return perms;
+            }
+
+            @Override
+            public Operation<Permutation> operation() {
+                return op;
+            }
+        };
     }
 }
