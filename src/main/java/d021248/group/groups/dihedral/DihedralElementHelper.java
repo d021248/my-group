@@ -5,7 +5,7 @@ public class DihedralElementHelper {
     }
 
     public static boolean isValid(DihedralElement e) {
-        return e.getR() >= 0 && e.getR() < e.getN();
+        return e.r() >= 0 && e.r() < e.n();
     }
 
     public static DihedralElement inverse(DihedralElement e) {

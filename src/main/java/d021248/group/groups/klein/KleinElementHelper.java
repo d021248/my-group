@@ -5,8 +5,8 @@ public class KleinElementHelper {
     }
 
     public static boolean isValid(KleinElement e) {
-        return e.getValue().equals("e") || e.getValue().equals("a") || e.getValue().equals("b")
-                || e.getValue().equals("ab");
+        return e.value().equals("e") || e.value().equals("a") || e.value().equals("b")
+                || e.value().equals("ab");
     }
 
     public static KleinElement inverse(KleinElement e) {

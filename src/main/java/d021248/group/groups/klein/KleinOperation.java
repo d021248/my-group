@@ -5,8 +5,8 @@ import d021248.group.api.Operation;
 public class KleinOperation implements Operation<KleinElement> {
     @Override
     public KleinElement apply(KleinElement a, KleinElement b) {
-        String av = a.getValue();
-        String bv = b.getValue();
+        String av = a.value();
+        String bv = b.value();
         if (av.equals("e"))
             return b;
         if (bv.equals("e"))

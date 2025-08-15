@@ -2,17 +2,7 @@ package d021248.group.groups.quaternion;
 
 import d021248.group.api.Element;
 
-public class QuaternionElement implements Element {
-    private final String value;
-
-    public QuaternionElement(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
+public record QuaternionElement(String value) implements Element {
     @Override
     public QuaternionElement inverse() {
         switch (value) {
@@ -35,25 +25,5 @@ public class QuaternionElement implements Element {
             default:
                 throw new IllegalArgumentException("Invalid QuaternionElement: " + value);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof QuaternionElement))
-            return false;
-        QuaternionElement other = (QuaternionElement) o;
-        return value.equals(other.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return value;
     }
 }

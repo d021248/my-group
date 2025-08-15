@@ -5,7 +5,7 @@ public class QuaternionElementHelper {
     }
 
     public static boolean isValid(QuaternionElement e) {
-        switch (e.getValue()) {
+        switch (e.value()) {
             case "1", "-1", "i", "-i", "j", "-j", "k", "-k":
                 return true;
             default:

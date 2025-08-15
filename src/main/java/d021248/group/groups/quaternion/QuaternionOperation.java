@@ -66,8 +66,8 @@ public class QuaternionOperation implements Operation<QuaternionElement> {
 
     @Override
     public QuaternionElement apply(QuaternionElement a, QuaternionElement b) {
-        String av = a.getValue();
-        String bv = b.getValue();
+        String av = a.value();
+        String bv = b.value();
         boolean negA = av.startsWith("-");
         boolean negB = bv.startsWith("-");
         String aPos = negA ? av.substring(1) : av;
