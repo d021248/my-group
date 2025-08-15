@@ -1,8 +1,13 @@
 
 package d021248.group.base;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
@@ -10,6 +15,7 @@ import org.graphstream.ui.view.Viewer;
 
 import d021248.group.api.Element;
 import d021248.group.api.Group;
+import d021248.group.api.Operation;
 
 public class SubgroupGraphViewer<T extends Element> {
     // Removed unused subgroups field
@@ -34,7 +40,7 @@ public class SubgroupGraphViewer<T extends Element> {
                         }
 
                         @Override
-                        public d021248.group.api.Operation<T> operation() {
+                        public Operation<T> operation() {
                             return group.operation();
                         }
                     };
@@ -82,24 +88,29 @@ public class SubgroupGraphViewer<T extends Element> {
 
     public void showGraph() {
         Graph graph = new SingleGraph("Subgroup Inclusion Graph");
-        // Recursively collect all subgroups for every subgroup using the original group
         java.util.List<Set<T>> allSubgroups = collectAllSubgroups(this.group);
-        // Layout nodes by order: highest at top, lowest at bottom
-        java.util.Map<Integer, java.util.List<Set<T>>> levels = new java.util.TreeMap<>(
-                java.util.Collections.reverseOrder());
+        java.util.Map<Set<T>, String> subgroupIds = buildNodes(graph, allSubgroups);
+        buildEdges(graph, allSubgroups, subgroupIds);
+        styleGraph(graph);
+        Viewer viewer = graph.display(false); // disable auto layout
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+    }
+
+    private Map<Set<T>, String> buildNodes(Graph graph, List<Set<T>> allSubgroups) {
+        Map<Integer, List<Set<T>>> levels = new TreeMap<>(Collections.reverseOrder());
         for (Set<T> sg : allSubgroups) {
-            levels.computeIfAbsent(sg.size(), k -> new java.util.ArrayList<>()).add(sg);
+            levels.computeIfAbsent(sg.size(), k -> new ArrayList<>()).add(sg);
         }
         int yStep = 120;
         int graphWidth = 1200;
         int numLevels = levels.size();
         int levelIdx = 0;
-        java.util.Map<Set<T>, String> subgroupIds = new java.util.HashMap<>();
+        Map<Set<T>, String> subgroupIds = new HashMap<>();
         int globalIndex = 0;
-        for (java.util.Map.Entry<Integer, java.util.List<Set<T>>> entry : levels.entrySet()) {
-            java.util.List<Set<T>> levelSubgroups = entry.getValue();
+        for (Map.Entry<Integer, List<Set<T>>> entry : levels.entrySet()) {
+            List<Set<T>> levelSubgroups = entry.getValue();
             int count = levelSubgroups.size();
-            int y = 80 + (numLevels - levelIdx - 1) * yStep; // highest order at top
+            int y = 80 + (numLevels - levelIdx - 1) * yStep;
             double xStep = count > 1 ? (double) graphWidth / (count + 1) : graphWidth / 2.0;
             for (int j = 0; j < count; j++) {
                 Set<T> sg = levelSubgroups.get(j);
@@ -108,7 +119,6 @@ public class SubgroupGraphViewer<T extends Element> {
                 org.graphstream.graph.Node node = graph.addNode(id);
                 String label = "|" + sg.size() + "| " + formatElementsGrid(sg);
                 node.setAttribute("ui.label", label);
-                // Add small vertical offset to avoid overlap if x is the same
                 double x = (j + 1) * xStep;
                 double yOffset = (j % 2 == 0) ? 0 : 12;
                 node.setAttribute("xyz", x, y + yOffset, 0);
@@ -116,8 +126,11 @@ public class SubgroupGraphViewer<T extends Element> {
             }
             levelIdx++;
         }
+        return subgroupIds;
+    }
 
-        // Add edges for direct inclusion
+    private void buildEdges(Graph graph, List<Set<T>> allSubgroups,
+            Map<Set<T>, String> subgroupIds) {
         for (Set<T> a : allSubgroups) {
             for (Set<T> b : allSubgroups) {
                 if (a == b || a.isEmpty() || b.isEmpty())
@@ -126,38 +139,38 @@ public class SubgroupGraphViewer<T extends Element> {
                     continue;
                 if (!a.containsAll(b))
                     continue;
-                boolean hasIntermediate = false;
-                for (Set<T> c : allSubgroups) {
-                    if (c == a || c == b)
-                        continue;
-                    if (c.size() >= a.size() || c.size() <= b.size())
-                        continue;
-                    if (a.containsAll(c) && c.containsAll(b)) {
-                        hasIntermediate = true;
-                        break;
-                    }
-                }
-                if (!hasIntermediate) {
-                    String fromId = subgroupIds.get(b);
-                    String toId = subgroupIds.get(a);
-                    String edgeId = fromId + "_to_" + toId;
-                    if (graph.getEdge(edgeId) == null) {
-                        graph.addEdge(edgeId, fromId, toId, true);
-                    }
+                if (hasIntermediate(allSubgroups, a, b))
+                    continue;
+                String fromId = subgroupIds.get(b);
+                String toId = subgroupIds.get(a);
+                String edgeId = fromId + "_to_" + toId;
+                if (graph.getEdge(edgeId) == null) {
+                    graph.addEdge(edgeId, fromId, toId, true);
                 }
             }
         }
+    }
 
-        // Style for better visualization
+    private boolean hasIntermediate(List<Set<T>> allSubgroups, Set<T> a, Set<T> b) {
+        for (Set<T> c : allSubgroups) {
+            if (c == a || c == b)
+                continue;
+            if (c.size() >= a.size() || c.size() <= b.size())
+                continue;
+            if (a.containsAll(c) && c.containsAll(b)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void styleGraph(Graph graph) {
         graph.setAttribute("ui.stylesheet",
                 "node { fill-color: #e3f2fd; stroke-mode: plain; stroke-color: #1976d2; size: 60px, 40px; text-size: 14; text-alignment: center; text-background-mode: rounded-box; text-background-color: #ffffff; text-padding: 6px; text-offset: 0px, 0px; } "
                         +
                         "edge { fill-color: #90caf9; arrow-shape: arrow; arrow-size: 12px, 8px; } ");
         graph.setAttribute("ui.quality");
         graph.setAttribute("ui.antialias");
-
-        Viewer viewer = graph.display(false); // disable auto layout
-        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
     }
 
     public static <T extends Element> void show(Group<T> group) {
