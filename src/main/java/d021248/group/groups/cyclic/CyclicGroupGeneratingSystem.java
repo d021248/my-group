@@ -1,6 +1,5 @@
 package d021248.group.groups.cyclic;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import d021248.group.api.GeneratingSystem;
@@ -18,10 +17,6 @@ public class CyclicGroupGeneratingSystem implements GeneratingSystem<CyclicEleme
      * The generator is 1 (mod n) if n > 1.
      */
     public Set<CyclicElement> get() {
-        Set<CyclicElement> generators = new HashSet<>();
-        if (n > 1) {
-            generators.add(new CyclicElement(1, n));
-        }
-        return generators;
+        return n > 1 ? Set.of(new CyclicElement(1, n)) : Set.of();
     }
 }
