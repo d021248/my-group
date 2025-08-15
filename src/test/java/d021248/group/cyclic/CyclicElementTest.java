@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import d021248.group.groups.cyclic.CyclicElement;
+
 class CyclicElementTest {
     @Test
     void testInverse() {

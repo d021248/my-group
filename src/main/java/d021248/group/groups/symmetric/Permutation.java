@@ -1,4 +1,4 @@
-package d021248.group.symmetric;
+package d021248.group.groups.symmetric;
 
 import java.util.Arrays;
 
@@ -41,5 +41,9 @@ public record Permutation(int[] mapping) implements Element {
     @Override
     public String toString() {
         return Arrays.toString(mapping);
+    }
+
+    public boolean isEven() {
+        return PermutationHelper.isEven(this.mapping);
     }
 }

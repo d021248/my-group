@@ -1,4 +1,5 @@
-package d021248.group.cyclic;
+
+package d021248.group.groups.cyclic;
 
 import java.util.Set;
 
@@ -6,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import d021248.group.base.Cayley;
-import d021248.group.symmetric.Permutation;
+import d021248.group.groups.symmetric.Permutation;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);

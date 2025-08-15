@@ -10,8 +10,8 @@ import java.util.Set;
 import d021248.group.api.Element;
 import d021248.group.api.Group;
 import d021248.group.api.Operation;
-import d021248.group.symmetric.Permutation;
-import d021248.group.symmetric.PermutationOperation;
+import d021248.group.groups.symmetric.Permutation;
+import d021248.group.groups.symmetric.PermutationOperation;
 
 /**
  * Cayley representation of a group: embeds the group as a subgroup of the

@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import d021248.group.groups.symmetric.Permutation;
+import d021248.group.groups.symmetric.SymmetricGroup;
+
 class SymmetricGroupTest {
     @Test
     void testSymmetricGroupOrder() {

@@ -1,4 +1,4 @@
-package d021248.group.cyclic;
+package d021248.group.groups.cyclic;
 
 import java.util.HashSet;
 import java.util.Set;

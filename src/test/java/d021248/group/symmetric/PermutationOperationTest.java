@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import org.junit.jupiter.api.Test;
 
+import d021248.group.groups.symmetric.Permutation;
+import d021248.group.groups.symmetric.PermutationOperation;
+
 class PermutationOperationTest {
     @Test
     void testapply() {

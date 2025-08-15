@@ -1,4 +1,4 @@
-package d021248.group.symmetric;
+package d021248.group.groups.symmetric;
 
 import d021248.group.api.Operation;
 

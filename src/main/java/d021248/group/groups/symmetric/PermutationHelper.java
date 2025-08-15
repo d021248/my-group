@@ -1,4 +1,4 @@
-package d021248.group.symmetric;
+package d021248.group.groups.symmetric;
 
 import java.util.Arrays;
 import java.util.HashSet;

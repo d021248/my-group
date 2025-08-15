@@ -1,15 +1,15 @@
-package d021248.group.symmetric;
+package d021248.group.groups.symmetric;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import d021248.group.api.GeneratingSystem;
 
-public class PermutationGeneratingSystem implements GeneratingSystem<Permutation> {
+public class SymmetricGroupGeneratingSystem implements GeneratingSystem<Permutation> {
 
     private final int n;
 
-    PermutationGeneratingSystem(int n) {
+    public SymmetricGroupGeneratingSystem(int n) {
         this.n = n;
     }
 

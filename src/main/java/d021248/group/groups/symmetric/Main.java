@@ -1,4 +1,5 @@
-package d021248.group.symmetric;
+
+package d021248.group.groups.symmetric;
 
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class Main {
         logger.info("Elements of S_4 ({} total): {}", elements.size(), elements);
 
         // Example 2: Show generators
-        Set<Permutation> generators = new PermutationGeneratingSystem(4).get();
+        Set<Permutation> generators = new SymmetricGroupGeneratingSystem(4).get();
         logger.info("Generators of S_4: {}", generators);
 
         // Example 3: Multiply two elements
@@ -36,5 +37,4 @@ public class Main {
         String permutedString = PermutationHelper.apply(perm, input);
         logger.info("Applying permutation {} to '{}' using apply() gives '{}'", perm, input, permutedString);
     }
-
 }
