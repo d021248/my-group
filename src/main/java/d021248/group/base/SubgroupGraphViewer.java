@@ -90,11 +90,9 @@ public class SubgroupGraphViewer<T extends Element> {
         for (Set<T> sg : allSubgroups) {
             levels.computeIfAbsent(sg.size(), k -> new java.util.ArrayList<>()).add(sg);
         }
-        int yStep = 100;
-        int xStep = 120;
+        int yStep = 120;
+        int graphWidth = 1200;
         int numLevels = levels.size();
-        int graphWidth = 800;
-        // int graphHeight = Math.max(400, numLevels * yStep + 160); // unused
         int levelIdx = 0;
         java.util.Map<Set<T>, String> subgroupIds = new java.util.HashMap<>();
         int globalIndex = 0;
@@ -102,8 +100,7 @@ public class SubgroupGraphViewer<T extends Element> {
             java.util.List<Set<T>> levelSubgroups = entry.getValue();
             int count = levelSubgroups.size();
             int y = 80 + (numLevels - levelIdx - 1) * yStep; // highest order at top
-            int totalWidth = (count - 1) * xStep;
-            int startX = (graphWidth - totalWidth) / 2;
+            double xStep = count > 1 ? (double) graphWidth / (count + 1) : graphWidth / 2.0;
             for (int j = 0; j < count; j++) {
                 Set<T> sg = levelSubgroups.get(j);
                 String id = subgroupId(sg, globalIndex);
@@ -111,7 +108,10 @@ public class SubgroupGraphViewer<T extends Element> {
                 org.graphstream.graph.Node node = graph.addNode(id);
                 String label = "|" + sg.size() + "| " + formatElementsGrid(sg);
                 node.setAttribute("ui.label", label);
-                node.setAttribute("xyz", startX + j * xStep, y, 0);
+                // Add small vertical offset to avoid overlap if x is the same
+                double x = (j + 1) * xStep;
+                double yOffset = (j % 2 == 0) ? 0 : 12;
+                node.setAttribute("xyz", x, y + yOffset, 0);
                 globalIndex++;
             }
             levelIdx++;
