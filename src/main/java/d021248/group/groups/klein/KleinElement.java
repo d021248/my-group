@@ -6,7 +6,6 @@ import d021248.group.api.Element;
 public record KleinElement(String value) implements Element {
     @Override
     public KleinElement inverse() {
-        // All elements are their own inverse in V_4
-        return this;
+        return KleinElementHelper.inverse(this);
     }
 }

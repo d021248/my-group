@@ -10,6 +10,7 @@ public class KleinElementHelper {
     }
 
     public static KleinElement inverse(KleinElement e) {
-        return e.inverse();
+        // All elements are their own inverse in V_4
+        return e;
     }
 }

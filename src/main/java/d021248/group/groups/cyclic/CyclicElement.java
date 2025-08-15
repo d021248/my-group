@@ -7,11 +7,6 @@ import d021248.group.api.Element;
  * The value is an integer in [0, n-1].
  */
 public record CyclicElement(int value, int order) implements Element {
-
-    public CyclicElement {
-        CyclicElementHelper.validate(value, order);
-    }
-
     @Override
     public CyclicElement inverse() {
         return CyclicElementHelper.inverse(this);

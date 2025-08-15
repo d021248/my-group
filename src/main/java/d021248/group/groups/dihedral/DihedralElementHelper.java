@@ -9,7 +9,13 @@ public class DihedralElementHelper {
     }
 
     public static DihedralElement inverse(DihedralElement e) {
-        return e.inverse();
+        if (!e.s()) {
+            // inverse of rotation: r^-1 = n - r
+            return new DihedralElement(e.n(), (e.n() - e.r()) % e.n(), false);
+        } else {
+            // inverse of reflection: itself
+            return new DihedralElement(e.n(), e.r(), true);
+        }
     }
 
     public static DihedralElement rotation(int n, int r) {
