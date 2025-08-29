@@ -4,6 +4,5 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 @FunctionalInterface
-public interface GeneratingSystem<T extends Element> extends Supplier<Set<T>> {
-
+public interface GeneratingSystem<T> extends Supplier<Set<T>> {
 }

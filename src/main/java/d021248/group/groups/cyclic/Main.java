@@ -6,9 +6,6 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import d021248.group.base.Cayley;
-import d021248.group.groups.symmetric.Permutation;
-
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
 
@@ -27,16 +24,11 @@ public class Main {
         // Example 3: Add two elements
         CyclicElement a = new CyclicElement(2, 6);
         CyclicElement b = new CyclicElement(5, 6);
-        CyclicElement sum = c6.operation().apply(a, b);
+        CyclicElement sum = c6.operate(a, b);
         logger.info("Sum of {} and {} is {}", a, b, sum);
 
         // Example 4: Inverse of an element
         CyclicElement inv = a.inverse();
         logger.info("Inverse of {} is {}", a, inv);
-
-        // Example 5: Cayley representation of C_6
-        Cayley<CyclicElement> cayley = new Cayley<>(c6);
-        Set<Permutation> cayleySubgroup = cayley.cayleySubgroup();
-        logger.info("Cayley subgroup of C_6 ({} permutations): {}", cayleySubgroup.size(), cayleySubgroup);
     }
 }

@@ -1,8 +1,1 @@
-package d021248.group.api;
-
-@FunctionalInterface
-public interface Element {
-
-    Element inverse();
-
-}
+// This file is now obsolete. Use int or String for group elements.

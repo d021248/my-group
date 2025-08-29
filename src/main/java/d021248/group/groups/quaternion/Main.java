@@ -23,7 +23,7 @@ public class Main {
         // Example 3: Multiply two elements
         QuaternionElement a = elements.iterator().next();
         QuaternionElement b = generators.iterator().next();
-        QuaternionElement product = q8.operation().apply(a, b);
+        QuaternionElement product = q8.operate(a, b);
         logger.info("Product of {} and {} is {}", a, b, product);
 
         // Example 4: Inverse of an element

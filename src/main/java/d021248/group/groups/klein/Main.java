@@ -17,13 +17,15 @@ public class Main {
         logger.info("Elements of V_4 ({} total): {}", elements.size(), elements);
 
         // Example 2: Show generators
-        Set<KleinElement> generators = new KleinGroupGeneratingSystem().get();
+        Set<KleinElement> generators = Set.of(
+                new KleinElement("a"),
+                new KleinElement("b"));
         logger.info("Generators of V_4: {}", generators);
 
         // Example 3: Multiply two elements
         KleinElement a = elements.iterator().next();
         KleinElement b = generators.iterator().next();
-        KleinElement product = v4.operation().apply(a, b);
+        KleinElement product = v4.operate(a, b);
         logger.info("Product of {} and {} is {}", a, b, product);
 
         // Example 4: Inverse of an element

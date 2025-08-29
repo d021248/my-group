@@ -1,8 +1,8 @@
 package d021248.group.groups.symmetric;
 
-import d021248.group.api.Operation;
+import java.util.function.BinaryOperator;
 
-public class PermutationOperation implements Operation<Permutation> {
+public class PermutationOperation implements BinaryOperator<Permutation> {
 
     @Override
     public Permutation apply(Permutation left, Permutation right) {

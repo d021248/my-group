@@ -2,8 +2,6 @@ package d021248.group.groups.symmetric;
 
 import java.util.Arrays;
 
-import d021248.group.api.Element;
-
 /**
  * Represents a permutation of n elements, where the mapping array defines the
  * image of each element.
@@ -17,23 +15,20 @@ import d021248.group.api.Element;
  * 3→1.</li>
  * </ul>
  */
-public record Permutation(int[] mapping) implements Element {
+public record Permutation(int[] mapping) {
 
     public Permutation {
         PermutationHelper.validate(mapping);
     }
 
-    @Override
     public Permutation inverse() {
         return PermutationHelper.inverse(mapping);
     }
 
-    @Override
     public boolean equals(Object obj) {
         return PermutationHelper.equals(this, obj);
     }
 
-    @Override
     public int hashCode() {
         return PermutationHelper.hashCode(this);
     }

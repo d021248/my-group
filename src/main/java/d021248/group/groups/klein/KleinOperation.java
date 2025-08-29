@@ -1,8 +1,8 @@
 package d021248.group.groups.klein;
 
-import d021248.group.api.Operation;
+import java.util.function.BinaryOperator;
 
-public class KleinOperation implements Operation<KleinElement> {
+public class KleinOperation implements BinaryOperator<KleinElement> {
     @Override
     public KleinElement apply(KleinElement a, KleinElement b) {
         String av = a.value();

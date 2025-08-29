@@ -1,8 +1,8 @@
 package d021248.group.groups.dihedral;
 
-import d021248.group.api.Operation;
+import java.util.function.BinaryOperator;
 
-public class DihedralOperation implements Operation<DihedralElement> {
+public class DihedralOperation implements BinaryOperator<DihedralElement> {
     @Override
     public DihedralElement apply(DihedralElement a, DihedralElement b) {
         int n = a.n();

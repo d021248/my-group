@@ -1,15 +1,26 @@
 package d021248.group.groups.cyclic;
 
-import d021248.group.base.AbstractGroup;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import d021248.group.api.SimpleGroup;
 
 /**
  * The cyclic group of order n (integers mod n under addition).
  */
-public class CyclicGroup extends AbstractGroup<CyclicElement> {
+public class CyclicGroup extends SimpleGroup<CyclicElement> {
     private final int order;
 
     public CyclicGroup(int n) {
-        super(new CyclicGroupGeneratingSystem(n), new CyclicOperation());
+        super(
+                IntStream.range(0, n)
+                        .mapToObj(i -> new CyclicElement(i, n))
+                        .collect(Collectors.toSet()),
+                (BinaryOperator<CyclicElement>) (a, b) -> {
+                    int value = (a.value() + b.value()) % n;
+                    return new CyclicElement(value, n);
+                });
         this.order = n;
     }
 

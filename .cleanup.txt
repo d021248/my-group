@@ -1,0 +1,15 @@
+The following files are obsolete and should be deleted from the project:
+
+src/main/java/d021248/group/base/AbstractGroup.java
+src/main/java/d021248/group/base/Generator.java
+src/main/java/d021248/group/base/SubgroupWithGenerator.java
+src/main/java/d021248/group/base/SubgroupGraphViewer.java
+src/main/java/d021248/group/base/Cayley.java
+src/main/java/d021248/group/base/Frattini.java
+src/main/java/d021248/group/base/MaximalSubgroup.java
+src/test/java/d021248/group/base/AbstractGroupTest.java
+src/test/java/d021248/group/base/GeneratorTest.java
+src/test/java/d021248/group/api/ElementTest.java
+src/test/java/d021248/group/api/OperationTest.java
+
+These files are no longer needed after the refactor to a minimal, generic group structure. Please delete them from your workspace.

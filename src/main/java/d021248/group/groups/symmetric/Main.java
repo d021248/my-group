@@ -24,7 +24,7 @@ public class Main {
         // Example 3: Multiply two elements
         Permutation a = elements.iterator().next();
         Permutation b = generators.iterator().next();
-        Permutation product = s4.operation().apply(a, b);
+        Permutation product = s4.operate(a, b);
         logger.info("Product of {} and {} is {}", a, b, product);
 
         // Example 4: Inverse of an element

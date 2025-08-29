@@ -1,8 +1,8 @@
 package d021248.group.groups.quaternion;
 
-import d021248.group.api.Operation;
+import java.util.function.BinaryOperator;
 
-public class QuaternionOperation implements Operation<QuaternionElement> {
+public class QuaternionOperation implements BinaryOperator<QuaternionElement> {
     private static final java.util.Map<String, java.util.Map<String, String>> TABLE;
 
     static {

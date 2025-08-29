@@ -1,12 +1,21 @@
 package d021248.group.groups.quaternion;
 
-import d021248.group.base.AbstractGroup;
+import java.util.Set;
 
-public class QuaternionGroup extends AbstractGroup<QuaternionElement> {
-    // ...existing code...
+import d021248.group.api.SimpleGroup;
 
+public class QuaternionGroup extends SimpleGroup<QuaternionElement> {
     public QuaternionGroup() {
-        super(new QuaternionGroupGeneratingSystem(), new QuaternionOperation());
+        super(
+                Set.of(
+                        new QuaternionElement("1"),
+                        new QuaternionElement("-1"),
+                        new QuaternionElement("i"),
+                        new QuaternionElement("-i"),
+                        new QuaternionElement("j"),
+                        new QuaternionElement("-j"),
+                        new QuaternionElement("k"),
+                        new QuaternionElement("-k")),
+                new QuaternionOperation());
     }
-
 }

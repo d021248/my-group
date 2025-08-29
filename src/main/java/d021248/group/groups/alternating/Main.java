@@ -23,7 +23,7 @@ public class Main {
         // Example 2: Multiply two elements
         Permutation a = elements.iterator().next();
         Permutation b = elements.iterator().next();
-        Permutation product = a4.operation().apply(a, b);
+        Permutation product = a4.operate(a, b);
         logger.info("Product of {} and {} is {}", a, b, product);
 
         // Example 3: Inverse of an element
