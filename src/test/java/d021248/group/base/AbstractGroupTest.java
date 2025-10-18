@@ -40,6 +40,16 @@ class AbstractGroupTest {
         Mod2Group() {
             super(Set.of(new Mod2Element(1)), (l, r) -> new Mod2Element((l.getValue() + r.getValue()) % 2));
         }
+
+        @Override
+        protected Mod2Element computeIdentity() {
+            return new Mod2Element(0);
+        }
+
+        @Override
+        protected Mod2Element computeInverse(Mod2Element e) {
+            return new Mod2Element(e.getValue());
+        }
     }
 
     @Test

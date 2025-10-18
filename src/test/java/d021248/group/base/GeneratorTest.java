@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import d021248.group.Generator;
+import d021248.group.Group;
 import d021248.group.api.Element;
 import d021248.group.api.Operation;
 
@@ -40,8 +42,29 @@ class GeneratorTest {
     @Test
     void testGenerateCyclicGroup() {
         Operation<Mod3Element> op = (l, r) -> new Mod3Element(l.getValue() + r.getValue());
+        Group<Mod3Element> group = new Group<>() {
+            @Override
+            public java.util.Set<Mod3Element> elements() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public Operation<Mod3Element> operation() {
+                return op;
+            }
+
+            @Override
+            public Mod3Element identity() {
+                return new Mod3Element(0);
+            }
+
+            @Override
+            public Mod3Element inverse(Mod3Element e) {
+                return (Mod3Element) e.inverse();
+            }
+        };
         Set<Mod3Element> gens = Set.of(new Mod3Element(1));
-        Set<Mod3Element> all = Generator.generate(gens, op);
+        Set<Mod3Element> all = Generator.generate(group, gens);
         assertEquals(Set.of(new Mod3Element(0), new Mod3Element(1), new Mod3Element(2)), all);
     }
 }

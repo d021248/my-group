@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import d021248.group.Group;
+
 class GroupTest {
     static class IntElement implements Element {
         private final int value;
@@ -51,6 +53,16 @@ class GroupTest {
         @Override
         public Operation<IntElement> operation() {
             return op;
+        }
+
+        @Override
+        public IntElement identity() {
+            return new IntElement(0);
+        }
+
+        @Override
+        public IntElement inverse(IntElement e) {
+            return new IntElement(-e.getValue());
         }
     }
 

@@ -1,0 +1,30 @@
+package d021248.group.strategy;
+
+import java.util.Set;
+
+import d021248.group.FiniteGroup;
+import d021248.group.dihedral.DihedralElement;
+import d021248.group.dihedral.DihedralGroup;
+
+/** Standard generating set for D_n: rotation r and reflection s. */
+public final class DihedralGenerationStrategy implements GenerationStrategy<DihedralElement> {
+    private static final DihedralGenerationStrategy INSTANCE = new DihedralGenerationStrategy();
+
+    private DihedralGenerationStrategy() {
+    }
+
+    public static DihedralGenerationStrategy get() {
+        return INSTANCE;
+    }
+
+    @Override
+    public Set<DihedralElement> generators(FiniteGroup<DihedralElement> group) {
+        int n = ((DihedralGroup) group).order() / 2; // order = 2n
+        return Set.of(new DihedralElement(1, 0, n), new DihedralElement(0, 1, n));
+    }
+
+    @Override
+    public String name() {
+        return "dihedral-standard";
+    }
+}
