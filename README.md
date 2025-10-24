@@ -4,7 +4,7 @@ Educational miniature algebra library focusing on finite groups. Provides:
 
 * Minimal interfaces: `Element`, `Operation<E>`, `Group<E>`, `FiniteGroup<E>`
 * Concrete implementations: cyclic groups (Z_n), dihedral groups (D_n), symmetric groups (S_n)
-* Utilities: group verifier (axioms), Cayley table generator (Markdown output)
+* Utilities: group verifier (axioms), operation (Cayley) table formatter (plain text / Markdown / LaTeX)
 * Property-based tests (jqwik) asserting axioms for randomly chosen cyclic groups
 
 ## Why
@@ -24,12 +24,27 @@ System.out.println(sum); // 2 (mod 7)
 System.out.println(a.inverse()); // 4 (mod 7)
 ```
 
-Generate a Cayley table:
+Generate / visualize an operation (Cayley) table:
 
 ```java
-import d021248.group.util.CayleyTable;
-var table = CayleyTable.build(g);
-System.out.println(CayleyTable.toMarkdown(table));
+import d021248.group.GroupTableFormatter;
+import d021248.group.FiniteGroup;
+
+FiniteGroup<?> fg = g; // any finite group
+var cfg = GroupTableFormatter.forGroup(fg).build();
+System.out.println(GroupTableFormatter.toMarkdown(cfg)); // Markdown
+System.out.println(GroupTableFormatter.toPlainText(cfg)); // tab-separated
+System.out.println(GroupTableFormatter.toLatex(cfg)); // LaTeX tabular
+```
+
+Custom ordering & identity highlighting control:
+
+```java
+var cfgCustom = GroupTableFormatter.forGroup(fg)
+	.ordering((e1, e2) -> e1.toString().compareTo(e2.toString()))
+	.highlightIdentity(false)
+	.build();
+System.out.println(GroupTableFormatter.toMarkdown(cfgCustom));
 ```
 
 Verify axioms programmatically:

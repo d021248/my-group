@@ -9,7 +9,7 @@ public final class DihedralGroupHelper {
     public static Set<DihedralElement> getGenerators(int n) {
         if (n < 2)
             throw new IllegalArgumentException("n must be >= 2");
-        return Set.of(new DihedralElement(1, 0, n), // rotation r
-                new DihedralElement(0, 1, n)); // reflection s
+        return Set.of(new DihedralElement(1, Flip.ROTATION, n), // rotation r
+                new DihedralElement(0, Flip.REFLECTION, n)); // reflection s
     }
 }

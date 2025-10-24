@@ -19,7 +19,9 @@ class GroupTest {
 
         @Override
         public Element inverse() {
-            return new IntElement(-value);
+            // Group is intended to model Z_2 under addition; every element is its own
+            // inverse.
+            return new IntElement(value);
         }
 
         int getValue() {

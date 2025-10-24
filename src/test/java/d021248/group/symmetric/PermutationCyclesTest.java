@@ -20,8 +20,7 @@ class PermutationCyclesTest {
     void simpleThreeCycle() {
         Permutation p = new Permutation(new int[] { 2, 3, 1, 4 }); // (1 2 3)(4)
         assertEquals(2, p.cycles().size());
-        assertEquals(-1, p.sign()); // 3-cycle is even? Actually a 3-cycle has sign +? Correction: cycle length 3 ->
-                                    // 2 transpositions -> sign +1; but formula size - cycles = 4 -2 =2 even -> +1
+        // Parity: a 3-cycle decomposes into 2 transpositions -> even -> sign +1
         assertEquals(1, p.sign());
         assertEquals("(1 2 3)(4)", p.toCycleString());
         assertEquals("(1 2 3)(4)", p.toCanonicalCycleString());
@@ -42,6 +41,8 @@ class PermutationCyclesTest {
         String canonical = p.toCanonicalCycleString();
         assertTrue(canonical.startsWith("(1 "));
         assertTrue(canonical.endsWith(")"));
-        assertEquals(1, p.sign()); // 5-cycle parity even
+        // This permutation has cycles (1 4 3)(2 5) -> total transpositions =
+        // (3-1)+(2-1)=3 -> odd -> sign -1
+        assertEquals(-1, p.sign());
     }
 }

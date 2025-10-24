@@ -25,7 +25,8 @@ public final class DihedralGenerationStrategy implements GenerationStrategy<Dihe
     @Override
     public Set<DihedralElement> generators(FiniteGroup<DihedralElement> group) {
         int n = ((DihedralGroup) group).order() / 2; // order = 2n
-        return Set.of(new DihedralElement(1, 0, n), new DihedralElement(0, 1, n));
+        return Set.of(new DihedralElement(1, d021248.group.dihedral.Flip.ROTATION, n),
+                new DihedralElement(0, d021248.group.dihedral.Flip.REFLECTION, n));
     }
 
     @Override
