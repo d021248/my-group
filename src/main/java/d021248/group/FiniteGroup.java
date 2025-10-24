@@ -10,5 +10,7 @@ import d021248.group.api.Element;
  */
 public interface FiniteGroup<E extends Element> extends Group<E> {
     /** Order (number of elements) of the finite group. */
-    int order();
+    default int order() {
+        return elements().size();
+    }
 }

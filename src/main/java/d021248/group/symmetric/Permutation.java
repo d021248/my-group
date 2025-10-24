@@ -22,17 +22,23 @@ public record Permutation(int[] mapping) implements Element {
         return mapping.length;
     }
 
+    /** Public accessor returns a defensive copy to preserve immutability. */
     public int[] mapping() {
         return Arrays.copyOf(mapping, mapping.length);
+    }
+
+    /** Package-private raw access for internal operations to reduce allocations. */
+    int[] raw() {
+        return mapping; // safe because callers are trusted inside package
     }
 
     public Permutation compose(Permutation other) {
         if (other.size() != size())
             throw new IllegalArgumentException("size mismatch");
+        int[] otherMap = other.raw(); // single array access, no copy
         int[] result = new int[size()];
         for (int i = 0; i < size(); i++) {
-            int afterOther = other.mapping()[i];
-            result[i] = mapping[afterOther - 1];
+            result[i] = mapping[otherMap[i] - 1];
         }
         return new Permutation(result);
     }
@@ -57,9 +63,9 @@ public record Permutation(int[] mapping) implements Element {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof Permutation other))
+        if (!(o instanceof Permutation(int[] otherMap)))
             return false;
-        return Arrays.equals(this.mapping, other.mapping);
+        return Arrays.equals(this.mapping, otherMap);
     }
 
     @Override

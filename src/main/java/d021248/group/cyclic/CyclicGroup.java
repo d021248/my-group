@@ -8,7 +8,7 @@ import d021248.group.FiniteGroup;
 import d021248.group.api.Operation;
 
 public final class CyclicGroup implements FiniteGroup<CyclicElement> {
-    private final int modulus;
+    private final int modulus; // retained for external inspection via modulus()
     private final Set<CyclicElement> elements;
     private final Operation<CyclicElement> op;
     private final CyclicElement identity;
@@ -41,11 +41,11 @@ public final class CyclicGroup implements FiniteGroup<CyclicElement> {
 
     @Override
     public CyclicElement inverse(CyclicElement e) {
-        return (CyclicElement) e.inverse();
+        return e.inverse();
     }
 
-    @Override
-    public int order() {
+    /** Modulus of the underlying Z_n. */
+    public int modulus() {
         return modulus;
     }
 }

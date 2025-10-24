@@ -61,9 +61,4 @@ public final class DihedralGroup implements FiniteGroup<DihedralElement> {
     public DihedralElement inverse(DihedralElement e) {
         return e.inverse();
     }
-
-    @Override
-    public int order() {
-        return elements.size();
-    }
 }

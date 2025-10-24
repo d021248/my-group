@@ -9,12 +9,15 @@ import d021248.group.api.Operation;
 public final class SymmetricGroup implements FiniteGroup<Permutation> {
     private final int n;
     private final Set<Permutation> elements;
-    private final Operation<Permutation> op = new PermutationOperation();
+    // Group operation is composition: left ∘ right
+    private final Operation<Permutation> op = Permutation::compose;
     private final Permutation identity;
 
     public SymmetricGroup(int n) {
         if (n < 1)
             throw new IllegalArgumentException("n must be >= 1");
+        if (n > 9)
+            throw new IllegalArgumentException("n too large (factorial explosion for enumeration; max 9)");
         this.n = n;
         this.elements = generateAll(n);
         this.identity = buildIdentity(n);
@@ -72,11 +75,6 @@ public final class SymmetricGroup implements FiniteGroup<Permutation> {
         for (int i = 0; i < n; i++)
             id[i] = i + 1;
         return new Permutation(id);
-    }
-
-    @Override
-    public int order() {
-        return elements.size();
     }
 
     /** Degree n of S_n. */
