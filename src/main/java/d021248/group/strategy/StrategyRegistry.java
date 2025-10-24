@@ -1,23 +1,25 @@
 package d021248.group.strategy;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import d021248.group.FiniteGroup;
 import d021248.group.api.Element;
+import d021248.group.cyclic.CyclicGroup;
+import d021248.group.dihedral.DihedralGroup;
+import d021248.group.symmetric.SymmetricGroup;
 
 /**
  * Central registry mapping concrete finite group classes to generation
  * strategies.
  */
 public final class StrategyRegistry {
-    private static final Map<Class<?>, GenerationStrategy<?>> REGISTRY = new HashMap<>();
+    private static final Map<Class<?>, GenerationStrategy<? extends Element>> REGISTRY = new HashMap<>();
     static {
-        REGISTRY.put(d021248.group.cyclic.CyclicGroup.class, CyclicGenerationStrategy.get());
-        REGISTRY.put(d021248.group.symmetric.SymmetricGroup.class, SymmetricGenerationStrategy.get());
-        REGISTRY.put(d021248.group.dihedral.DihedralGroup.class, DihedralGenerationStrategy.get());
+        REGISTRY.put(CyclicGroup.class, CyclicGenerationStrategy.get());
+        REGISTRY.put(SymmetricGroup.class, SymmetricGenerationStrategy.get());
+        REGISTRY.put(DihedralGroup.class, DihedralGenerationStrategy.get());
     }
 
     private StrategyRegistry() {
@@ -34,7 +36,7 @@ public final class StrategyRegistry {
         REGISTRY.remove(clazz);
     }
 
-    public static void replaceAll(Map<Class<?>, GenerationStrategy<?>> newMap) {
+    public static void replaceAll(Map<Class<?>, GenerationStrategy<? extends Element>> newMap) {
         REGISTRY.clear();
         REGISTRY.putAll(newMap);
     }
@@ -44,26 +46,5 @@ public final class StrategyRegistry {
         return (GenerationStrategy<E>) REGISTRY.get(clazz);
     }
 
-    public static Map<Class<?>, GenerationStrategy<?>> snapshot() {
-        return Collections.unmodifiableMap(REGISTRY);
-    }
-
-    /** Builder for assembling a custom registry map before replacing. */
-    public static final class Builder {
-        private final Map<Class<?>, GenerationStrategy<?>> local = new HashMap<>();
-
-        public <E extends Element> Builder register(Class<? extends FiniteGroup<E>> clazz,
-                GenerationStrategy<E> strategy) {
-            local.put(clazz, strategy);
-            return this;
-        }
-
-        public Map<Class<?>, GenerationStrategy<?>> build() {
-            return Collections.unmodifiableMap(new HashMap<>(local));
-        }
-
-        public void install() {
-            StrategyRegistry.replaceAll(local);
-        }
-    }
+    // Snapshot and builder removed for simplification.
 }

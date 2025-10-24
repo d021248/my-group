@@ -2,6 +2,7 @@ package d021248.group;
 
 import java.util.Set;
 
+import d021248.group.api.Element;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.dihedral.DihedralGroup;
@@ -74,10 +75,12 @@ public final class Demo {
 
         // 6. Show registry snapshot
         System.out.println("\nRegistered strategy keys: ");
-        StrategyRegistry.snapshot().forEach((k, v) -> System.out.println("  " + k.getSimpleName() + " -> " + v.name()));
+        System.out.println("  CyclicGroup -> " + StrategyRegistry.lookup(CyclicGroup.class).name());
+        System.out.println("  SymmetricGroup -> " + StrategyRegistry.lookup(SymmetricGroup.class).name());
+        System.out.println("  DihedralGroup -> " + StrategyRegistry.lookup(DihedralGroup.class).name());
     }
 
-    private static <E extends d021248.group.api.Element> void printGenerators(String label, GroupHelper<E> helper) {
+    private static <E extends Element> void printGenerators(String label, GroupHelper<E> helper) {
         var gens = helper.strategyGenerators();
         System.out.println(label + " generators: " + gens);
     }
