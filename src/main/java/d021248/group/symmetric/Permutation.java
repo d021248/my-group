@@ -2,11 +2,12 @@ package d021248.group.symmetric;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import d021248.group.api.Element;
 
-public record Permutation(int[] mapping) implements Element {
+public record Permutation(int[] mapping) implements Element, Comparable<Permutation> {
     public Permutation {
         if (mapping == null || mapping.length == 0)
             throw new IllegalArgumentException("mapping must be non-empty");
@@ -75,6 +76,16 @@ public record Permutation(int[] mapping) implements Element {
         int c = cycles().size();
         int exponent = size() - c;
         return (exponent & 1) == 0 ? 1 : -1;
+    }
+
+    /**
+     * Minimal number of transpositions needed to express this permutation.
+     * A cycle of length k decomposes into (k-1) transpositions, hence for a
+     * permutation on n symbols with c disjoint cycles the minimal number is
+     * n - c. (Same exponent used in sign parity computation.)
+     */
+    public int transpositionLength() {
+        return size() - cycles().size();
     }
 
     /** Cycle notation string, e.g. (1 3 2)(4)(5 6). */
@@ -178,5 +189,53 @@ public record Permutation(int[] mapping) implements Element {
     @Override
     public int hashCode() {
         return Arrays.hashCode(mapping);
+    }
+
+    /** Tuple style string: (1,3,2,4,5) */
+    public String toTupleString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('(');
+        for (int i = 0; i < mapping.length; i++) {
+            if (i > 0)
+                sb.append(',');
+            sb.append(mapping[i]);
+        }
+        sb.append(')');
+        return sb.toString();
+    }
+
+    /**
+     * Natural order: first by size (arity), then lexicographically by mapping
+     * values.
+     */
+    @Override
+    public int compareTo(Permutation other) {
+        int nCmp = Integer.compare(this.size(), other.size());
+        if (nCmp != 0)
+            return nCmp;
+        int[] a = this.mapping; // use internal array (already validated)
+        int[] b = other.raw();
+        for (int i = 0; i < a.length; i++) {
+            int cmp = Integer.compare(a[i], b[i]);
+            if (cmp != 0)
+                return cmp;
+        }
+        return 0;
+    }
+
+    /** Comparator exposing the same logic as compareTo (for method references). */
+    public static Comparator<Permutation> byMapping() {
+        return Comparator.naturalOrder();
+    }
+
+    /**
+     * Comparator ordering permutations first by minimal number of transpositions,
+     * then by canonical cycle string to provide deterministic ordering within
+     * equal transposition classes.
+     */
+    public static Comparator<Permutation> byTranspositions() {
+        return Comparator
+                .comparingInt(Permutation::transpositionLength)
+                .thenComparing(Permutation::toCanonicalCycleString);
     }
 }
