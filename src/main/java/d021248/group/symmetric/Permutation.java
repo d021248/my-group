@@ -96,6 +96,60 @@ public record Permutation(int[] mapping) implements Element {
         return sb.toString();
     }
 
+    /**
+     * Canonical cycle string: each cycle rotated so smallest element first; cycles
+     * sorted lexicographically.
+     */
+    public String toCanonicalCycleString() {
+        List<List<Integer>> normalized = normalizeCycles(cycles());
+        sortCycles(normalized);
+        return cyclesToString(normalized);
+    }
+
+    private static List<List<Integer>> normalizeCycles(List<List<Integer>> raw) {
+        List<List<Integer>> out = new ArrayList<>(raw.size());
+        for (List<Integer> cycle : raw)
+            out.add(rotateToMinFirst(cycle));
+        return out;
+    }
+
+    private static List<Integer> rotateToMinFirst(List<Integer> cycle) {
+        int minIdx = 0;
+        int minVal = cycle.get(0);
+        for (int i = 1; i < cycle.size(); i++) {
+            int v = cycle.get(i);
+            if (v < minVal) {
+                minVal = v;
+                minIdx = i;
+            }
+        }
+        List<Integer> rotated = new ArrayList<>(cycle.size());
+        for (int i = 0; i < cycle.size(); i++)
+            rotated.add(cycle.get((minIdx + i) % cycle.size()));
+        return rotated;
+    }
+
+    private static void sortCycles(List<List<Integer>> cycles) {
+        cycles.sort((a, b) -> {
+            int cmp = Integer.compare(a.get(0), b.get(0));
+            return (cmp != 0) ? cmp : Integer.compare(a.size(), b.size());
+        });
+    }
+
+    private static String cyclesToString(List<List<Integer>> cycles) {
+        StringBuilder sb = new StringBuilder();
+        for (List<Integer> cycle : cycles) {
+            sb.append('(');
+            for (int i = 0; i < cycle.size(); i++) {
+                if (i > 0)
+                    sb.append(' ');
+                sb.append(cycle.get(i));
+            }
+            sb.append(')');
+        }
+        return sb.toString();
+    }
+
     @Override
     public Permutation inverse() {
         int[] inv = new int[size()];
