@@ -79,7 +79,7 @@ public final class GroupHelper<E extends Element> {
         for (E a : hull) {
             for (E b : frontier) {
                 E prod = group.operate(a, b);
-                if (prod != null && hull.add(prod)) {
+                if (hull.add(prod)) {
                     if (hull.size() >= maxSize)
                         return next; // early exit retains current hull
                     next.add(prod);
