@@ -6,7 +6,12 @@ import d021248.group.FiniteGroup;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 
-/** Standard generating set for S_n: n-cycle and a simple transposition. */
+/**
+ * Standard generating set for S_n: n-cycle and a simple transposition.
+ * <p>
+ * Replaces former SymmetricGroupHelper.getGenerators.
+ * </p>
+ */
 public final class SymmetricGenerationStrategy implements GenerationStrategy<Permutation> {
     private static final SymmetricGenerationStrategy INSTANCE = new SymmetricGenerationStrategy();
 

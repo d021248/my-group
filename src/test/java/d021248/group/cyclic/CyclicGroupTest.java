@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import d021248.group.strategy.CyclicGenerationStrategy;
+
 class CyclicGroupTest {
     @Test
     void testElements() {
@@ -28,7 +30,8 @@ class CyclicGroupTest {
 
     @Test
     void testGenerators() {
-        Set<CyclicElement> gens = CyclicGroupHelper.getGenerators(5);
+        CyclicGroup c5 = new CyclicGroup(5);
+        var gens = CyclicGenerationStrategy.get().generators(c5);
         assertTrue(gens.contains(new CyclicElement(1, 5)));
     }
 }

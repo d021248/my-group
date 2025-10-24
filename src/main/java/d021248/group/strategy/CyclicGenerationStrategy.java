@@ -11,6 +11,9 @@ import d021248.group.cyclic.CyclicGroup;
 /**
  * Picks all generators (primitive elements) of Z_n: elements coprime with
  * modulus.
+ * <p>
+ * Replaces former CyclicGroupHelper.getGenerators.
+ * </p>
  */
 public final class CyclicGenerationStrategy implements GenerationStrategy<CyclicElement> {
     private static final CyclicGenerationStrategy INSTANCE = new CyclicGenerationStrategy();

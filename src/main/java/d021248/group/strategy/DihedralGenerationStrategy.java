@@ -6,7 +6,12 @@ import d021248.group.FiniteGroup;
 import d021248.group.dihedral.DihedralElement;
 import d021248.group.dihedral.DihedralGroup;
 
-/** Standard generating set for D_n: rotation r and reflection s. */
+/**
+ * Standard generating set for D_n: rotation r and reflection s.
+ * <p>
+ * Replaces former DihedralGroupHelper.getGenerators.
+ * </p>
+ */
 public final class DihedralGenerationStrategy implements GenerationStrategy<DihedralElement> {
     private static final DihedralGenerationStrategy INSTANCE = new DihedralGenerationStrategy();
 

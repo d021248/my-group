@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import d021248.group.strategy.DihedralGenerationStrategy;
+
 class DihedralGroupTest {
     @Test
     void testElements() {
@@ -30,7 +32,8 @@ class DihedralGroupTest {
 
     @Test
     void testGenerators() {
-        Set<DihedralElement> gens = DihedralGroupHelper.getGenerators(5);
+        DihedralGroup d5 = new DihedralGroup(5);
+        var gens = DihedralGenerationStrategy.get().generators(d5);
         assertTrue(gens.contains(new DihedralElement(1, 0, 5)));
         assertTrue(gens.contains(new DihedralElement(0, 1, 5)));
     }
