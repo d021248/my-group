@@ -17,14 +17,14 @@ public final class DihedralGroup implements FiniteGroup<DihedralElement> {
             throw new IllegalArgumentException("n must be >= 2");
         this.n = n;
         this.elements = generateAll(n);
-        this.identity = new DihedralElement(0, 0, n);
+        this.identity = new DihedralElement(0, Flip.ROTATION, n);
     }
 
     private static Set<DihedralElement> generateAll(int n) {
         Set<DihedralElement> set = new HashSet<>();
         for (int r = 0; r < n; r++) {
-            set.add(new DihedralElement(r, 0, n));
-            set.add(new DihedralElement(r, 1, n));
+            set.add(new DihedralElement(r, Flip.ROTATION, n));
+            set.add(new DihedralElement(r, Flip.REFLECTION, n));
         }
         return Set.copyOf(set);
     }
@@ -32,14 +32,15 @@ public final class DihedralGroup implements FiniteGroup<DihedralElement> {
     private DihedralElement operateInternal(DihedralElement a, DihedralElement b) {
         // Presentation relations: r^n = e, s^2 = e, s r = r^{-1} s
         // Encoded as (rotation r, flip f) where f=0 rotation, f=1 reflection (r^k s).
-        int flip = (a.flip() + b.flip()) & 1; // parity of reflections
-        int rot = (a.flip() == 0)
-                ? (a.rotation() + b.rotation()) // rotation * (rotation/reflection)
-                : (a.rotation() - b.rotation()); // reflection * (rotation/reflection)
+        boolean reflectionParity = (a.flip() == Flip.REFLECTION) ^ (b.flip() == Flip.REFLECTION);
+        int rot = (a.flip() == Flip.ROTATION)
+                ? (a.rotation() + b.rotation())
+                : (a.rotation() - b.rotation());
         rot %= n;
         if (rot < 0)
             rot += n;
-        return new DihedralElement(rot, flip, n);
+        Flip newFlip = reflectionParity ? Flip.REFLECTION : Flip.ROTATION;
+        return new DihedralElement(rot, newFlip, n);
     }
 
     @Override

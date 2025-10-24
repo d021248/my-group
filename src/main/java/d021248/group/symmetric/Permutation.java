@@ -1,6 +1,8 @@
 package d021248.group.symmetric;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import d021248.group.api.Element;
 
@@ -41,6 +43,57 @@ public record Permutation(int[] mapping) implements Element {
             result[i] = mapping[otherMap[i] - 1];
         }
         return new Permutation(result);
+    }
+
+    /**
+     * Decompose permutation into disjoint cycles (each as list of 1-based
+     * positions).
+     */
+    public List<List<Integer>> cycles() {
+        boolean[] seen = new boolean[size()];
+        List<List<Integer>> cycles = new ArrayList<>();
+        for (int i = 0; i < size(); i++) {
+            if (!seen[i]) {
+                List<Integer> cycle = new ArrayList<>();
+                int cur = i;
+                do {
+                    seen[cur] = true;
+                    cycle.add(cur + 1);
+                    cur = mapping[cur] - 1;
+                } while (cur != i);
+                cycles.add(cycle);
+            }
+        }
+        return cycles;
+    }
+
+    /**
+     * Sign (+1 or -1) determined by parity of permutation (even -> +1, odd -> -1).
+     */
+    public int sign() {
+        // Sign = (-1)^{n - c} where c is number of disjoint cycles (including 1-cycles)
+        int c = cycles().size();
+        int exponent = size() - c;
+        return (exponent & 1) == 0 ? 1 : -1;
+    }
+
+    /** Cycle notation string, e.g. (1 3 2)(4)(5 6). */
+    public String toCycleString() {
+        StringBuilder sb = new StringBuilder();
+        for (List<Integer> cycle : cycles()) {
+            if (cycle.size() == 1) {
+                sb.append('(').append(cycle.get(0)).append(')');
+            } else {
+                sb.append('(');
+                for (int i = 0; i < cycle.size(); i++) {
+                    if (i > 0)
+                        sb.append(' ');
+                    sb.append(cycle.get(i));
+                }
+                sb.append(')');
+            }
+        }
+        return sb.toString();
     }
 
     @Override
