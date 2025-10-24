@@ -20,7 +20,7 @@ public final class CyclicGroup implements FiniteGroup<CyclicElement> {
         this.elements = IntStream.range(0, modulus)
                 .mapToObj(i -> new CyclicElement(i, modulus))
                 .collect(Collectors.toUnmodifiableSet());
-        this.op = (a, b) -> new CyclicElement(a.value() + b.value(), modulus);
+        this.op = this::add;
         this.identity = new CyclicElement(0, modulus);
     }
 
@@ -39,9 +39,8 @@ public final class CyclicGroup implements FiniteGroup<CyclicElement> {
         return identity;
     }
 
-    @Override
-    public CyclicElement inverse(CyclicElement e) {
-        return e.inverse();
+    private CyclicElement add(CyclicElement a, CyclicElement b) {
+        return new CyclicElement(a.value() + b.value(), modulus);
     }
 
     /** Modulus of the underlying Z_n. */

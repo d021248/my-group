@@ -22,7 +22,11 @@ public interface Group<E extends Element> {
     E identity();
 
     /** Inverse of a given element. Never null; throws if e not in group. */
-    E inverse(E e);
+    default E inverse(E e) {
+        @SuppressWarnings("unchecked")
+        E inv = (E) e.inverse();
+        return inv;
+    }
 
     /** Convenience: apply operation directly. Never returns null. */
     default E operate(E a, E b) {

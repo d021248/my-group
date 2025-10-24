@@ -57,8 +57,4 @@ public final class DihedralGroup implements FiniteGroup<DihedralElement> {
         return identity;
     }
 
-    @Override
-    public DihedralElement inverse(DihedralElement e) {
-        return e.inverse();
-    }
 }

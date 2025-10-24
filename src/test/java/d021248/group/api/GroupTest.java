@@ -7,6 +7,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import d021248.group.Group;
+import d021248.group.GroupAssertions;
 
 class GroupTest {
     static class IntElement implements Element {
@@ -60,10 +61,6 @@ class GroupTest {
             return new IntElement(0);
         }
 
-        @Override
-        public IntElement inverse(IntElement e) {
-            return new IntElement(-e.getValue());
-        }
     }
 
     @Test
@@ -73,5 +70,7 @@ class GroupTest {
         Group<IntElement> group = new IntGroup(elems, op);
         assertEquals(elems, group.elements());
         assertEquals(0, group.operation().calculate(new IntElement(1), new IntElement(1)).getValue());
+        GroupAssertions.assertIdentityLaw(group);
+        GroupAssertions.assertInverseLaw(group);
     }
 }
