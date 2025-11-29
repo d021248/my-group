@@ -11,7 +11,8 @@ import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 
 /**
- * Demonstrates group properties: center, commutator subgroup, isAbelian, exponent.
+ * Demonstrates group properties: center, commutator subgroup, isAbelian,
+ * exponent.
  */
 public final class GroupPropertiesDemo {
     private static final String SEPARATOR = "=".repeat(60);

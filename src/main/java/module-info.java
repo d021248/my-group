@@ -27,6 +27,9 @@ module d021248.group {
     exports d021248.group.product;
     exports d021248.group.subgroup;
     exports d021248.group.quotient;
+    exports d021248.group.conjugacy;
+    exports d021248.group.homomorphism;
+    exports d021248.group.action;
 
     // Utilities and export
     exports d021248.group.util;

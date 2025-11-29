@@ -119,6 +119,147 @@ Subgroup<Permutation> commutator = SubgroupGenerator.commutatorSubgroup(s3);
 System.out.println("[S_3,S_3] order: " + commutator.order()); // 3 (equals A_3)
 ```
 
+Compute conjugacy classes and analyze group structure:
+
+```java
+import d021248.group.conjugacy.ConjugacyAnalyzer;
+import d021248.group.conjugacy.ConjugacyClass;
+
+SymmetricGroup s3 = GroupFactory.symmetric(3);
+
+// Partition group into conjugacy classes
+List<ConjugacyClass<Permutation>> classes = ConjugacyAnalyzer.conjugacyClasses(s3);
+System.out.println("Number of classes: " + classes.size()); // 3
+
+// Get conjugacy class of specific element
+Permutation g = new Permutation(new int[]{2, 1, 3}); // (1 2)
+Set<Permutation> cl = ConjugacyAnalyzer.conjugacyClass(s3, g);
+System.out.println("Class size: " + cl.size()); // 3 (all transpositions)
+
+// Class equation: |G| = sum of |cl(g)|
+Map<Integer, Long> equation = ConjugacyAnalyzer.classEquation(s3);
+equation.forEach((size, count) -> 
+    System.out.println(count + " class(es) of size " + size));
+// Output: 1 class(es) of size 1
+//         1 class(es) of size 2
+//         1 class(es) of size 3
+
+// Check if two elements are conjugate
+Permutation h1 = new Permutation(new int[]{2, 1, 3}); // (1 2)
+Permutation h2 = new Permutation(new int[]{1, 3, 2}); // (2 3)
+boolean conjugate = ConjugacyAnalyzer.areConjugate(s3, h1, h2); // true
+
+// Compute centralizer C_G(g) using orbit-stabilizer: |cl(g)| × |C_G(g)| = |G|
+Subgroup<Permutation> centralizer = ConjugacyAnalyzer.elementCentralizer(s3, g);
+System.out.println("|cl(g)| × |C_G(g)| = " + cl.size() * centralizer.order()); // 6
+```
+
+Work with group homomorphisms and the First Isomorphism Theorem:
+
+```java
+import d021248.group.homomorphism.Homomorphism;
+import d021248.group.homomorphism.HomomorphismAnalyzer;
+
+SymmetricGroup s3 = GroupFactory.symmetric(3);
+CyclicGroup z2 = GroupFactory.cyclic(2);
+
+// Sign homomorphism: S_3 → Z_2
+Homomorphism<Permutation, CyclicElement> sign = new Homomorphism<>(
+    s3, z2,
+    p -> new CyclicElement(p.sign() == 1 ? 0 : 1, 2));
+
+// Verify it's a valid homomorphism
+boolean valid = HomomorphismAnalyzer.isHomomorphism(sign); // true
+
+// Analyze properties
+boolean injective = HomomorphismAnalyzer.isInjective(sign); // false
+boolean surjective = HomomorphismAnalyzer.isSurjective(sign); // true
+boolean isomorphism = HomomorphismAnalyzer.isIsomorphism(sign); // false
+
+// Compute kernel and image
+Subgroup<Permutation> kernel = HomomorphismAnalyzer.kernel(sign);
+System.out.println("ker(sign) = A_3, order: " + kernel.order()); // 3
+
+Subgroup<CyclicElement> image = HomomorphismAnalyzer.image(sign);
+System.out.println("im(sign) = Z_2, order: " + image.order()); // 2
+
+// First Isomorphism Theorem: S_3/A_3 ≅ Z_2
+int quotientOrder = HomomorphismAnalyzer.firstIsomorphismTheorem(sign);
+System.out.println("|S_3/A_3| = |Z_2| = " + quotientOrder); // 2
+
+// Kernel is always normal
+boolean kernelNormal = SubgroupGenerator.isNormal(s3, kernel); // true
+
+// Compose homomorphisms
+CyclicGroup z12 = GroupFactory.cyclic(12);
+CyclicGroup z4 = GroupFactory.cyclic(4);
+
+Homomorphism<CyclicElement, CyclicElement> phi = new Homomorphism<>(
+    z12, z4,
+    e -> new CyclicElement(e.value() % 4, 4));
+
+Homomorphism<CyclicElement, CyclicElement> psi = new Homomorphism<>(
+    z4, z2,
+    e -> new CyclicElement(e.value() % 2, 2));
+
+Homomorphism<CyclicElement, CyclicElement> composed = HomomorphismAnalyzer.compose(phi, psi);
+// (ψ ∘ φ): Z_12 → Z_2
+```
+
+Explore group actions, orbits, and stabilizers:
+
+```java
+import d021248.group.action.Action;
+import d021248.group.action.ActionAnalyzer;
+import d021248.group.action.Orbit;
+
+SymmetricGroup s3 = GroupFactory.symmetric(3);
+
+// Conjugation action: G acts on itself by g · h = ghg⁻¹
+Action<Permutation, Permutation> conjugation = new Action<>(
+    s3,
+    s3.elements(),
+    (g, h) -> {
+        Permutation gInv = s3.inverse(g);
+        return s3.operate(s3.operate(g, h), gInv);
+    });
+
+// Verify it's a valid action
+boolean valid = ActionAnalyzer.isAction(conjugation); // true
+
+// Partition into orbits (= conjugacy classes for conjugation)
+List<Orbit<Permutation>> orbits = ActionAnalyzer.orbits(conjugation);
+System.out.println("Number of orbits: " + orbits.size()); // 3
+
+// Compute orbit and stabilizer for specific element
+Permutation x = new Permutation(new int[]{2, 1, 3}); // (1 2)
+Orbit<Permutation> orb = ActionAnalyzer.orbit(conjugation, x);
+Subgroup<Permutation> stab = ActionAnalyzer.stabilizer(conjugation, x);
+
+// Orbit-Stabilizer Theorem: |orb(x)| × |Stab(x)| = |G|
+System.out.println("|orb| × |Stab| = " + orb.size() * stab.order()); // 6
+boolean theoremHolds = ActionAnalyzer.verifyOrbitStabilizer(conjugation, x); // true
+
+// Permutation action on integers
+Set<Integer> integers = Set.of(1, 2, 3);
+Action<Permutation, Integer> permAction = new Action<>(
+    s3,
+    integers,
+    (p, i) -> p.mapping()[i - 1]);
+
+boolean transitive = ActionAnalyzer.isTransitive(permAction); // true
+boolean free = ActionAnalyzer.isFree(permAction); // false (stabilizers non-trivial)
+
+// Fixed points
+Permutation trans = new Permutation(new int[]{2, 1, 3}); // (1 2)
+Set<Integer> fixed = ActionAnalyzer.fixedPoints(permAction, trans);
+System.out.println("Fixed by (1 2): " + fixed); // {3}
+
+// Burnside's Lemma: count orbits using average fixed points
+int numOrbits = ActionAnalyzer.burnsideLemma(conjugation);
+System.out.println("Number of orbits: " + numOrbits); // 3
+```
+
 ## Design Notes
 
 * Immutability: All elements are records; operations produce new instances.
@@ -151,6 +292,17 @@ System.out.println("[S_3,S_3] order: " + commutator.order()); // 3 (equals A_3)
 | | Frattini subgroup | ✅ Complete |
 | | Center Z(G) | ✅ Complete |
 | | Commutator subgroup [G,G] | ✅ Complete |
+| | Conjugacy classes | ✅ Complete |
+| Homomorphisms | Group homomorphisms | ✅ Complete |
+| | Kernel and image | ✅ Complete |
+| | Injectivity/surjectivity | ✅ Complete |
+| | First Isomorphism Theorem | ✅ Complete |
+| | Composition | ✅ Complete |
+| Group Actions | Actions on sets | ✅ Complete |
+| | Orbits and stabilizers | ✅ Complete |
+| | Orbit-Stabilizer Theorem | ✅ Complete |
+| | Transitive/free actions | ✅ Complete |
+| | Burnside's Lemma | ✅ Complete |
 | Group Properties | isAbelian() check | ✅ Complete |
 | | exponent() computation | ✅ Complete |
 
@@ -163,9 +315,9 @@ System.out.println("[S_3,S_3] order: " + commutator.order()); // 3 (equals A_3)
 | Direct products | Cartesian product group implementation | ✅ Done |
 | Quotient groups | G/H for normal subgroups | ✅ Done |
 | Center & Commutator | Z(G) and [G,G] computation | ✅ Done |
-| Homomorphisms | Group morphisms and kernels | Medium |
-| Conjugacy classes | Compute classes & class equation | Medium |
-| Group actions | Orbits and stabilizers | Medium |
+| Conjugacy classes | Compute classes & class equation | ✅ Done |
+| Homomorphisms | Group morphisms, kernels, and First Isomorphism Theorem | ✅ Done |
+| Group actions | Orbits, stabilizers, and Burnside's Lemma | ✅ Done |
 | Sylow subgroups | Sylow p-subgroup computation | Medium |
 | Automorphism groups | Aut(G) and Inn(G) | Medium |
 | Web demo | HTTP endpoints exposing Cayley tables | Medium |
