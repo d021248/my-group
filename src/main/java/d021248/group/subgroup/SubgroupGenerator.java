@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import d021248.group.Group;
 import d021248.group.Generator;
+import d021248.group.Group;
 import d021248.group.api.Element;
 
 /**
@@ -184,5 +184,92 @@ public final class SubgroupGenerator {
      */
     public static <E extends Element> boolean isNormal(Group<E> parent, Subgroup<E> subgroup) {
         return normalizer(parent, subgroup).order() == parent.order();
+    }
+
+    /**
+     * Find all maximal proper subgroups of the group.
+     * <p>
+     * A maximal subgroup is a proper subgroup that is not contained in any other
+     * proper subgroup. For groups of order ≤ 20, this enumerates all subgroups and
+     * filters for maximality.
+     * </p>
+     * 
+     * @param parent the parent group
+     * @return list of all maximal proper subgroups
+     * @throws IllegalArgumentException if group order > 20 (performance limit)
+     */
+    public static <E extends Element> List<Subgroup<E>> maximalSubgroups(Group<E> parent) {
+        Objects.requireNonNull(parent, PARENT_NULL_MSG);
+        int n = parent.order();
+        if (n > 20) {
+            throw new IllegalArgumentException(
+                    "maximalSubgroups only supported for order ≤ 20 (given: " + n + ")");
+        }
+
+        List<Subgroup<E>> all = allSubgroups(parent);
+        List<Subgroup<E>> maximal = new ArrayList<>();
+
+        // A subgroup H is maximal if it's proper and no other proper subgroup contains
+        // it
+        for (Subgroup<E> h : all) {
+            if (h.order() == parent.order()) {
+                continue; // skip the whole group (not proper)
+            }
+
+            boolean isMaximal = true;
+            for (Subgroup<E> k : all) {
+                // If H ⊂ K (proper containment), then H is not maximal
+                if (k.order() > h.order() && k.order() < parent.order()
+                        && k.elements().containsAll(h.elements())) {
+                    isMaximal = false;
+                    break;
+                }
+            }
+            if (isMaximal) {
+                maximal.add(h);
+            }
+        }
+        return maximal;
+    }
+
+    /**
+     * Compute the Frattini subgroup Φ(G) - the intersection of all maximal
+     * subgroups.
+     * <p>
+     * The Frattini subgroup is the set of "non-generators": elements that can be
+     * removed from any generating set without losing the property of generating the
+     * whole group.
+     * </p>
+     * <p>
+     * Special cases:
+     * </p>
+     * <ul>
+     * <li>If G has no maximal subgroups (only happens for trivial group), Φ(G) =
+     * G</li>
+     * <li>For cyclic groups of prime order, Φ(G) = {e}</li>
+     * <li>For p-groups, Φ(G) is always non-trivial (unless G is trivial)</li>
+     * </ul>
+     * 
+     * @param parent the parent group
+     * @return the Frattini subgroup
+     * @throws IllegalArgumentException if group order > 20 (performance limit)
+     */
+    public static <E extends Element> Subgroup<E> frattiniSubgroup(Group<E> parent) {
+        Objects.requireNonNull(parent, PARENT_NULL_MSG);
+
+        List<Subgroup<E>> maximal = maximalSubgroups(parent);
+
+        if (maximal.isEmpty()) {
+            // No maximal subgroups means Φ(G) contains only the identity
+            return new Subgroup<>(parent, Set.of(parent.identity()));
+        }
+
+        // Intersect all maximal subgroups
+        Set<E> intersection = new HashSet<>(maximal.get(0).elements());
+        for (int i = 1; i < maximal.size(); i++) {
+            intersection.retainAll(maximal.get(i).elements());
+        }
+
+        return new Subgroup<>(parent, intersection);
     }
 }

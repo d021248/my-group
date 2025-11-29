@@ -94,6 +94,14 @@ boolean normal = SubgroupGenerator.isNormal(z12, h); // true (abelian group)
 // Compute normalizer and centralizer
 Subgroup<CyclicElement> normalizer = SubgroupGenerator.normalizer(z12, h);
 Subgroup<CyclicElement> centralizer = SubgroupGenerator.centralizer(z12, h);
+
+// Find maximal subgroups (proper subgroups that are not contained in any other proper subgroup)
+List<Subgroup<CyclicElement>> maximal = SubgroupGenerator.maximalSubgroups(z12);
+System.out.println("Maximal subgroups: " + maximal.size()); // 2 for Z_12
+
+// Compute Frattini subgroup Φ(G) = intersection of all maximal subgroups
+Subgroup<CyclicElement> frattini = SubgroupGenerator.frattiniSubgroup(z12);
+System.out.println("Φ(Z_12) order: " + frattini.order()); // 1 (trivial)
 ```
 
 ## Design Notes
@@ -124,6 +132,8 @@ Subgroup<CyclicElement> centralizer = SubgroupGenerator.centralizer(z12, h);
 | | Normality testing | ✅ Complete |
 | | Normalizer/Centralizer | ✅ Complete |
 | | Subgroup index | ✅ Complete |
+| | Maximal subgroups | ✅ Complete |
+| | Frattini subgroup | ✅ Complete |
 
 ## Limitations / Future Ideas
 
