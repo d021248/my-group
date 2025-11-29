@@ -30,6 +30,7 @@ module d021248.group {
     exports d021248.group.conjugacy;
     exports d021248.group.homomorphism;
     exports d021248.group.action;
+    exports d021248.group.automorphism;
 
     // Utilities and export
     exports d021248.group.util;

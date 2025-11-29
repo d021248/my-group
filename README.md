@@ -260,6 +260,48 @@ int numOrbits = ActionAnalyzer.burnsideLemma(conjugation);
 System.out.println("Number of orbits: " + numOrbits); // 3
 ```
 
+#### Automorphisms
+
+```java
+import d021248.group.automorphism.*;
+
+// Inner automorphism via conjugation
+SymmetricGroup s3 = GroupFactory.symmetric(3);
+Permutation g = new Permutation(new int[]{2, 1, 3}); // (1 2)
+Automorphism<Permutation> inner = AutomorphismAnalyzer.innerAutomorphism(s3, g);
+
+Permutation h = new Permutation(new int[]{2, 3, 1}); // (1 2 3)
+Permutation conjugate = inner.apply(h); // g·h·g⁻¹ = (1 3 2)
+
+boolean isAuto = AutomorphismAnalyzer.isAutomorphism(inner); // true
+boolean isInner = AutomorphismAnalyzer.isInner(inner); // true
+
+// All inner automorphisms
+Set<Automorphism<Permutation>> innerAutos = AutomorphismAnalyzer.innerAutomorphisms(s3);
+int distinctCount = AutomorphismAnalyzer.countDistinctInnerAutomorphisms(s3);
+System.out.println("|Inn(S_3)| = " + distinctCount); // 6
+
+// Inn(G) ≅ G/Z(G)
+System.out.println("|S_3|/|Z(S_3)| = 6/1 = " + distinctCount);
+
+// Composition
+Permutation g2 = new Permutation(new int[]{2, 3, 1}); // (1 2 3)
+Automorphism<Permutation> inner2 = AutomorphismAnalyzer.innerAutomorphism(s3, g2);
+Automorphism<Permutation> composed = AutomorphismAnalyzer.compose(inner, inner2);
+
+// Inverse
+Automorphism<Permutation> inv = AutomorphismAnalyzer.inverse(inner);
+Automorphism<Permutation> identity = AutomorphismAnalyzer.compose(inner, inv);
+
+// Outer automorphisms (for abelian groups, all inner autos are identity)
+CyclicGroup z4 = GroupFactory.cyclic(4);
+GroupHomomorphism<CyclicElement, CyclicElement> phi = e -> 
+    new CyclicElement((e.value() * 3) % 4, 4); // φ(n) = 3n mod 4
+
+Automorphism<CyclicElement> outer = new Automorphism<>(z4, phi);
+boolean isOuter = !AutomorphismAnalyzer.isInner(outer); // true (not identity)
+```
+
 ## Design Notes
 
 * Immutability: All elements are records; operations produce new instances.
@@ -303,6 +345,11 @@ System.out.println("Number of orbits: " + numOrbits); // 3
 | | Orbit-Stabilizer Theorem | ✅ Complete |
 | | Transitive/free actions | ✅ Complete |
 | | Burnside's Lemma | ✅ Complete |
+| Automorphisms | Inner automorphisms | ✅ Complete |
+| | Automorphism composition | ✅ Complete |
+| | Inn(G) ≅ G/Z(G) | ✅ Complete |
+| | Outer automorphisms | ✅ Complete |
+| | Inverse automorphisms | ✅ Complete |
 | Group Properties | isAbelian() check | ✅ Complete |
 | | exponent() computation | ✅ Complete |
 
@@ -318,8 +365,8 @@ System.out.println("Number of orbits: " + numOrbits); // 3
 | Conjugacy classes | Compute classes & class equation | ✅ Done |
 | Homomorphisms | Group morphisms, kernels, and First Isomorphism Theorem | ✅ Done |
 | Group actions | Orbits, stabilizers, and Burnside's Lemma | ✅ Done |
+| Automorphisms | Aut(G), Inn(G), and Inn(G) ≅ G/Z(G) | ✅ Done |
 | Sylow subgroups | Sylow p-subgroup computation | Medium |
-| Automorphism groups | Aut(G) and Inn(G) | Medium |
 | Web demo | HTTP endpoints exposing Cayley tables | Medium |
 | CLI REPL | Interactive exploration and verification | Low |
 
