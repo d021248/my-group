@@ -26,7 +26,7 @@ class SubgroupTest {
     void subgroupZ6() {
         CyclicGroup z6 = GroupFactory.cyclic(6);
         Subgroup<CyclicElement> h = SubgroupGenerator.generate(z6, Set.of(new CyclicElement(2, 6)));
-        assertEquals(3, h.order()); // <2> = {0, 2, 4}
+        assertEquals(3, h.order());
         assertTrue(h.elements().contains(new CyclicElement(0, 6)));
         assertTrue(h.elements().contains(new CyclicElement(2, 6)));
         assertTrue(h.elements().contains(new CyclicElement(4, 6)));

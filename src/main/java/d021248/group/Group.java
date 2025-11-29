@@ -5,6 +5,29 @@ import java.util.Set;
 import d021248.group.api.Element;
 import d021248.group.api.Operation;
 
+/**
+ * Core interface for mathematical groups.
+ * <p>
+ * A group is a set with an associative binary operation, an identity element,
+ * and inverses for all elements. This interface provides the minimal contract.
+ * </p>
+ * <p>
+ * Example usage:
+ * </p>
+ * 
+ * <pre>
+ * {
+ *     &#64;code
+ *     CyclicGroup z6 = new CyclicGroup(6);
+ *     CyclicElement a = new CyclicElement(2, 6);
+ *     CyclicElement b = new CyclicElement(3, 6);
+ *     CyclicElement c = z6.operate(a, b); // 5 (mod 6)
+ *     CyclicElement inv = z6.inverse(a); // 4 (mod 6)
+ * }
+ * </pre>
+ * 
+ * @param <E> the type of group elements
+ */
 public interface Group<E extends Element> {
     /**
      * Return all elements of the group (finite groups assumed for enumeration).

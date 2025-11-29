@@ -12,6 +12,26 @@ import d021248.group.api.Element;
 
 /**
  * Utilities for generating and analyzing subgroups of finite groups.
+ * <p>
+ * Example usage:
+ * </p>
+ * 
+ * <pre>
+ * {
+ *     &#64;code
+ *     // Generate subgroup from elements
+ *     CyclicGroup z12 = new CyclicGroup(12);
+ *     Subgroup<CyclicElement> h = SubgroupGenerator.generate(z12, Set.of(new CyclicElement(3, 12)));
+ *     System.out.println(h.order()); // 4 (elements: 0, 3, 6, 9)
+ * 
+ *     // Find all subgroups
+ *     List<Subgroup<CyclicElement>> allSubs = SubgroupGenerator.allSubgroups(z12);
+ *     System.out.println(allSubs.size()); // 6 (divisors of 12)
+ * 
+ *     // Check normality
+ *     boolean normal = SubgroupGenerator.isNormal(z12, h); // true (abelian)
+ * }
+ * </pre>
  */
 public final class SubgroupGenerator {
     private static final String PARENT_NULL_MSG = "parent group must not be null";

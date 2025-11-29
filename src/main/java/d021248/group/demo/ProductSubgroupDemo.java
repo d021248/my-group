@@ -18,7 +18,11 @@ import d021248.group.symmetric.SymmetricGroup;
 /**
  * Demonstration of direct product and subgroup features.
  */
-public final class ProductSubgroupDemo {
+public class ProductSubgroupDemo {
+    private static final String ORDER_PREFIX = "  Order: ";
+    private static final String ORDER_PREFIX_SHORT = "  Order ";
+    private static final String ELEMENTS_PREFIX = "  Elements: ";
+
     public static void main(String[] args) {
         demonstrateDirectProducts();
         System.out.println();
@@ -35,13 +39,13 @@ public final class ProductSubgroupDemo {
         CyclicGroup z2b = GroupFactory.cyclic(2);
         DirectProduct<CyclicElement, CyclicElement> v4 = new DirectProduct<>(z2a, z2b);
         System.out.println("Klein four-group V_4 = Z_2 × Z_2:");
-        System.out.println("  Order: " + v4.order());
-        System.out.println("  Elements: " + v4.elements());
+        System.out.println(ORDER_PREFIX + v4.order());
+        System.out.println(ELEMENTS_PREFIX + v4.elements());
 
         // 2. Z_3 × Z_4 (order 12, cyclic)
         var z3xz4 = GroupFactory.directProduct(GroupFactory.cyclic(3), GroupFactory.cyclic(4));
         System.out.println("\nZ_3 × Z_4:");
-        System.out.println("  Order: " + z3xz4.order());
+        System.out.println(ORDER_PREFIX + z3xz4.order());
         ProductElement<CyclicElement, CyclicElement> gen = new ProductElement<>(new CyclicElement(1, 3),
                 new CyclicElement(1, 4));
         System.out.println("  Generator: " + gen);
@@ -51,7 +55,7 @@ public final class ProductSubgroupDemo {
         CyclicGroup z2 = GroupFactory.cyclic(2);
         DirectProduct<DihedralElement, CyclicElement> d3xz2 = new DirectProduct<>(d3, z2);
         System.out.println("\nD_3 × Z_2:");
-        System.out.println("  Order: " + d3xz2.order() + " (6 × 2)");
+        System.out.println(ORDER_PREFIX + d3xz2.order() + " (6 × 2)");
         System.out.println("  Identity: " + d3xz2.identity());
     }
 
@@ -62,8 +66,8 @@ public final class ProductSubgroupDemo {
         CyclicGroup z12 = GroupFactory.cyclic(12);
         Subgroup<CyclicElement> h = SubgroupGenerator.generate(z12, Set.of(new CyclicElement(3, 12)));
         System.out.println("Subgroup <3> of Z_12:");
-        System.out.println("  Elements: " + h.elements());
-        System.out.println("  Order: " + h.order());
+        System.out.println(ELEMENTS_PREFIX + h.elements());
+        System.out.println(ORDER_PREFIX + h.order());
         System.out.println("  Index: " + h.index() + " (12 / " + h.order() + ")");
 
         // 2. All subgroups of small group
@@ -71,14 +75,15 @@ public final class ProductSubgroupDemo {
         List<Subgroup<CyclicElement>> allSubs = SubgroupGenerator.allSubgroups(z6);
         System.out.println("\nAll subgroups of Z_6:");
         for (var sub : allSubs) {
-            System.out.println("  Order " + sub.order() + ": " + sub.elements());
+            System.out.println(ORDER_PREFIX_SHORT + sub.order() + ": " + sub.elements());
         }
 
         // 3. Cyclic subgroups
         System.out.println("\nCyclic subgroups of Z_12 (by order):");
         List<Subgroup<CyclicElement>> cyclicSubs = SubgroupGenerator.cyclicSubgroups(z12);
         cyclicSubs.stream().sorted((a, b) -> Integer.compare(a.order(), b.order()))
-                .forEach(s -> System.out.println("  Order " + s.order() + ": " + s.elements().size() + " elements"));
+                .forEach(s -> System.out
+                        .println(ORDER_PREFIX_SHORT + s.order() + ": " + s.elements().size() + " elements"));
     }
 
     private static void demonstrateSubgroupTheory() {
@@ -97,7 +102,7 @@ public final class ProductSubgroupDemo {
         System.out.println("\nSubgroups of S_3:");
         for (var sub : s3Subs) {
             boolean normal = SubgroupGenerator.isNormal(s3, sub);
-            System.out.println("  Order " + sub.order() + ": normal=" + normal);
+            System.out.println(ORDER_PREFIX_SHORT + sub.order() + ": normal=" + normal);
         }
 
         // 3. Normalizer and centralizer

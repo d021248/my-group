@@ -17,6 +17,25 @@ import d021248.group.api.Operation;
  * <p>
  * Order of the product equals |G₁| × |G₂|.
  * </p>
+ * <p>
+ * Example:
+ * </p>
+ * 
+ * <pre>
+ * {
+ *     &#64;code
+ *     // Klein four-group V₄ ≅ Z₂ × Z₂
+ *     CyclicGroup z2a = new CyclicGroup(2);
+ *     CyclicGroup z2b = new CyclicGroup(2);
+ *     DirectProduct<CyclicElement, CyclicElement> v4 = new DirectProduct<>(z2a, z2b);
+ *     System.out.println(v4.order()); // 4
+ * 
+ *     // All non-identity elements have order 2
+ *     ProductElement<CyclicElement, CyclicElement> a = new ProductElement<>(new CyclicElement(1, 2),
+ *             new CyclicElement(0, 2));
+ *     System.out.println(a.order(v4)); // 2
+ * }
+ * </pre>
  */
 public final class DirectProduct<E1 extends Element, E2 extends Element>
         implements FiniteGroup<ProductElement<E1, E2>> {
