@@ -55,4 +55,38 @@ public interface Group<E extends Element> {
     default E operate(E a, E b) {
         return operation().calculate(a, b);
     }
+
+    /**
+     * Compute the order of an element in this group.
+     * <p>
+     * The order is the smallest positive integer k such that g^k = e (identity).
+     * </p>
+     * <p>
+     * Example:
+     * </p>
+     * 
+     * <pre>
+     * {@code
+     * CyclicGroup z12 = new CyclicGroup(12);
+     * CyclicElement g = new CyclicElement(4, 12);
+     * int order = z12.order(g); // 3, since 4+4+4 ≡ 0 (mod 12)
+     * }
+     * </pre>
+     * 
+     * @param element the element whose order to compute
+     * @return the order of the element (always >= 1)
+     */
+    default int order(E element) {
+        E current = element;
+        E identity = identity();
+        int order = 1;
+        while (!current.equals(identity)) {
+            current = operate(current, element);
+            order++;
+            if (order > 10000) // safety guard against infinite loops
+                throw new IllegalStateException(
+                        "Order computation exceeded limit (possible infinite group)");
+        }
+        return order;
+    }
 }
