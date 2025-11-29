@@ -31,15 +31,15 @@ import d021248.group.subgroup.SubgroupGenerator;
  *     CyclicGroup z6 = new CyclicGroup(6);
  *     Subgroup<CyclicElement> h = SubgroupGenerator.generate(z6, Set.of(new CyclicElement(3, 6)));
  *     QuotientGroup<CyclicElement> quotient = new QuotientGroup<>(z6, h);
- *     
- *     System.out.println(quotient.order());  // 2 (= 6/3)
- *     
+ * 
+ *     System.out.println(quotient.order()); // 2 (= 6/3)
+ * 
  *     // S_3 / A_3 ≅ Z_2 (sign homomorphism)
  *     SymmetricGroup s3 = new SymmetricGroup(3);
  *     AlternatingGroup a3Impl = new AlternatingGroup(3);
  *     Subgroup<Permutation> a3 = new Subgroup<>(s3, a3Impl.elements());
  *     QuotientGroup<Permutation> s3modA3 = new QuotientGroup<>(s3, a3);
- *     System.out.println(s3modA3.order());  // 2 (= 6/3)
+ *     System.out.println(s3modA3.order()); // 2 (= 6/3)
  * }
  * </pre>
  * 
@@ -55,18 +55,18 @@ public final class QuotientGroup<E extends Element> implements FiniteGroup<Coset
     /**
      * Create quotient group G/H.
      * 
-     * @param parent the parent group G
+     * @param parent         the parent group G
      * @param normalSubgroup the normal subgroup H
      * @throws IllegalArgumentException if H is not normal in G
      */
     public QuotientGroup(FiniteGroup<E> parent, Subgroup<E> normalSubgroup) {
         this.parent = Objects.requireNonNull(parent, "parent group must not be null");
         this.normalSubgroup = Objects.requireNonNull(normalSubgroup, "normal subgroup must not be null");
-        
+
         if (!SubgroupGenerator.isNormal(parent, normalSubgroup)) {
             throw new IllegalArgumentException("Subgroup must be normal for quotient group to be well-defined");
         }
-        
+
         this.cosets = generateCosets();
         this.operation = this::operateInternal;
         this.identity = new Coset<>(parent, normalSubgroup, parent.identity());
@@ -75,18 +75,18 @@ public final class QuotientGroup<E extends Element> implements FiniteGroup<Coset
     private Set<Coset<E>> generateCosets() {
         Set<Coset<E>> result = new HashSet<>();
         Set<Set<E>> seenCosetElements = new HashSet<>();
-        
+
         for (E g : parent.elements()) {
             Coset<E> coset = new Coset<>(parent, normalSubgroup, g);
             Set<E> cosetElements = coset.elements();
-            
+
             // Only add if we haven't seen this coset before
             if (!seenCosetElements.contains(cosetElements)) {
                 result.add(coset);
                 seenCosetElements.add(cosetElements);
             }
         }
-        
+
         return Set.copyOf(result);
     }
 

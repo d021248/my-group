@@ -1,6 +1,7 @@
 package d021248.group.demo;
 
-import d021248.group.GroupFactory;
+import java.util.Set;
+
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.quotient.Coset;
@@ -11,15 +12,13 @@ import d021248.group.symmetric.AlternatingGroup;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 
-import java.util.Set;
-
 /**
  * Demonstrates quotient groups G/H where H is a normal subgroup.
  */
 public final class QuotientGroupDemo {
     private static final String ORDER_PREFIX = "  Order: ";
     private static final String ELEMENTS_PREFIX = "  Elements: ";
-    
+
     public static void main(String[] args) {
         demonstrateCyclicQuotients();
         System.out.println();
@@ -76,7 +75,7 @@ public final class QuotientGroupDemo {
         System.out.println("\nS_3 / A_3:");
         System.out.println(ORDER_PREFIX + quotient.order() + " (= 6/3)");
         System.out.println(ELEMENTS_PREFIX);
-        
+
         for (Coset<Permutation> coset : quotient.elements()) {
             System.out.println("    " + coset + " (" + coset.elements().size() + " permutations)");
             System.out.print("      Contains: ");
@@ -89,21 +88,21 @@ public final class QuotientGroupDemo {
 
     private static void demonstrateFirstIsomorphismTheorem() {
         System.out.println("=== First Isomorphism Theorem Example ===");
-        
+
         // For the sign homomorphism φ: S_3 → Z_2
         // ker(φ) = A_3 and S_3 / A_3 ≅ Z_2
         System.out.println("Sign homomorphism φ: S_3 → {-1, +1}");
         System.out.println("  ker(φ) = A_3 (even permutations)");
         System.out.println("  im(φ) = {-1, +1} ≅ Z_2");
         System.out.println("  By First Isomorphism Theorem: S_3 / A_3 ≅ Z_2");
-        
+
         SymmetricGroup s3 = new SymmetricGroup(3);
         AlternatingGroup a3Impl = new AlternatingGroup(3);
         Subgroup<Permutation> kernel = new Subgroup<>(s3, a3Impl.elements());
         QuotientGroup<Permutation> quotient = new QuotientGroup<>(s3, kernel);
-        
+
         System.out.println("\n  Verified: |S_3 / A_3| = " + quotient.order());
-        
+
         // Show the two cosets correspond to even and odd permutations
         System.out.println("\n  The two cosets:");
         for (Coset<Permutation> coset : quotient.elements()) {

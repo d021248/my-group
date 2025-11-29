@@ -23,7 +23,7 @@ import d021248.group.api.Element;
  *     // Cosets are: 0H = {0,3}, 1H = {1,4}, 2H = {2,5}
  *     CyclicGroup z6 = new CyclicGroup(6);
  *     Subgroup<CyclicElement> h = SubgroupGenerator.generate(z6, Set.of(new CyclicElement(3, 6)));
- *     
+ * 
  *     Coset<CyclicElement> coset0 = new Coset<>(z6, h, new CyclicElement(0, 6));
  *     Coset<CyclicElement> coset1 = new Coset<>(z6, h, new CyclicElement(1, 6));
  * }
