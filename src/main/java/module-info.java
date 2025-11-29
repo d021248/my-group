@@ -38,5 +38,5 @@ module d021248.group {
     // d021248.group.demo
 
     // Dependencies
-    requires java.desktop; // For cayley table image generation (BufferedImage, Graphics2D)
+    requires transitive java.desktop; // For cayley table image generation (BufferedImage, Graphics2D)
 }

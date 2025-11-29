@@ -17,13 +17,6 @@ class GroupTest {
             this.value = value;
         }
 
-        @Override
-        public Element inverse() {
-            // Group is intended to model Z_2 under addition; every element is its own
-            // inverse.
-            return new IntElement(value);
-        }
-
         int getValue() {
             return value;
         }
@@ -63,6 +56,11 @@ class GroupTest {
             return new IntElement(0);
         }
 
+        @Override
+        public IntElement inverse(IntElement element) {
+            // Group is intended to model Z_2 under addition; every element is its own inverse.
+            return element;
+        }
     }
 
     @Test

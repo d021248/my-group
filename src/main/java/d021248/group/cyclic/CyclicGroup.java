@@ -39,6 +39,11 @@ public final class CyclicGroup implements FiniteGroup<CyclicElement> {
         return identity;
     }
 
+    @Override
+    public CyclicElement inverse(CyclicElement element) {
+        return new CyclicElement(modulus - element.value(), modulus);
+    }
+
     private CyclicElement add(CyclicElement a, CyclicElement b) {
         return new CyclicElement(a.value() + b.value(), modulus);
     }

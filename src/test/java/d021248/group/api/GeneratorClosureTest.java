@@ -28,11 +28,6 @@ class GeneratorClosureTest {
         }
 
         @Override
-        public Element inverse() {
-            return new ModN(n, n - v);
-        }
-
-        @Override
         public boolean equals(Object o) {
             return o instanceof ModN m && m.n == n && m.v == v;
         }
@@ -71,8 +66,8 @@ class GeneratorClosureTest {
         }
 
         @Override
-        public ModN inverse(ModN e) {
-            return (ModN) e.inverse();
+        public ModN inverse(ModN element) {
+            return new ModN(n, n - element.value());
         }
     }
 

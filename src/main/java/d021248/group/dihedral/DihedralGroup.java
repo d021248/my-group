@@ -58,4 +58,15 @@ public final class DihedralGroup implements FiniteGroup<DihedralElement> {
         return identity;
     }
 
+    @Override
+    public DihedralElement inverse(DihedralElement element) {
+        return element.flip() == Flip.ROTATION
+                ? new DihedralElement((n - element.rotation()) % n, Flip.ROTATION, n)
+                : element; // reflections are self-inverse
+    }
+
+    /** Degree n of D_n. */
+    public int degree() {
+        return n;
+    }
 }

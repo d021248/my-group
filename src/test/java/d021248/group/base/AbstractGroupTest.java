@@ -16,11 +16,6 @@ class AbstractGroupTest {
             this.value = value % 2;
         }
 
-        @Override
-        public Element inverse() {
-            return new Mod2Element(value);
-        }
-
         int getValue() {
             return value;
         }

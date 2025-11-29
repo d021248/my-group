@@ -53,12 +53,6 @@ public record Coset<E extends Element>(FiniteGroup<E> parent, Subgroup<E> subgro
                 .collect(java.util.stream.Collectors.toUnmodifiableSet());
     }
 
-    @Override
-    public Coset<E> inverse() {
-        E invRep = parent.inverse(representative);
-        return new Coset<>(parent, subgroup, invRep);
-    }
-
     /**
      * Two cosets are equal if they contain the same elements.
      * <p>

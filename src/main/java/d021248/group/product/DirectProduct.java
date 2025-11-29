@@ -83,6 +83,13 @@ public final class DirectProduct<E1 extends Element, E2 extends Element>
         return identity;
     }
 
+    @Override
+    public ProductElement<E1, E2> inverse(ProductElement<E1, E2> element) {
+        E1 inv1 = group1.inverse(element.first());
+        E2 inv2 = group2.inverse(element.second());
+        return new ProductElement<>(inv1, inv2);
+    }
+
     /** First component group (G₁). */
     public FiniteGroup<E1> firstGroup() {
         return group1;

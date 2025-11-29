@@ -111,6 +111,12 @@ public final class QuotientGroup<E extends Element> implements FiniteGroup<Coset
         return identity;
     }
 
+    @Override
+    public Coset<E> inverse(Coset<E> element) {
+        E invRep = parent.inverse(element.representative());
+        return new Coset<>(parent, normalSubgroup, invRep);
+    }
+
     /**
      * Return the parent group G.
      */

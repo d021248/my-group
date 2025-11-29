@@ -11,11 +11,6 @@ public record CyclicElement(int value, int modulus) implements Element {
     }
 
     @Override
-    public CyclicElement inverse() {
-        return new CyclicElement(modulus - value, modulus);
-    }
-
-    @Override
     public String toString() {
         return value + " (mod " + modulus + ")";
     }

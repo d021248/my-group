@@ -19,11 +19,6 @@ class GeneratorTest {
             this.value = (value % 3 + 3) % 3;
         }
 
-        @Override
-        public Element inverse() {
-            return new Mod3Element(3 - value);
-        }
-
         int getValue() {
             return value;
         }
@@ -60,7 +55,7 @@ class GeneratorTest {
 
             @Override
             public Mod3Element inverse(Mod3Element e) {
-                return (Mod3Element) e.inverse();
+                return new Mod3Element(3 - e.getValue());
             }
         };
         Set<Mod3Element> gens = Set.of(new Mod3Element(1));

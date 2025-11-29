@@ -81,6 +81,16 @@ public final class AlternatingGroup implements FiniteGroup<Permutation> {
         return identity;
     }
 
+    @Override
+    public Permutation inverse(Permutation element) {
+        int[] inv = new int[element.size()];
+        int[] mapping = element.mapping();
+        for (int i = 0; i < element.size(); i++) {
+            inv[mapping[i] - 1] = i + 1;
+        }
+        return new Permutation(inv);
+    }
+
     /**
      * Return the degree n (number of elements being permuted).
      */

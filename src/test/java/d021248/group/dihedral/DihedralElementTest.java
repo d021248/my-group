@@ -7,15 +7,17 @@ import org.junit.jupiter.api.Test;
 class DihedralElementTest {
     @Test
     void testInverseRotation() {
+        DihedralGroup g = new DihedralGroup(5);
         DihedralElement e = new DihedralElement(2, Flip.ROTATION, 5);
-        assertEquals(new DihedralElement(3, Flip.ROTATION, 5), e.inverse());
-        assertEquals(e, e.inverse().inverse());
+        assertEquals(new DihedralElement(3, Flip.ROTATION, 5), g.inverse(e));
+        assertEquals(e, g.inverse(g.inverse(e)));
     }
 
     @Test
     void testInverseReflection() {
+        DihedralGroup g = new DihedralGroup(7);
         DihedralElement e = new DihedralElement(1, Flip.REFLECTION, 7);
-        assertEquals(e, e.inverse());
+        assertEquals(e, g.inverse(e));
     }
 
     @Test

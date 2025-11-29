@@ -119,9 +119,10 @@ class QuotientGroupTest {
     void testCosetInverse() {
         CyclicGroup z6 = new CyclicGroup(6);
         Subgroup<CyclicElement> h = SubgroupGenerator.generate(z6, Set.of(new CyclicElement(3, 6)));
+        QuotientGroup<CyclicElement> quotient = new QuotientGroup<>(z6, h);
 
         Coset<CyclicElement> coset1 = new Coset<>(z6, h, new CyclicElement(1, 6));
-        Coset<CyclicElement> inverse = coset1.inverse();
+        Coset<CyclicElement> inverse = quotient.inverse(coset1);
 
         // In Z_6, inverse of 1 is 5
         // 5H = {5,2} should equal inverse coset

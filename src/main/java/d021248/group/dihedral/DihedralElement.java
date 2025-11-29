@@ -11,13 +11,6 @@ public record DihedralElement(int rotation, Flip flip, int n) implements Element
     }
 
     @Override
-    public DihedralElement inverse() {
-        return flip == Flip.ROTATION
-                ? new DihedralElement((n - rotation) % n, Flip.ROTATION, n)
-                : this; // reflections are self-inverse
-    }
-
-    @Override
     public String toString() {
         return flip == Flip.ROTATION ? "r^" + rotation : "r^" + rotation + " s";
     }

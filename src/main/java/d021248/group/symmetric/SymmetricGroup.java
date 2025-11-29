@@ -65,6 +65,16 @@ public final class SymmetricGroup implements FiniteGroup<Permutation> {
         return identity;
     }
 
+    @Override
+    public Permutation inverse(Permutation element) {
+        int[] inv = new int[element.size()];
+        int[] mapping = element.mapping();
+        for (int i = 0; i < element.size(); i++) {
+            inv[mapping[i] - 1] = i + 1;
+        }
+        return new Permutation(inv);
+    }
+
     private static Permutation buildIdentity(int n) {
         int[] id = new int[n];
         for (int i = 0; i < n; i++)

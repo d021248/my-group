@@ -16,15 +16,6 @@ public record ProductElement<E1 extends Element, E2 extends Element>(E1 first, E
     }
 
     @Override
-    public ProductElement<E1, E2> inverse() {
-        @SuppressWarnings("unchecked")
-        E1 inv1 = (E1) first.inverse();
-        @SuppressWarnings("unchecked")
-        E2 inv2 = (E2) second.inverse();
-        return new ProductElement<>(inv1, inv2);
-    }
-
-    @Override
     public String toString() {
         return "(" + first + ", " + second + ")";
     }

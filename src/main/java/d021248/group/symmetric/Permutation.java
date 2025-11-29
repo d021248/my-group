@@ -268,15 +268,6 @@ public record Permutation(int[] mapping) implements Element, Comparable<Permutat
     }
 
     @Override
-    public Permutation inverse() {
-        int[] inv = new int[size()];
-        for (int i = 0; i < size(); i++) {
-            inv[mapping[i] - 1] = i + 1;
-        }
-        return new Permutation(inv);
-    }
-
-    @Override
     public String toString() {
         return Arrays.toString(mapping);
     }

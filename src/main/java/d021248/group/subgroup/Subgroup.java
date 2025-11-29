@@ -66,6 +66,11 @@ public final class Subgroup<E extends Element> implements FiniteGroup<E> {
         return parent.identity();
     }
 
+    @Override
+    public E inverse(E element) {
+        return parent.inverse(element);
+    }
+
     /** The parent group from which this subgroup is derived. */
     public FiniteGroup<E> parent() {
         return parent;

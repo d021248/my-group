@@ -44,12 +44,18 @@ public interface Group<E extends Element> {
     /** Identity element of the group. Never null. */
     E identity();
 
-    /** Inverse of a given element. Never null; throws if e not in group. */
-    default E inverse(E e) {
-        @SuppressWarnings("unchecked")
-        E inv = (E) e.inverse();
-        return inv;
-    }
+    /**
+     * Compute the inverse of an element in this group.
+     * <p>
+     * For every element g in the group, there exists an inverse g⁻¹ such that
+     * g * g⁻¹ = g⁻¹ * g = identity.
+     * </p>
+     * 
+     * @param element the element whose inverse to compute
+     * @return the inverse of the element
+     * @throws IllegalArgumentException if element is not in this group
+     */
+    E inverse(E element);
 
     /** Convenience: apply operation directly. Never returns null. */
     default E operate(E a, E b) {

@@ -49,8 +49,7 @@ public final class GroupVerifier {
     private static <E extends Element> void checkClosureAndInverses(Group<E> group, Set<E> elems,
             List<String> violations) {
         for (E a : elems) {
-            @SuppressWarnings("unchecked")
-            E inv = (E) a.inverse();
+            E inv = group.inverse(a);
             if (inv == null) {
                 violations.add("Inverse is null for element: " + a);
             } else if (!elems.contains(inv)) {

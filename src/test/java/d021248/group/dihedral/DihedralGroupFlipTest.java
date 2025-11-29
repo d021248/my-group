@@ -19,7 +19,7 @@ class DihedralGroupFlipTest {
         DihedralGroup g = new DihedralGroup(5);
         for (DihedralElement e : g.elements()) {
             if (e.flip() == Flip.REFLECTION) {
-                assertEquals(e, e.inverse(), "Reflection should be self-inverse");
+                assertEquals(e, g.inverse(e), "Reflection should be self-inverse");
             }
         }
     }
@@ -29,7 +29,7 @@ class DihedralGroupFlipTest {
         DihedralGroup g = new DihedralGroup(7);
         for (DihedralElement e : g.elements()) {
             if (e.flip() == Flip.ROTATION) {
-                DihedralElement inv = e.inverse();
+                DihedralElement inv = g.inverse(e);
                 // e * inv = identity
                 DihedralElement prod = g.operation().calculate(e, inv);
                 assertEquals(g.identity(), prod);

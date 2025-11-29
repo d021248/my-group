@@ -1,15 +1,13 @@
 package d021248.group.api;
 
 /**
- * Minimal contract for a group element supporting an inverse operation.
+ * Minimal marker interface for group elements.
  * <p>
  * Implementations should be immutable and obey the group law relative to the
- * {@link Operation} they participate in. The library keeps
- * this interface deliberately small to avoid over-constraining concrete algebra
- * objects (e.g. permutations, residues, dihedral elements).
+ * {@link Operation} they participate in. This interface has no methods - all
+ * group operations (including inverse) are defined on the {@link d021248.group.Group}
+ * interface to ensure proper type safety.
  * </p>
  */
 public interface Element {
-        /** Return the (group) inverse of this element. */
-        Element inverse();
 }
