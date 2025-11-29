@@ -17,7 +17,8 @@ import d021248.group.subgroup.SubgroupGenerator;
  * (g₁H)(g₂H) = (g₁g₂)H.
  * </p>
  * <p>
- * Requires H to be normal in G: for all g ∈ G and h ∈ H, ghg⁻¹ ∈ H (equivalently
+ * Requires H to be normal in G: for all g ∈ G and h ∈ H, ghg⁻¹ ∈ H
+ * (equivalently
  * gH = Hg). If H is not normal, construction throws IllegalArgumentException.
  * </p>
  * <p>
