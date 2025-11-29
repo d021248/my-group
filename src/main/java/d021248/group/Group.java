@@ -111,4 +111,70 @@ public interface Group<E extends Element> {
     default int order() {
         return elements().size();
     }
+
+    /**
+     * Check if this group is abelian (commutative).
+     * <p>
+     * A group is abelian if for all elements a,b: a*b = b*a
+     * </p>
+     * 
+     * @return true if the group is abelian, false otherwise
+     */
+    default boolean isAbelian() {
+        Set<E> elems = elements();
+        for (E a : elems) {
+            for (E b : elems) {
+                if (!operate(a, b).equals(operate(b, a))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Compute the exponent of this group.
+     * <p>
+     * The exponent is the smallest positive integer n such that g^n = e for all
+     * g ∈ G. Equivalently, it is the least common multiple of the orders of all
+     * elements.
+     * </p>
+     * <p>
+     * Properties:
+     * </p>
+     * <ul>
+     * <li>exponent(G) divides |G| (order of group)</li>
+     * <li>For cyclic groups, exponent equals order</li>
+     * <li>For abelian groups, exponent = lcm of cyclic component orders</li>
+     * </ul>
+     * 
+     * @return the exponent of the group
+     */
+    default int exponent() {
+        int exp = 1;
+        for (E g : elements()) {
+            int elementOrder = order(g);
+            exp = lcm(exp, elementOrder);
+        }
+        return exp;
+    }
+
+    /**
+     * Compute least common multiple of two positive integers.
+     */
+    private static int lcm(int a, int b) {
+        return (a / gcd(a, b)) * b;
+    }
+
+    /**
+     * Compute greatest common divisor using Euclidean algorithm.
+     */
+    private static int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
 }
