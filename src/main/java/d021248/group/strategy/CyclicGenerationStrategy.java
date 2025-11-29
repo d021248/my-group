@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import d021248.group.Group;
+import d021248.group.MathUtil;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 
@@ -28,7 +29,7 @@ public final class CyclicGenerationStrategy implements GenerationStrategy<Cyclic
     @Override
     public Set<CyclicElement> generators(Group<CyclicElement> group) {
         int n = ((CyclicGroup) group).order();
-        return IntStream.range(0, n).filter(i -> gcd(i, n) == 1)
+        return IntStream.range(0, n).filter(i -> MathUtil.gcd(i, n) == 1)
                 .mapToObj(i -> new CyclicElement(i, n))
                 .collect(Collectors.toUnmodifiableSet());
     }
@@ -36,14 +37,5 @@ public final class CyclicGenerationStrategy implements GenerationStrategy<Cyclic
     @Override
     public String name() {
         return "cyclic-gcd-generators";
-    }
-
-    private static int gcd(int a, int b) {
-        while (b != 0) {
-            int t = a % b;
-            a = b;
-            b = t;
-        }
-        return Math.abs(a);
     }
 }
