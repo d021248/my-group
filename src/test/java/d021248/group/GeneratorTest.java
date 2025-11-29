@@ -1,4 +1,4 @@
-package d021248.group.base;
+package d021248.group;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,8 +6,6 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import d021248.group.Generator;
-import d021248.group.Group;
 import d021248.group.api.Element;
 import d021248.group.api.Operation;
 

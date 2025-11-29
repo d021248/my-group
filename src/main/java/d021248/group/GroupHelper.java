@@ -89,7 +89,14 @@ public final class GroupHelper<E extends Element> {
         return next;
     }
 
-    /** Simple console table (small groups only). */
+    /**
+     * Simple console table (small groups only).
+     * 
+     * @deprecated Use {@link GroupTableFormatter} instead for better control and
+     *             formatting options.
+     *             This method will be removed in a future version.
+     */
+    @Deprecated(since = "1.0", forRemoval = true)
     public void printTable() {
         Set<E> elements = group.elements();
         System.out.println("Group Table:");

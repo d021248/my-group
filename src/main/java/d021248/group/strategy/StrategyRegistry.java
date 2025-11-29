@@ -13,6 +13,23 @@ import d021248.group.symmetric.SymmetricGroup;
 /**
  * Central registry mapping concrete finite group classes to generation
  * strategies.
+ * <p>
+ * <strong>Thread Safety:</strong> This registry is mutable and NOT thread-safe.
+ * Registration methods ({@link #register}, {@link #unregister},
+ * {@link #replaceAll})
+ * are intended for application initialization or testing only. Concurrent
+ * modifications during lookup operations may result in undefined behavior.
+ * </p>
+ * <p>
+ * <strong>Default Registrations:</strong> The following strategies are
+ * registered
+ * at class initialization:
+ * </p>
+ * <ul>
+ * <li>{@link CyclicGroup} → {@link CyclicGenerationStrategy}</li>
+ * <li>{@link SymmetricGroup} → {@link SymmetricGenerationStrategy}</li>
+ * <li>{@link DihedralGroup} → {@link DihedralGenerationStrategy}</li>
+ * </ul>
  */
 public final class StrategyRegistry {
     private static final Map<Class<?>, GenerationStrategy<? extends Element>> REGISTRY = new HashMap<>();

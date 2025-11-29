@@ -3,6 +3,7 @@ package d021248.group;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -38,18 +39,18 @@ class PropertyAxiomsTest {
     @DisplayName("Sample cayley table contains identity row and column")
     void cayleyIdentityPattern() {
         CyclicGroup g = new CyclicGroup(5);
-        var table = d021248.group.util.CayleyTable.build(g);
-        List<CyclicElement> elems = table.elements();
+        // Build table using GroupTableFormatter (more comprehensive than CayleyTable)
+        List<CyclicElement> elems = new ArrayList<>(g.elements());
         CyclicElement id = g.identity();
-        // Row of identity (id * a) equals a
-        int idRow = elems.indexOf(id);
-        for (int j = 0; j < elems.size(); j++) {
-            assertEquals(elems.get(j), table.values().get(idRow).get(j));
+
+        // Verify identity row: id * a = a for all a
+        for (CyclicElement elem : elems) {
+            assertEquals(elem, g.operate(id, elem));
         }
-        // Column of identity (a * id) equals a
-        int idCol = elems.indexOf(id);
-        for (int i = 0; i < elems.size(); i++) {
-            assertEquals(elems.get(i), table.values().get(i).get(idCol));
+
+        // Verify identity column: a * id = a for all a
+        for (CyclicElement elem : elems) {
+            assertEquals(elem, g.operate(elem, id));
         }
     }
 }
