@@ -16,6 +16,7 @@ import d021248.group.symmetric.SymmetricGroup;
  */
 public final class GroupPropertiesDemo {
     private static final String SEPARATOR = "=".repeat(60);
+    private static final String TRIVIAL = " (trivial)";
 
     private GroupPropertiesDemo() {
     }
@@ -50,7 +51,7 @@ public final class GroupPropertiesDemo {
         Subgroup<Permutation> centerS3 = SubgroupGenerator.center(s3);
         System.out.println("\nS_3 (non-abelian):");
         System.out.println("  S_3 order: " + s3.order());
-        System.out.println("  Z(S_3) order: " + centerS3.order() + " (trivial)");
+        System.out.println("  Z(S_3) order: " + centerS3.order() + TRIVIAL);
         System.out.println("  Elements: " + centerS3.elements());
 
         // Dihedral group D_4
@@ -70,7 +71,7 @@ public final class GroupPropertiesDemo {
         CyclicGroup z12 = GroupFactory.cyclic(12);
         Subgroup<CyclicElement> commZ12 = SubgroupGenerator.commutatorSubgroup(z12);
         System.out.println("\nZ_12 (abelian):");
-        System.out.println("  [Z_12, Z_12] order: " + commZ12.order() + " (trivial)");
+        System.out.println("  [Z_12, Z_12] order: " + commZ12.order() + TRIVIAL);
         System.out.println("  For abelian groups: [G,G] = {e}");
 
         // Symmetric group S_3
@@ -108,7 +109,7 @@ public final class GroupPropertiesDemo {
         System.out.println("  Z_12 is abelian? " + GroupFactory.cyclic(12).isAbelian());
 
         System.out.println("\nSymmetric groups:");
-        System.out.println("  S_1 is abelian? " + GroupFactory.symmetric(1).isAbelian() + " (trivial)");
+        System.out.println("  S_1 is abelian? " + GroupFactory.symmetric(1).isAbelian() + TRIVIAL);
         System.out.println("  S_2 is abelian? " + GroupFactory.symmetric(2).isAbelian() + " (order 2)");
         System.out.println("  S_3 is abelian? " + GroupFactory.symmetric(3).isAbelian() + " (non-abelian for n≥3)");
         System.out.println("  S_4 is abelian? " + GroupFactory.symmetric(4).isAbelian());

@@ -39,10 +39,6 @@ class ConjugacyClassTest {
 
     @Test
     void testConjugacyClassesS3() {
-        // S_3 has 3 conjugacy classes:
-        // - {identity}
-        // - {3 transpositions}
-        // - {2 3-cycles}
         SymmetricGroup s3 = GroupFactory.symmetric(3);
         List<ConjugacyClass<Permutation>> classes = ConjugacyAnalyzer.conjugacyClasses(s3);
 

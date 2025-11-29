@@ -20,8 +20,7 @@ import d021248.group.symmetric.SymmetricGroup;
 class CommutatorSubgroupTest {
 
     @Test
-    void testCommutatorOfAbelianGroup() {
-        // For abelian groups, [G,G] = {e}
+    void commutatorOfAbelianGroup() {
         CyclicGroup z6 = GroupFactory.cyclic(6);
         Subgroup<CyclicElement> commutator = SubgroupGenerator.commutatorSubgroup(z6);
 

@@ -74,7 +74,7 @@ public class ProductSubgroupDemo {
         List<Subgroup<CyclicElement>> allSubs = SubgroupGenerator.allSubgroups(z6);
         System.out.println("  All subgroups:");
         for (Subgroup<CyclicElement> sub : allSubs) {
-            System.out.println("    Order " + sub.order() + ": " + sub.elements());
+            System.out.println(ORDER_PREFIX + sub.order() + ": " + sub.elements());
         }
 
         // 3. Cyclic subgroups

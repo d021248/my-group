@@ -11,7 +11,13 @@ import d021248.group.symmetric.SymmetricGroup;
 /**
  * Demonstrates group homomorphisms and the First Isomorphism Theorem.
  */
-public class HomomorphismDemo {
+public final class HomomorphismDemo {
+    private static final String SIGN_PREFIX = "  sign(";
+    private static final String ORDER_PREFIX = "  Order: ";
+    private static final String ELEMENTS_PREFIX = "  Elements: ";
+
+    private HomomorphismDemo() {
+    }
 
     public static void main(String[] args) {
         demonstrateSignHomomorphism();
@@ -40,9 +46,9 @@ public class HomomorphismDemo {
         Permutation transposition = new Permutation(new int[] { 2, 1, 3 });
         Permutation threeCycle = new Permutation(new int[] { 2, 3, 1 });
 
-        System.out.println("  sign(" + identity + ") = " + sign.apply(identity) + " (even)");
-        System.out.println("  sign(" + transposition + ") = " + sign.apply(transposition) + " (odd)");
-        System.out.println("  sign(" + threeCycle + ") = " + sign.apply(threeCycle) + " (even)");
+        System.out.println(SIGN_PREFIX + identity + ") = " + sign.apply(identity) + " (even)");
+        System.out.println(SIGN_PREFIX + transposition + ") = " + sign.apply(transposition) + " (odd)");
+        System.out.println(SIGN_PREFIX + threeCycle + ") = " + sign.apply(threeCycle) + " (even)");
 
         System.out.println("\nProperties:");
         System.out.println("  Is homomorphism: " + HomomorphismAnalyzer.isHomomorphism(sign));
@@ -52,13 +58,13 @@ public class HomomorphismDemo {
 
         Subgroup<Permutation> kernel = HomomorphismAnalyzer.kernel(sign);
         System.out.println("\nKernel (alternating group A_3):");
-        System.out.println("  Order: " + kernel.order());
+        System.out.println(ORDER_PREFIX + kernel.order());
         System.out.println("  Is normal: " + SubgroupGenerator.isNormal(s3, kernel));
 
         Subgroup<CyclicElement> image = HomomorphismAnalyzer.image(sign);
         System.out.println("\nImage:");
-        System.out.println("  Order: " + image.order());
-        System.out.println("  Elements: " + image.elements());
+        System.out.println(ORDER_PREFIX + image.order());
+        System.out.println(ELEMENTS_PREFIX + image.elements());
     }
 
     private static void demonstrateFirstIsomorphismTheorem() {
@@ -112,8 +118,8 @@ public class HomomorphismDemo {
 
         Subgroup<CyclicElement> kernel = HomomorphismAnalyzer.kernel(projection);
         System.out.println("\nKernel: {0, 3} in Z_6");
-        System.out.println("  Order: " + kernel.order());
-        System.out.println("  Elements: " + kernel.elements());
+        System.out.println(ORDER_PREFIX + kernel.order());
+        System.out.println(ELEMENTS_PREFIX + kernel.elements());
 
         int quotientOrder = HomomorphismAnalyzer.firstIsomorphismTheorem(projection);
         System.out.println("\nFirst Isomorphism Theorem: Z_6/<0,3> ≅ Z_3");
@@ -153,7 +159,7 @@ public class HomomorphismDemo {
 
         Subgroup<CyclicElement> kernel = HomomorphismAnalyzer.kernel(composed);
         System.out.println("\nKernel of composition:");
-        System.out.println("  Order: " + kernel.order());
-        System.out.println("  Elements: " + kernel.elements());
+        System.out.println(ORDER_PREFIX + kernel.order());
+        System.out.println(ELEMENTS_PREFIX + kernel.elements());
     }
 }

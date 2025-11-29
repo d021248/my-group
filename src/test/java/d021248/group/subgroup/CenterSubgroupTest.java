@@ -58,8 +58,7 @@ class CenterSubgroupTest {
     }
 
     @Test
-    void testCenterOfD4() {
-        // D_4 (order 8) has center of order 2: {e, r^2}
+    void centerOfDihedralGroup() {
         DihedralGroup d4 = GroupFactory.dihedral(4);
         Subgroup<DihedralElement> center = SubgroupGenerator.center(d4);
 
