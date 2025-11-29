@@ -4,6 +4,8 @@ import d021248.group.api.Element;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.dihedral.DihedralGroup;
 import d021248.group.product.DirectProduct;
+import d021248.group.quotient.QuotientGroup;
+import d021248.group.subgroup.Subgroup;
 import d021248.group.symmetric.AlternatingGroup;
 import d021248.group.symmetric.SymmetricGroup;
 
@@ -31,5 +33,9 @@ public final class GroupFactory {
     public static <E1 extends Element, E2 extends Element> DirectProduct<E1, E2> directProduct(
             FiniteGroup<E1> group1, FiniteGroup<E2> group2) {
         return new DirectProduct<>(group1, group2);
+    }
+
+    public static <E extends Element> QuotientGroup<E> quotient(FiniteGroup<E> parent, Subgroup<E> normalSubgroup) {
+        return new QuotientGroup<>(parent, normalSubgroup);
     }
 }

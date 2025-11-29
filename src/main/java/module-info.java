@@ -9,6 +9,7 @@
  * <li>Symmetric groups (S_n)</li>
  * <li>Alternating groups (A_n)</li>
  * <li>Direct products (G × H)</li>
+ * <li>Quotient groups (G/H)</li>
  * <li>Subgroup generation and analysis</li>
  * </ul>
  */
@@ -25,6 +26,7 @@ module d021248.group {
     // Advanced features
     exports d021248.group.product;
     exports d021248.group.subgroup;
+    exports d021248.group.quotient;
 
     // Utilities and export
     exports d021248.group.util;
