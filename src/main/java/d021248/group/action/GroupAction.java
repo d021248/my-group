@@ -8,8 +8,9 @@ import d021248.group.api.Element;
  * <p>
  * A group action is a function G × X → X satisfying:
  * <ul>
- *   <li>Identity: e · x = x for all x ∈ X</li>
- *   <li>Compatibility: (g₁ ∘ g₂) · x = g₁ · (g₂ · x) for all g₁, g₂ ∈ G, x ∈ X</li>
+ * <li>Identity: e · x = x for all x ∈ X</li>
+ * <li>Compatibility: (g₁ ∘ g₂) · x = g₁ · (g₂ · x) for all g₁, g₂ ∈ G, x ∈
+ * X</li>
  * </ul>
  *
  * @param <E> element type of the group

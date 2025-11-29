@@ -36,9 +36,9 @@ public class HomomorphismDemo {
         System.out.println("Target: Z_2 (order " + z2.order() + ")");
 
         System.out.println("\nMapping examples:");
-        Permutation identity = new Permutation(new int[]{1, 2, 3});
-        Permutation transposition = new Permutation(new int[]{2, 1, 3});
-        Permutation threeCycle = new Permutation(new int[]{2, 3, 1});
+        Permutation identity = new Permutation(new int[] { 1, 2, 3 });
+        Permutation transposition = new Permutation(new int[] { 2, 1, 3 });
+        Permutation threeCycle = new Permutation(new int[] { 2, 3, 1 });
 
         System.out.println("  sign(" + identity + ") = " + sign.apply(identity) + " (even)");
         System.out.println("  sign(" + transposition + ") = " + sign.apply(transposition) + " (odd)");

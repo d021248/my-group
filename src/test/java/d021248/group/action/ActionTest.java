@@ -159,11 +159,11 @@ class ActionTest {
                 integers,
                 (p, i) -> p.mapping()[i - 1]);
 
-        Permutation identity = new Permutation(new int[]{1, 2, 3});
+        Permutation identity = new Permutation(new int[] { 1, 2, 3 });
         Set<Integer> fixedByIdentity = ActionAnalyzer.fixedPoints(permAction, identity);
         assertEquals(3, fixedByIdentity.size());
 
-        Permutation transposition = new Permutation(new int[]{2, 1, 3});
+        Permutation transposition = new Permutation(new int[] { 2, 1, 3 });
         Set<Integer> fixedByTransposition = ActionAnalyzer.fixedPoints(permAction, transposition);
         assertEquals(1, fixedByTransposition.size());
         assertTrue(fixedByTransposition.contains(3));

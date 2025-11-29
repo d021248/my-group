@@ -72,7 +72,7 @@ public class ActionDemo {
                     return s3.operate(s3.operate(g, h), gInv);
                 });
 
-        Permutation transposition = new Permutation(new int[]{2, 1, 3});
+        Permutation transposition = new Permutation(new int[] { 2, 1, 3 });
 
         System.out.println("Element: " + transposition);
 
@@ -125,9 +125,9 @@ public class ActionDemo {
         }
 
         System.out.println("\nFixed points:");
-        Permutation identity = new Permutation(new int[]{1, 2, 3});
-        Permutation trans12 = new Permutation(new int[]{2, 1, 3});
-        Permutation cycle123 = new Permutation(new int[]{2, 3, 1});
+        Permutation identity = new Permutation(new int[] { 1, 2, 3 });
+        Permutation trans12 = new Permutation(new int[] { 2, 1, 3 });
+        Permutation cycle123 = new Permutation(new int[] { 2, 3, 1 });
 
         System.out.println("  Fix(identity) = " + ActionAnalyzer.fixedPoints(permAction, identity));
         System.out.println("  Fix((1 2)) = " + ActionAnalyzer.fixedPoints(permAction, trans12));

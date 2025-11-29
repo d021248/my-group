@@ -25,8 +25,8 @@ public final class ActionAnalyzer {
      * <p>
      * Checks:
      * <ul>
-     *   <li>Identity: e · x = x for all x ∈ X</li>
-     *   <li>Compatibility: (g₁g₂) · x = g₁ · (g₂ · x) for all g₁, g₂, x</li>
+     * <li>Identity: e · x = x for all x ∈ X</li>
+     * <li>Compatibility: (g₁g₂) · x = g₁ · (g₂ · x) for all g₁, g₂, x</li>
      * </ul>
      *
      * @param action the action to verify
@@ -67,7 +67,7 @@ public final class ActionAnalyzer {
      * orb(x) = {g · x | g ∈ G}
      *
      * @param action the group action
-     * @param x the element
+     * @param x      the element
      * @return orbit of x
      */
     public static <E extends Element, X> Orbit<X> orbit(Action<E, X> action, X x) {
@@ -106,7 +106,7 @@ public final class ActionAnalyzer {
      * Stab(x) = {g ∈ G | g · x = x}
      *
      * @param action the group action
-     * @param x the element
+     * @param x      the element
      * @return stabilizer subgroup
      */
     public static <E extends Element, X> Subgroup<E> stabilizer(Action<E, X> action, X x) {
@@ -126,7 +126,7 @@ public final class ActionAnalyzer {
      * Verify the Orbit-Stabilizer Theorem: |orb(x)| × |Stab(x)| = |G|.
      *
      * @param action the group action
-     * @param x the element
+     * @param x      the element
      * @return true if theorem holds
      */
     public static <E extends Element, X> boolean verifyOrbitStabilizer(Action<E, X> action, X x) {
@@ -167,7 +167,7 @@ public final class ActionAnalyzer {
      * Compute fixed points: elements where g · x = x.
      *
      * @param action the group action
-     * @param g the group element
+     * @param g      the group element
      * @return set of fixed points
      */
     public static <E extends Element, X> Set<X> fixedPoints(Action<E, X> action, E g) {

@@ -6,7 +6,8 @@ import d021248.group.Group;
 import d021248.group.api.Element;
 
 /**
- * Concrete implementation of a group homomorphism with source and target groups.
+ * Concrete implementation of a group homomorphism with source and target
+ * groups.
  *
  * @param <E1> element type of source group
  * @param <E2> element type of target group
@@ -26,6 +27,5 @@ public record Homomorphism<E1 extends Element, E2 extends Element>(
     public E2 apply(E1 element) {
         return mapping.apply(element);
     }
-
 
 }
