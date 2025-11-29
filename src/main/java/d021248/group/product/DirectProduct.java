@@ -4,18 +4,18 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Element;
 import d021248.group.api.Operation;
 
 /**
- * Direct product of two finite groups G₁ × G₂.
+ * Direct product G₁ × G₂ of two finite groups.
  * <p>
- * The direct product has elements (g₁, g₂) where g₁ ∈ G₁ and g₂ ∈ G₂, with
- * component-wise operation: (g₁, g₂) * (h₁, h₂) = (g₁*h₁, g₂*h₂).
+ * Elements are ordered pairs (g₁, g₂). The group operation is component-wise:
+ * (a₁, a₂) * (b₁, b₂) = (a₁ *₁ b₁, a₂ *₂ b₂).
  * </p>
  * <p>
- * Order of the product equals |G₁| × |G₂|.
+ * Order equals |G₁| · |G₂|.
  * </p>
  * <p>
  * Example:
@@ -23,28 +23,25 @@ import d021248.group.api.Operation;
  * 
  * <pre>
  * {@code
- * // Klein four-group V₄ ≅ Z₂ × Z₂
- * CyclicGroup z2a = new CyclicGroup(2);
- * CyclicGroup z2b = new CyclicGroup(2);
- * DirectProduct<CyclicElement, CyclicElement> v4 = new DirectProduct<>(z2a, z2b);
- * System.out.println(v4.order()); // 4
- * 
- * // All non-identity elements have order 2
- * ProductElement<CyclicElement, CyclicElement> a = new ProductElement<>(new CyclicElement(1, 2),
- *         new CyclicElement(0, 2));
- * System.out.println(v4.order(a)); // 2
+ * CyclicGroup z2 = new CyclicGroup(2);
+ * CyclicGroup z3 = new CyclicGroup(3);
+ * DirectProduct<CyclicElement, CyclicElement> z2xz3 = new DirectProduct<>(z2, z3);
+ * System.out.println(z2xz3.order()); // 6 (= 2 * 3)
  * }
  * </pre>
+ *
+ * @param <E1> type of elements in the first group
+ * @param <E2> type of elements in the second group
  */
 public final class DirectProduct<E1 extends Element, E2 extends Element>
-        implements FiniteGroup<ProductElement<E1, E2>> {
-    private final FiniteGroup<E1> group1;
-    private final FiniteGroup<E2> group2;
+        implements Group<ProductElement<E1, E2>> {
+    private final Group<E1> group1;
+    private final Group<E2> group2;
     private final Set<ProductElement<E1, E2>> elements;
     private final Operation<ProductElement<E1, E2>> op;
     private final ProductElement<E1, E2> identity;
 
-    public DirectProduct(FiniteGroup<E1> group1, FiniteGroup<E2> group2) {
+    public DirectProduct(Group<E1> group1, Group<E2> group2) {
         this.group1 = Objects.requireNonNull(group1, "group1 must not be null");
         this.group2 = Objects.requireNonNull(group2, "group2 must not be null");
         this.elements = buildElements();
@@ -91,12 +88,12 @@ public final class DirectProduct<E1 extends Element, E2 extends Element>
     }
 
     /** First component group (G₁). */
-    public FiniteGroup<E1> firstGroup() {
+    public Group<E1> firstGroup() {
         return group1;
     }
 
     /** Second component group (G₂). */
-    public FiniteGroup<E2> secondGroup() {
+    public Group<E2> secondGroup() {
         return group2;
     }
 }

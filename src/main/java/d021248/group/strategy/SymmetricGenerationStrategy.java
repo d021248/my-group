@@ -2,7 +2,7 @@ package d021248.group.strategy;
 
 import java.util.Set;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 
@@ -23,7 +23,7 @@ public final class SymmetricGenerationStrategy implements GenerationStrategy<Per
     }
 
     @Override
-    public Set<Permutation> generators(FiniteGroup<Permutation> group) {
+    public Set<Permutation> generators(Group<Permutation> group) {
         int n = ((SymmetricGroup) group).degree();
         if (n < 2)
             throw new IllegalArgumentException("n must be >= 2");

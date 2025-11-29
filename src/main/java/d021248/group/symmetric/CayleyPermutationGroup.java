@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Element;
 import d021248.group.api.Operation;
 
@@ -28,15 +28,15 @@ import d021248.group.api.Operation;
  * The mapping is injective; thus the resulting permutation set has the same
  * cardinality as the source group (Cayley's theorem).
  */
-public final class CayleyPermutationGroup<E extends Element> implements FiniteGroup<Permutation> {
-    private final FiniteGroup<E> source;
+public final class CayleyPermutationGroup<E extends Element> implements Group<Permutation> {
+    private final Group<E> source;
     private final List<E> ordered; // deterministic ordering of source elements
     private final Map<E, Integer> index; // element -> 1-based index
     private final Set<Permutation> perms; // image of left regular representation
     private final Operation<Permutation> op;
     private final Permutation identity;
 
-    public CayleyPermutationGroup(FiniteGroup<E> source) {
+    public CayleyPermutationGroup(Group<E> source) {
         if (source == null)
             throw new IllegalArgumentException("source group must not be null");
         this.source = source;
@@ -95,7 +95,7 @@ public final class CayleyPermutationGroup<E extends Element> implements FiniteGr
     }
 
     /** Source group used for Cayley representation. */
-    public FiniteGroup<E> sourceGroup() {
+    public Group<E> sourceGroup() {
         return source;
     }
 

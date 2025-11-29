@@ -37,7 +37,7 @@ public final class GroupHelper<E extends Element> {
      * group.
      */
     public Set<E> strategyGenerators() {
-        if (!(group instanceof FiniteGroup<?>)) {
+        if (!(group instanceof Group<?>)) {
             throw new UnsupportedOperationException("Strategy generation requires a finite group");
         }
         GenerationStrategy<E> strat = StrategyRegistry.lookup(group.getClass());
@@ -45,12 +45,12 @@ public final class GroupHelper<E extends Element> {
             throw new IllegalArgumentException(
                     "No generation strategy registered for type: " + group.getClass().getName());
         }
-        Set<E> gens = strat.generators((FiniteGroup<E>) group);
+        Set<E> gens = strat.generators((Group<E>) group);
         if (gens == null || gens.isEmpty()) {
             throw new IllegalStateException("Strategy " + strat.name() + " returned empty generator set for "
                     + group.getClass().getSimpleName());
         }
-        if (strat instanceof ValidatingGenerationStrategy<E> v && !v.validates((FiniteGroup<E>) group, gens)) {
+        if (strat instanceof ValidatingGenerationStrategy<E> v && !v.validates((Group<E>) group, gens)) {
             throw new IllegalStateException(
                     "Strategy " + strat.name() + " failed validation for " + group.getClass().getSimpleName());
         }

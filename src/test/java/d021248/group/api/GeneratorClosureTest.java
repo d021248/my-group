@@ -52,7 +52,9 @@ class GeneratorClosureTest {
 
         @Override
         public java.util.Set<ModN> elements() {
-            throw new UnsupportedOperationException();
+            return java.util.stream.IntStream.range(0, n)
+                    .mapToObj(i -> new ModN(n, i))
+                    .collect(java.util.stream.Collectors.toSet());
         }
 
         @Override

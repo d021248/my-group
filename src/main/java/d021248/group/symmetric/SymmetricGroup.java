@@ -3,10 +3,10 @@ package d021248.group.symmetric;
 import java.util.HashSet;
 import java.util.Set;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Operation;
 
-public final class SymmetricGroup implements FiniteGroup<Permutation> {
+public final class SymmetricGroup implements Group<Permutation> {
     private final int n;
     private final Set<Permutation> elements;
     // Group operation is composition: left ∘ right

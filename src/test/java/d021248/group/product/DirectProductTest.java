@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.GroupFactory;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
@@ -55,7 +55,7 @@ class DirectProductTest {
     void satisfiesGroupAxioms() {
         CyclicGroup z2 = GroupFactory.cyclic(2);
         CyclicGroup z3 = GroupFactory.cyclic(3);
-        FiniteGroup<ProductElement<CyclicElement, CyclicElement>> product = new DirectProduct<>(z2, z3);
+        Group<ProductElement<CyclicElement, CyclicElement>> product = new DirectProduct<>(z2, z3);
         var result = GroupVerifier.verify(product);
         assertTrue(result.ok(), result.summary());
     }

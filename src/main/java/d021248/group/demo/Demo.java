@@ -2,7 +2,7 @@ package d021248.group.demo;
 
 import java.util.Set;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.GroupHelper;
 import d021248.group.api.Element;
 import d021248.group.cyclic.CyclicElement;
@@ -41,7 +41,7 @@ public final class Demo {
         // 4))
         StrategyRegistry.register(SymmetricGroup.class, new ValidatingGenerationStrategy<Permutation>() {
             @Override
-            public Set<Permutation> generators(FiniteGroup<Permutation> group) {
+            public Set<Permutation> generators(Group<Permutation> group) {
                 int n = ((SymmetricGroup) group).degree();
                 int[] cycle = new int[n];
                 for (int i = 0; i < n - 1; i++) {
@@ -60,7 +60,7 @@ public final class Demo {
             }
 
             @Override
-            public boolean validates(FiniteGroup<Permutation> group, Set<Permutation> gens) {
+            public boolean validates(Group<Permutation> group, Set<Permutation> gens) {
                 GroupHelper<Permutation> helper = new GroupHelper<>(group);
                 return !gens.isEmpty() && helper.isGeneratingSet(gens);
             }

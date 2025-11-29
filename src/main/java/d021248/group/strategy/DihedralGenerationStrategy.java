@@ -2,7 +2,7 @@ package d021248.group.strategy;
 
 import java.util.Set;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.dihedral.DihedralElement;
 import d021248.group.dihedral.DihedralGroup;
 
@@ -23,7 +23,7 @@ public final class DihedralGenerationStrategy implements GenerationStrategy<Dihe
     }
 
     @Override
-    public Set<DihedralElement> generators(FiniteGroup<DihedralElement> group) {
+    public Set<DihedralElement> generators(Group<DihedralElement> group) {
         int n = ((DihedralGroup) group).order() / 2; // order = 2n
         return Set.of(new DihedralElement(1, d021248.group.dihedral.Flip.ROTATION, n),
                 new DihedralElement(0, d021248.group.dihedral.Flip.REFLECTION, n));

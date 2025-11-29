@@ -11,7 +11,7 @@ import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.GroupFactory;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
@@ -154,7 +154,7 @@ class SubgroupTest {
     void parentAccess() {
         CyclicGroup z10 = GroupFactory.cyclic(10);
         Subgroup<CyclicElement> h = SubgroupGenerator.generate(z10, Set.of(new CyclicElement(5, 10)));
-        FiniteGroup<CyclicElement> parent = h.parent();
+        Group<CyclicElement> parent = h.parent();
         assertEquals(z10, parent);
     }
 }

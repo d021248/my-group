@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 
@@ -26,7 +26,7 @@ public final class CyclicGenerationStrategy implements GenerationStrategy<Cyclic
     }
 
     @Override
-    public Set<CyclicElement> generators(FiniteGroup<CyclicElement> group) {
+    public Set<CyclicElement> generators(Group<CyclicElement> group) {
         int n = ((CyclicGroup) group).order();
         return IntStream.range(0, n).filter(i -> gcd(i, n) == 1)
                 .mapToObj(i -> new CyclicElement(i, n))

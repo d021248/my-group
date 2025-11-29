@@ -3,7 +3,7 @@ package d021248.group.demo;
 import java.io.IOException;
 import java.util.Set;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.export.CayleyImageExporter;
 import d021248.group.export.CayleyImageExporter.Layout;
 import d021248.group.export.CayleyImageExporter.Palette;
@@ -14,14 +14,14 @@ import d021248.group.symmetric.SymmetricGroup;
 public final class S4CayleyImageDemo {
     public static void main(String[] args) throws IOException {
         int n = 4;
-        FiniteGroup<Permutation> s4 = new SymmetricGroup(n);
+        Group<Permutation> s4 = new SymmetricGroup(n);
         int cellSize = 14; // 25x25 grid including headers -> (24+1)*14 ~ 350px
 
         exportAll(s4, cellSize);
         System.out.println("S_" + n + " Cayley images exported.");
     }
 
-    private static void exportAll(FiniteGroup<Permutation> group, int cellSize) throws IOException {
+    private static void exportAll(Group<Permutation> group, int cellSize) throws IOException {
         // Standard layouts
         CayleyImageExporter.exportPng(group, cellSize, "S4-hue.png", Palette.HUE, Set.of(), Layout.STANDARD);
         CayleyImageExporter.exportPng(group, cellSize, "S4-gradient.png", Palette.GRADIENT, Set.of(), Layout.STANDARD);

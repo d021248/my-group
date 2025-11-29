@@ -3,10 +3,10 @@ package d021248.group.dihedral;
 import java.util.HashSet;
 import java.util.Set;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Operation;
 
-public final class DihedralGroup implements FiniteGroup<DihedralElement> {
+public final class DihedralGroup implements Group<DihedralElement> {
     private final int n;
     private final Set<DihedralElement> elements;
     private final Operation<DihedralElement> op = this::operateInternal;

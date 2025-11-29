@@ -84,9 +84,11 @@ public final class Generator {
     }
 
     private static boolean isComplete(Group<?> group, Set<?> closure) {
-        if (group instanceof FiniteGroup<?> fg) {
-            return closure.size() == fg.order();
+        try {
+            return closure.size() == group.order();
+        } catch (UnsupportedOperationException | NullPointerException e) {
+            // elements() not available or not implemented - cannot determine completeness
+            return false;
         }
-        return false;
     }
 }

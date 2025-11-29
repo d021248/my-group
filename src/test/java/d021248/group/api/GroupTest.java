@@ -58,7 +58,8 @@ class GroupTest {
 
         @Override
         public IntElement inverse(IntElement element) {
-            // Group is intended to model Z_2 under addition; every element is its own inverse.
+            // Group is intended to model Z_2 under addition; every element is its own
+            // inverse.
             return element;
         }
     }

@@ -4,10 +4,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Operation;
 
-public final class CyclicGroup implements FiniteGroup<CyclicElement> {
+public final class CyclicGroup implements Group<CyclicElement> {
     private final int modulus; // retained for external inspection via modulus()
     private final Set<CyclicElement> elements;
     private final Operation<CyclicElement> op;

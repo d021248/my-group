@@ -3,7 +3,7 @@ package d021248.group.quotient;
 import java.util.Objects;
 import java.util.Set;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Element;
 import d021248.group.subgroup.Subgroup;
 
@@ -32,7 +32,7 @@ import d021248.group.subgroup.Subgroup;
  * 
  * @param <E> the type of group elements
  */
-public record Coset<E extends Element>(FiniteGroup<E> parent, Subgroup<E> subgroup,
+public record Coset<E extends Element>(Group<E> parent, Subgroup<E> subgroup,
         E representative) implements Element {
 
     public Coset {

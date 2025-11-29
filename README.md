@@ -2,7 +2,7 @@
 
 Educational miniature algebra library focusing on finite groups. Provides:
 
-* Minimal interfaces: `Element`, `Operation<E>`, `Group<E>`, `FiniteGroup<E>`
+* Minimal interfaces: `Element`, `Operation<E>`, `Group<E>`
 * Concrete implementations: cyclic groups (Z_n), dihedral groups (D_n), symmetric groups (S_n)
 * **Direct products**: construct G₁ × G₂ from any two finite groups
 * **Subgroup generation**: generate subgroups from generators, enumerate all subgroups, compute normalizers/centralizers

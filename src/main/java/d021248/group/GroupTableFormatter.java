@@ -21,17 +21,17 @@ public final class GroupTableFormatter {
 
     /** Configuration object for table generation. */
     public static final class Config<E extends Element> {
-        private final FiniteGroup<E> group;
+        private final Group<E> group;
         private final Comparator<E> ordering; // optional custom ordering
         private final boolean showIdentityHighlight;
 
-        private Config(FiniteGroup<E> group, Comparator<E> ordering, boolean showIdentityHighlight) {
+        private Config(Group<E> group, Comparator<E> ordering, boolean showIdentityHighlight) {
             this.group = group;
             this.ordering = ordering;
             this.showIdentityHighlight = showIdentityHighlight;
         }
 
-        public FiniteGroup<E> group() {
+        public Group<E> group() {
             return group;
         }
 
@@ -46,11 +46,11 @@ public final class GroupTableFormatter {
 
     /** Builder for {@link Config}. */
     public static final class Builder<E extends Element> {
-        private final FiniteGroup<E> group;
+        private final Group<E> group;
         private Comparator<E> ordering;
         private boolean highlightIdentity = true;
 
-        public Builder(FiniteGroup<E> group) {
+        public Builder(Group<E> group) {
             this.group = group;
         }
 
@@ -70,7 +70,7 @@ public final class GroupTableFormatter {
     }
 
     /** Convenience factory for builder. */
-    public static <E extends Element> Builder<E> forGroup(FiniteGroup<E> group) {
+    public static <E extends Element> Builder<E> forGroup(Group<E> group) {
         return new Builder<>(group);
     }
 

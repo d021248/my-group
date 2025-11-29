@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Element;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.dihedral.DihedralGroup;
@@ -25,7 +25,7 @@ public final class StrategyRegistry {
     private StrategyRegistry() {
     }
 
-    public static <E extends Element> void register(Class<? extends FiniteGroup<E>> clazz,
+    public static <E extends Element> void register(Class<? extends Group<E>> clazz,
             GenerationStrategy<E> strategy) {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(strategy);

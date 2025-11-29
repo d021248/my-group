@@ -31,11 +31,11 @@ public final class GroupFactory {
     }
 
     public static <E1 extends Element, E2 extends Element> DirectProduct<E1, E2> directProduct(
-            FiniteGroup<E1> group1, FiniteGroup<E2> group2) {
+            Group<E1> group1, Group<E2> group2) {
         return new DirectProduct<>(group1, group2);
     }
 
-    public static <E extends Element> QuotientGroup<E> quotient(FiniteGroup<E> parent, Subgroup<E> normalSubgroup) {
+    public static <E extends Element> QuotientGroup<E> quotient(Group<E> parent, Subgroup<E> normalSubgroup) {
         return new QuotientGroup<>(parent, normalSubgroup);
     }
 }

@@ -4,33 +4,35 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Operation;
 
 /**
- * Alternating group A_n consisting of all even permutations of S_n.
+ * Alternating group A_n consisting of all even permutations in S_n.
  * <p>
- * A_n is the unique normal subgroup of S_n with index 2 (for n ≥ 2).
- * It has order n!/2 and consists of permutations with sign = +1.
+ * A permutation is even if it can be represented as an even number of
+ * transpositions. A_n has order n!/2 for n ≥ 2.
  * </p>
+ *
  * <p>
- * Example:
+ * Example: A_3 has three elements: identity, (1 2 3), and (1 3 2). The two
+ * 3-cycles are even permutations, while transpositions (1 2), (1 3), (2 3) are
+ * odd and excluded.
  * </p>
- * 
+ *
+ * <p>
+ * For n ≥ 5, A_n is simple (has no nontrivial normal subgroups).
+ * </p>
+ *
  * <pre>
  * {
  *     &#64;code
  *     AlternatingGroup a4 = new AlternatingGroup(4);
- *     System.out.println(a4.order()); // 12 (= 24/2)
- * 
- *     // All elements have sign +1
- *     for (Permutation p : a4.elements()) {
- *         assert p.sign() == 1;
- *     }
+ *     System.out.println(a4.order()); // 12 (= 24 / 2)
  * }
  * </pre>
  */
-public final class AlternatingGroup implements FiniteGroup<Permutation> {
+public final class AlternatingGroup implements Group<Permutation> {
     private final int n;
     private final Set<Permutation> elements;
     private final Operation<Permutation> op = Permutation::compose;

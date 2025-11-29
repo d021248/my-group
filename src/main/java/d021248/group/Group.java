@@ -6,10 +6,16 @@ import d021248.group.api.Element;
 import d021248.group.api.Operation;
 
 /**
- * Core interface for mathematical groups.
+ * Core interface for finite groups.
  * <p>
  * A group is a set with an associative binary operation, an identity element,
- * and inverses for all elements. This interface provides the minimal contract.
+ * and inverses for all elements. This interface represents finite groups where
+ * all elements can be enumerated.
+ * </p>
+ * <p>
+ * The order of the group equals the size of {@link #elements()} and is strictly
+ * positive. By Lagrange's theorem, the order of any element or subgroup divides
+ * the group order.
  * </p>
  * <p>
  * Example usage:
@@ -23,6 +29,7 @@ import d021248.group.api.Operation;
  *     CyclicElement b = new CyclicElement(3, 6);
  *     CyclicElement c = z6.operate(a, b); // 5 (mod 6)
  *     CyclicElement inv = z6.inverse(a); // 4 (mod 6)
+ *     System.out.println(z6.order()); // 6
  * }
  * </pre>
  * 
@@ -30,7 +37,7 @@ import d021248.group.api.Operation;
  */
 public interface Group<E extends Element> {
     /**
-     * Return all elements of the group (finite groups assumed for enumeration).
+     * Return all elements of the group.
      * Must be non-empty and contain the identity.
      */
     Set<E> elements();
@@ -94,5 +101,14 @@ public interface Group<E extends Element> {
                         "Order computation exceeded limit (possible infinite group)");
         }
         return order;
+    }
+
+    /**
+     * Return the order (number of elements) of this finite group.
+     * 
+     * @return the number of elements in the group (always >= 1)
+     */
+    default int order() {
+        return elements().size();
     }
 }

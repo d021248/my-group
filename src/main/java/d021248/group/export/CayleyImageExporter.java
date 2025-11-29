@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 
 import javax.imageio.ImageIO;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Element;
 
 /**
@@ -39,11 +39,11 @@ public final class CayleyImageExporter {
             new Color(0x8c564b), new Color(0xe377c2), new Color(0x7f7f7f), new Color(0xbcbd22), new Color(0x17becf),
             new Color(0x393b79), new Color(0x637939) };
 
-    public static <E extends Element> BufferedImage create(FiniteGroup<E> group, int cellSize) {
+    public static <E extends Element> BufferedImage create(Group<E> group, int cellSize) {
         return create(group, cellSize, Palette.HUE, Set.of(), Layout.STANDARD);
     }
 
-    public static <E extends Element> BufferedImage create(FiniteGroup<E> group, int cellSize, Palette palette,
+    public static <E extends Element> BufferedImage create(Group<E> group, int cellSize, Palette palette,
             Set<E> subgroup, Layout layout) {
         List<E> elems = new ArrayList<>(group.elements());
         int n = elems.size();
@@ -126,14 +126,14 @@ public final class CayleyImageExporter {
 
     private static final class RenderContext<E extends Element> {
         final BufferedImage img;
-        final FiniteGroup<E> group;
+        final Group<E> group;
         final ElementsIndex<E> elementsIndex;
         final Structure<E> structure;
         final TableDims dims;
         final Palette palette;
         List<E> columnElements; // may differ from row elements
 
-        RenderContext(BufferedImage img, FiniteGroup<E> group, ElementsIndex<E> elementsIndex, Structure<E> structure,
+        RenderContext(BufferedImage img, Group<E> group, ElementsIndex<E> elementsIndex, Structure<E> structure,
                 TableDims dims, Palette palette) {
             this.img = img;
             this.group = group;
@@ -163,7 +163,7 @@ public final class CayleyImageExporter {
         }
     }
 
-    private static <E extends Element> CosetData<E> computeCosets(FiniteGroup<E> group, List<E> elems,
+    private static <E extends Element> CosetData<E> computeCosets(Group<E> group, List<E> elems,
             Set<E> subgroup) {
         Map<E, Integer> index = new HashMap<>();
         List<Color> colors = new ArrayList<>();
@@ -186,12 +186,12 @@ public final class CayleyImageExporter {
     private static final record CosetData<E extends Element>(Map<E, Integer> index, List<Color> colors) {
     }
 
-    public static <E extends Element> File exportPng(FiniteGroup<E> group, int cellSize, String filename)
+    public static <E extends Element> File exportPng(Group<E> group, int cellSize, String filename)
             throws IOException {
         return exportPng(group, cellSize, filename, Palette.HUE, Set.of(), Layout.STANDARD);
     }
 
-    public static <E extends Element> File exportPng(FiniteGroup<E> group, int cellSize, String filename,
+    public static <E extends Element> File exportPng(Group<E> group, int cellSize, String filename,
             Palette palette, Set<E> subgroup, Layout layout) throws IOException {
         BufferedImage img = create(group, cellSize, palette, subgroup, layout);
         File file = new File(filename);
@@ -199,7 +199,7 @@ public final class CayleyImageExporter {
         return file;
     }
 
-    private static <E extends Element> List<E> reorderByInverse(FiniteGroup<E> group, List<E> elems) {
+    private static <E extends Element> List<E> reorderByInverse(Group<E> group, List<E> elems) {
         List<E> cols = new ArrayList<>(elems.size());
         E id = group.identity();
         for (E a : elems)
@@ -207,14 +207,14 @@ public final class CayleyImageExporter {
         return cols;
     }
 
-    private static <E extends Element> E findInverse(FiniteGroup<E> group, E a, List<E> elems, E id) {
+    private static <E extends Element> E findInverse(Group<E> group, E a, List<E> elems, E id) {
         for (E b : elems)
             if (group.operation().calculate(a, b).equals(id))
                 return b;
         return a; // fallback should not occur for valid group
     }
 
-    public static <E extends Element> File exportLegend(FiniteGroup<E> group, int swatchW, int swatchH, String filename,
+    public static <E extends Element> File exportLegend(Group<E> group, int swatchW, int swatchH, String filename,
             Palette palette) throws IOException {
         List<E> elems = new ArrayList<>(group.elements());
         int n = elems.size();

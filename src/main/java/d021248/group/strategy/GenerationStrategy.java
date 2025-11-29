@@ -2,7 +2,7 @@ package d021248.group.strategy;
 
 import java.util.Set;
 
-import d021248.group.FiniteGroup;
+import d021248.group.Group;
 import d021248.group.api.Element;
 
 /**
@@ -11,7 +11,7 @@ import d021248.group.api.Element;
  */
 @FunctionalInterface
 public interface GenerationStrategy<E extends Element> {
-    Set<E> generators(FiniteGroup<E> group);
+    Set<E> generators(Group<E> group);
 
     default String name() {
         return getClass().getSimpleName();
