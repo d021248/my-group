@@ -4,6 +4,7 @@ import java.util.Set;
 
 import d021248.group.Group;
 import d021248.group.GroupHelper;
+import d021248.group.GroupTableFormatter;
 import d021248.group.api.Element;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
@@ -70,10 +71,11 @@ public final class Demo {
         Set<Permutation> customGens = helperS4.strategyGenerators();
         System.out.println("Custom S_4 gens (validated): " + customGens);
 
-        // 5. Demonstrate table printing (small group only, e.g., Z_6)
+        // 5. Demonstrate table formatting (small group only, e.g., Z_6)
         CyclicGroup z6 = new CyclicGroup(6);
         System.out.println("\nMultiplication table for Z_6 (additive mod 6):");
-        new GroupHelper<>(z6).printTable();
+        var cfg = GroupTableFormatter.forGroup(z6).build();
+        System.out.println(GroupTableFormatter.toPlainText(cfg));
 
         // 6. Show registry snapshot
         System.out.println("\nRegistered strategy keys: ");

@@ -20,7 +20,6 @@ import d021248.group.symmetric.SymmetricGroup;
  */
 public class ProductSubgroupDemo {
     private static final String ORDER_PREFIX = "  Order: ";
-    private static final String ORDER_PREFIX_SHORT = "  Order ";
     private static final String ELEMENTS_PREFIX = "  Elements: ";
 
     public static void main(String[] args) {
@@ -73,17 +72,17 @@ public class ProductSubgroupDemo {
         // 2. All subgroups of small group
         CyclicGroup z6 = GroupFactory.cyclic(6);
         List<Subgroup<CyclicElement>> allSubs = SubgroupGenerator.allSubgroups(z6);
-        System.out.println("\nAll subgroups of Z_6:");
-        for (var sub : allSubs) {
-            System.out.println(ORDER_PREFIX_SHORT + sub.order() + ": " + sub.elements());
+        System.out.println("  All subgroups:");
+        for (Subgroup<CyclicElement> sub : allSubs) {
+            System.out.println("    Order " + sub.order() + ": " + sub.elements());
         }
 
         // 3. Cyclic subgroups
         System.out.println("\nCyclic subgroups of Z_12 (by order):");
         List<Subgroup<CyclicElement>> cyclicSubs = SubgroupGenerator.cyclicSubgroups(z12);
         cyclicSubs.stream().sorted((a, b) -> Integer.compare(a.order(), b.order()))
-                .forEach(s -> System.out
-                        .println(ORDER_PREFIX_SHORT + s.order() + ": " + s.elements().size() + " elements"));
+                .forEach(s -> System.out.println(
+                        "    Order " + s.order() + ": " + s.elements().size() + " elements"));
     }
 
     private static void demonstrateSubgroupTheory() {
@@ -102,7 +101,7 @@ public class ProductSubgroupDemo {
         System.out.println("\nSubgroups of S_3:");
         for (var sub : s3Subs) {
             boolean normal = SubgroupGenerator.isNormal(s3, sub);
-            System.out.println(ORDER_PREFIX_SHORT + sub.order() + ": normal=" + normal);
+            System.out.println("    Order " + sub.order() + ": normal=" + normal);
         }
 
         // 3. Normalizer and centralizer
