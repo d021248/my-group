@@ -8,6 +8,7 @@ import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.dihedral.DihedralElement;
 import d021248.group.dihedral.DihedralGroup;
+import d021248.group.dihedral.Flip;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 
@@ -61,15 +62,15 @@ class ElementOrderTest {
         DihedralGroup d6 = new DihedralGroup(6);
 
         // rotation by 60° (360/6) has order 6
-        DihedralElement rotation = new DihedralElement(1, d021248.group.dihedral.Flip.ROTATION, 6);
+        DihedralElement rotation = new DihedralElement(1, Flip.ROTATION, 6);
         assertEquals(6, rotation.order(d6));
 
         // rotation by 120° has order 3
-        DihedralElement rotation120 = new DihedralElement(2, d021248.group.dihedral.Flip.ROTATION, 6);
+        DihedralElement rotation120 = new DihedralElement(2, Flip.ROTATION, 6);
         assertEquals(3, rotation120.order(d6));
 
         // all reflections have order 2
-        DihedralElement reflection = new DihedralElement(0, d021248.group.dihedral.Flip.REFLECTION, 6);
+        DihedralElement reflection = new DihedralElement(0, Flip.REFLECTION, 6);
         assertEquals(2, reflection.order(d6));
 
         // identity has order 1

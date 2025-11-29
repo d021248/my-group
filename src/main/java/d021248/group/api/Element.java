@@ -1,10 +1,12 @@
 package d021248.group.api;
 
+import d021248.group.Group;
+
 /**
  * Minimal contract for a group element supporting an inverse operation.
  * <p>
  * Implementations should be immutable and obey the group law relative to the
- * {@link d021248.group.api.Operation} they participate in. The library keeps
+ * {@link Operation} they participate in. The library keeps
  * this interface deliberately small to avoid over-constraining concrete algebra
  * objects (e.g. permutations, residues, dihedral elements).
  * </p>
@@ -35,12 +37,12 @@ public interface Element {
          * @return the order of this element (always >= 1)
          */
         @SuppressWarnings({ "unchecked", "rawtypes" })
-        default int order(d021248.group.Group<?> group) {
+        default int order(Group<?> group) {
                 Element current = this;
                 Element identity = group.identity();
                 int order = 1;
                 while (!current.equals(identity)) {
-                        current = ((d021248.group.Group) group).operate(current, this);
+                        current = ((Group) group).operate(current, this);
                         order++;
                         if (order > 10000) // safety guard against infinite loops
                                 throw new IllegalStateException(

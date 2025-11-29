@@ -5,6 +5,7 @@ import java.util.Set;
 
 import d021248.group.FiniteGroup;
 import d021248.group.api.Element;
+import d021248.group.subgroup.Subgroup;
 
 /**
  * Represents a coset gH in a quotient group G/H.
@@ -31,7 +32,7 @@ import d021248.group.api.Element;
  * 
  * @param <E> the type of group elements
  */
-public record Coset<E extends Element>(FiniteGroup<E> parent, d021248.group.subgroup.Subgroup<E> subgroup,
+public record Coset<E extends Element>(FiniteGroup<E> parent, Subgroup<E> subgroup,
         E representative) implements Element {
 
     public Coset {
