@@ -1,7 +1,9 @@
-package d021248.group;
+package d021248.group.demo;
 
 import java.util.Set;
 
+import d021248.group.FiniteGroup;
+import d021248.group.GroupHelper;
 import d021248.group.api.Element;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
@@ -59,7 +61,7 @@ public final class Demo {
 
             @Override
             public boolean validates(FiniteGroup<Permutation> group, Set<Permutation> gens) {
-                GroupHelper<Permutation> helper = new GroupHelper<>((SymmetricGroup) group);
+                GroupHelper<Permutation> helper = new GroupHelper<>(group);
                 return !gens.isEmpty() && helper.isGeneratingSet(gens);
             }
         });
