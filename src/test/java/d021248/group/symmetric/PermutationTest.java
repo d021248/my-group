@@ -9,10 +9,11 @@ import org.junit.jupiter.api.Test;
 class PermutationTest {
     @Test
     void testInverse() {
+        SymmetricGroup g = new SymmetricGroup(3);
         Permutation p = new Permutation(new int[] { 2, 3, 1 });
-        Permutation inv = p.inverse();
+        Permutation inv = g.inverse(p);
         assertArrayEquals(new int[] { 3, 1, 2 }, inv.mapping());
-        assertEquals(p, inv.inverse());
+        assertEquals(p, g.inverse(inv));
     }
 
     @Test

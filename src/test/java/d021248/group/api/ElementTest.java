@@ -14,11 +14,6 @@ class ElementTest {
         }
 
         @Override
-        public Element inverse() {
-            return new DummyElement(-value);
-        }
-
-        @Override
         public boolean equals(Object o) {
             return o instanceof DummyElement d && d.value == value;
         }
@@ -27,12 +22,6 @@ class ElementTest {
         public int hashCode() {
             return Integer.hashCode(value);
         }
-    }
-
-    @Test
-    void testInverse() {
-        DummyElement e = new DummyElement(5);
-        assertEquals(new DummyElement(-5), e.inverse());
     }
 
     @Test

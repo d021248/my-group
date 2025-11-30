@@ -1,31 +1,55 @@
 package d021248.group.cyclic;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import d021248.group.base.AbstractGroup;
+import d021248.group.Group;
+import d021248.group.api.Operation;
 
-/**
- * The cyclic group of order n (integers mod n under addition).
- */
-public class CyclicGroup extends AbstractGroup<CyclicElement> {
-    private final int order;
+public final class CyclicGroup implements Group<CyclicElement> {
+    private final int modulus; // retained for external inspection via modulus()
+    private final Set<CyclicElement> elements;
+    private final Operation<CyclicElement> op;
+    private final CyclicElement identity;
 
-    public CyclicGroup(int n) {
-        super(CyclicGroupHelper.getGenerators(n), new CyclicOperation());
-        this.order = n;
+    public CyclicGroup(int modulus) {
+        if (modulus <= 0)
+            throw new IllegalArgumentException("modulus must be positive");
+        this.modulus = modulus;
+        this.elements = IntStream.range(0, modulus)
+                .mapToObj(i -> new CyclicElement(i, modulus))
+                .collect(Collectors.toUnmodifiableSet());
+        this.op = this::add;
+        this.identity = new CyclicElement(0, modulus);
     }
 
     @Override
     public Set<CyclicElement> elements() {
-        Set<CyclicElement> elements = new HashSet<>();
-        for (int i = 0; i < order; i++) {
-            elements.add(new CyclicElement(i, order));
-        }
         return elements;
     }
 
-    public int order() {
-        return order;
+    @Override
+    public Operation<CyclicElement> operation() {
+        return op;
+    }
+
+    @Override
+    public CyclicElement identity() {
+        return identity;
+    }
+
+    @Override
+    public CyclicElement inverse(CyclicElement element) {
+        return new CyclicElement(modulus - element.value(), modulus);
+    }
+
+    private CyclicElement add(CyclicElement a, CyclicElement b) {
+        return new CyclicElement(a.value() + b.value(), modulus);
+    }
+
+    /** Modulus of the underlying Z_n. */
+    public int modulus() {
+        return modulus;
     }
 }

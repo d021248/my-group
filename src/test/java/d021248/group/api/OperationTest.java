@@ -12,11 +12,6 @@ class OperationTest {
             this.value = value;
         }
 
-        @Override
-        public Element inverse() {
-            return new AddElement(-value);
-        }
-
         int getValue() {
             return value;
         }

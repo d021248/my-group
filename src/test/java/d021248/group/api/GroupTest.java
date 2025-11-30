@@ -6,17 +6,15 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import d021248.group.Group;
+import d021248.group.GroupAssertions;
+
 class GroupTest {
     static class IntElement implements Element {
         private final int value;
 
         IntElement(int value) {
             this.value = value;
-        }
-
-        @Override
-        public Element inverse() {
-            return new IntElement(-value);
         }
 
         int getValue() {
@@ -52,6 +50,18 @@ class GroupTest {
         public Operation<IntElement> operation() {
             return op;
         }
+
+        @Override
+        public IntElement identity() {
+            return new IntElement(0);
+        }
+
+        @Override
+        public IntElement inverse(IntElement element) {
+            // Group is intended to model Z_2 under addition; every element is its own
+            // inverse.
+            return element;
+        }
     }
 
     @Test
@@ -61,5 +71,7 @@ class GroupTest {
         Group<IntElement> group = new IntGroup(elems, op);
         assertEquals(elems, group.elements());
         assertEquals(0, group.operation().calculate(new IntElement(1), new IntElement(1)).getValue());
+        GroupAssertions.assertIdentityLaw(group);
+        GroupAssertions.assertInverseLaw(group);
     }
 }
