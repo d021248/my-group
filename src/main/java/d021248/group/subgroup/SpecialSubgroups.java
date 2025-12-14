@@ -28,6 +28,10 @@ public final class SpecialSubgroups {
      * <p>
      * Z(G) = {g ∈ G | gx = xg for all x ∈ G}
      * </p>
+     * <p>
+     * <b>Performance:</b> O(n²) where n is the group order.
+     * Requires checking commutativity for each pair of elements.
+     * </p>
      *
      * @param parent the group
      * @return the center as a subgroup
@@ -58,6 +62,10 @@ public final class SpecialSubgroups {
      * Compute the commutator subgroup (derived subgroup) of a group.
      * <p>
      * [G,G] = ⟨[g,h] | g,h ∈ G⟩ where [g,h] = g⁻¹h⁻¹gh
+     * </p>
+     * <p>
+     * <b>Performance:</b> O(n³) where n is the group order.
+     * Generates n² commutators and computes their closure.
      * </p>
      *
      * @param parent the group
@@ -118,7 +126,15 @@ public final class SpecialSubgroups {
      * <p>
      * A subgroup M is maximal if M ≠ G and there is no subgroup H with M ⊂ H ⊂ G.
      * </p>
-     *
+     * *
+     * <p>
+     * <b>Performance:</b> O(2^n × n³) where n is the group order.
+     * Requires enumerating all subgroups and checking containment relationships.
+     * Restricted to groups with order ≤
+     * {@value d021248.group.util.Constants#MAX_SUBGROUP_ENUMERATION_SIZE}.
+     * </p>
+     * *
+     * 
      * @param parent the group
      * @return list of all maximal subgroups
      */

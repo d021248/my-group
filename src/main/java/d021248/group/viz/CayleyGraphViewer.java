@@ -23,10 +23,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import d021248.group.Generator;
 import d021248.group.Group;
 import d021248.group.api.Element;
+import d021248.group.util.Point;
 import d021248.group.util.UIConstants;
 
 /**
@@ -52,15 +54,6 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
 
     private static final int NODE_RADIUS = 25;
     private static final int ARROW_SIZE = 8;
-
-    private static class Point {
-        final int x, y;
-
-        Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
 
     public CayleyGraphViewer(Group<E> group) {
         this.group = group;
@@ -107,7 +100,7 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
         int n = elements.size();
         int centerX = 400;
         int centerY = 400;
-        int radius = Math.min(350, Math.max(150, n * 15));
+        int radius = (int) Math.clamp((long) n * 15, 150L, 350L);
 
         setPreferredSize(new Dimension(800, 800));
 
@@ -176,8 +169,8 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
     private E findElementAt(int x, int y) {
         for (Map.Entry<E, Point> entry : positions.entrySet()) {
             Point p = entry.getValue();
-            int dx = x - p.x;
-            int dy = y - p.y;
+            int dx = x - p.x();
+            int dy = y - p.y();
             if (dx * dx + dy * dy <= NODE_RADIUS * NODE_RADIUS) {
                 return entry.getKey();
             }
@@ -258,7 +251,7 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
                     g2.setStroke(new BasicStroke(2f));
                 }
 
-                drawArrow(g2, pFrom.x, pFrom.y, pTo.x, pTo.y);
+                drawArrow(g2, pFrom.x(), pFrom.y(), pTo.x(), pTo.y());
             }
         }
 
@@ -324,21 +317,21 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
             // Highlight
             if (isSelected) {
                 g2.setColor(new Color(255, 255, 0, 150));
-                g2.fillOval(p.x - NODE_RADIUS - 8, p.y - NODE_RADIUS - 8,
+                g2.fillOval(p.x() - NODE_RADIUS - 8, p.y() - NODE_RADIUS - 8,
                         (NODE_RADIUS + 8) * 2, (NODE_RADIUS + 8) * 2);
             } else if (isHovered) {
                 g2.setColor(new Color(200, 200, 255, 100));
-                g2.fillOval(p.x - NODE_RADIUS - 5, p.y - NODE_RADIUS - 5,
+                g2.fillOval(p.x() - NODE_RADIUS - 5, p.y() - NODE_RADIUS - 5,
                         (NODE_RADIUS + 5) * 2, (NODE_RADIUS + 5) * 2);
             }
 
             // Draw node
             g2.setColor(fillColor);
-            g2.fillOval(p.x - NODE_RADIUS, p.y - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
+            g2.fillOval(p.x() - NODE_RADIUS, p.y() - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
 
             g2.setColor(isSelected ? Color.RED : Color.BLACK);
             g2.setStroke(new BasicStroke(isSelected ? 3f : 2f));
-            g2.drawOval(p.x - NODE_RADIUS, p.y - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
+            g2.drawOval(p.x() - NODE_RADIUS, p.y() - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
 
             // Draw label
             String label = elem.toString();
@@ -347,7 +340,7 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
             }
             int labelWidth = fm.stringWidth(label);
             g2.setColor(Color.BLACK);
-            g2.drawString(label, p.x - labelWidth / 2, p.y + 5);
+            g2.drawString(label, p.x() - labelWidth / 2, p.y() + 5);
         }
 
         g2.setStroke(new BasicStroke(1f));
@@ -412,7 +405,7 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
     public static <E extends Element> void show(Group<E> group, String title) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(title);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             CayleyGraphViewer<E> viewer = new CayleyGraphViewer<>(group);
 

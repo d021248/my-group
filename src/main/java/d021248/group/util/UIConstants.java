@@ -26,6 +26,10 @@ public final class UIConstants {
     public static final String DIRECT_PRODUCT_GROUP = "Direct Product";
     public static final String QUOTIENT_GROUP = "Quotient Group";
 
+    // Demo output formatting
+    public static final String INDENT_ELEMENTS = "  Elements: ";
+    public static final String INDENT_SIGN = "  sign(";
+
     // Private constructor prevents instantiation
     private UIConstants() {
         throw new AssertionError("Utility class should not be instantiated");

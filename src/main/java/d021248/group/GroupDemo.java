@@ -21,6 +21,7 @@ import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 import d021248.group.util.Constants;
 import d021248.group.util.ThreadUtil;
+import d021248.group.util.UIConstants;
 import d021248.group.viz.CayleyGraphViewer;
 import d021248.group.viz.CayleyTableViewer;
 import d021248.group.viz.SubgroupLatticeViewer;
@@ -95,7 +96,7 @@ public final class GroupDemo {
         System.out.println("3. 📐 Theorems (Cayley, Isomorphism, Orbit-Stabilizer)");
         System.out.println("G. Switch to GUI mode");
         System.out.println("Q. Quit");
-        System.out.print("\nChoice: ");
+        System.out.print(UIConstants.CHOICE_PROMPT);
     }
 
     private static void visualizationMenu() {
@@ -104,8 +105,8 @@ public final class GroupDemo {
         System.out.println("2. Dihedral group D_n");
         System.out.println("3. Symmetric group S_n");
         System.out.println("4. Alternating group A_n");
-        System.out.println("B. Back");
-        System.out.print("\nChoice: ");
+        System.out.println(UIConstants.BACK_OPTION);
+        System.out.print(UIConstants.CHOICE_PROMPT);
 
         String choice = scanner.nextLine().trim();
         if (choice.equalsIgnoreCase("B")) {
@@ -146,8 +147,8 @@ public final class GroupDemo {
         System.out.println("1. Homomorphisms & kernels (sign: S_3 → Z_2)");
         System.out.println("2. Conjugacy classes (in S_3 and D_4)");
         System.out.println("3. Group actions (orbits & stabilizers)");
-        System.out.println("B. Back");
-        System.out.print("\nChoice: ");
+        System.out.println(UIConstants.BACK_OPTION);
+        System.out.print(UIConstants.CHOICE_PROMPT);
 
         String choice = scanner.nextLine().trim();
 
@@ -166,8 +167,8 @@ public final class GroupDemo {
         System.out.println("1. Cayley's Theorem (every group is a permutation group)");
         System.out.println("2. First Isomorphism Theorem (S_3/A_3 ≅ Z_2)");
         System.out.println("3. Orbit-Stabilizer Theorem (|Orbit| × |Stabilizer| = |G|)");
-        System.out.println("B. Back");
-        System.out.print("\nChoice: ");
+        System.out.println(UIConstants.BACK_OPTION);
+        System.out.print(UIConstants.CHOICE_PROMPT);
 
         String choice = scanner.nextLine().trim();
 
@@ -202,9 +203,9 @@ public final class GroupDemo {
         Permutation transposition = new Permutation(new int[] { 2, 1, 3 });
         Permutation threeCycle = new Permutation(new int[] { 2, 3, 1 });
 
-        System.out.println("  sign(" + identity + ") = " + sign.apply(identity) + " (even)");
-        System.out.println("  sign(" + transposition + ") = " + sign.apply(transposition) + " (odd)");
-        System.out.println("  sign(" + threeCycle + ") = " + sign.apply(threeCycle) + " (even)");
+        System.out.println(UIConstants.INDENT_SIGN + identity + ") = " + sign.apply(identity) + " (even)");
+        System.out.println(UIConstants.INDENT_SIGN + transposition + ") = " + sign.apply(transposition) + " (odd)");
+        System.out.println(UIConstants.INDENT_SIGN + threeCycle + ") = " + sign.apply(threeCycle) + " (even)");
 
         System.out.println("\nProperties:");
         System.out.println("  ✓ Is homomorphism: " + HomomorphismAnalyzer.isHomomorphism(sign));
@@ -214,7 +215,7 @@ public final class GroupDemo {
         Subgroup<Permutation> kernel = HomomorphismAnalyzer.kernel(sign);
         System.out.println("\nKernel (alternating group A_3):");
         System.out.println("  Order: " + kernel.order());
-        System.out.println("  Elements: " + kernel.elements());
+        System.out.println(UIConstants.INDENT_ELEMENTS + kernel.elements());
         System.out.println("  Is normal: " + SubgroupAnalyzer.isNormal(s3, kernel));
 
         pressEnterToContinue();
@@ -235,7 +236,7 @@ public final class GroupDemo {
             ConjugacyClass<Permutation> cl = classes.get(i);
             System.out.println("Class " + (i + 1) + " (size " + cl.size() + "):");
             System.out.println("  Representative: " + cl.representative());
-            System.out.println("  Elements: " + cl.elements());
+            System.out.println(UIConstants.INDENT_ELEMENTS + cl.elements());
             System.out.println();
         }
 
@@ -363,11 +364,11 @@ public final class GroupDemo {
 
         System.out.println("\nOrbit (conjugacy class):");
         System.out.println("  Size: " + orbit.size());
-        System.out.println("  Elements: " + orbit.elements());
+        System.out.println(UIConstants.INDENT_ELEMENTS + orbit.elements());
 
         System.out.println("\nStabilizer:");
         System.out.println("  Size: " + stabilizer.order());
-        System.out.println("  Elements: " + stabilizer.elements());
+        System.out.println(UIConstants.INDENT_ELEMENTS + stabilizer.elements());
 
         System.out.println("\nOrbit-Stabilizer Theorem:");
         System.out.println("  |Orbit| × |Stabilizer| = " + orbit.size() + " × " + stabilizer.order() +

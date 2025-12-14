@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import d021248.group.Group;
 import d021248.group.api.Element;
@@ -193,10 +194,10 @@ public class CayleyTableViewer<E extends Element> extends JPanel {
     public static <E extends Element> void show(Group<E> group, String title) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(title);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             int n = group.elements().size();
-            int cellSize = Math.max(20, Math.min(60, 800 / n));
+            int cellSize = Math.clamp(800 / n, 20, 60);
 
             CayleyTableViewer<E> viewer = new CayleyTableViewer<>(group, cellSize);
 

@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import d021248.group.Group;
 import d021248.group.api.Element;
@@ -32,6 +33,7 @@ import d021248.group.subgroup.SpecialSubgroups;
 import d021248.group.subgroup.Subgroup;
 import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.util.Point;
 import d021248.group.util.UIConstants;
 
 /**
@@ -59,15 +61,6 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
 
     private enum SubgroupType {
         NORMAL, CENTER, COMMUTATOR, FRATTINI, MAXIMAL, TRIVIAL, FULL, REGULAR
-    }
-
-    private static class Point {
-        final int x, y;
-
-        Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
     }
 
     public SubgroupLatticeViewer(Group<E> group) {
@@ -157,8 +150,8 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
 
                 for (Map.Entry<Subgroup<E>, Point> entry : positions.entrySet()) {
                     Point p = entry.getValue();
-                    int dx = e.getX() - p.x;
-                    int dy = e.getY() - p.y;
+                    int dx = e.getX() - p.x();
+                    int dy = e.getY() - p.y();
                     if (dx * dx + dy * dy <= NODE_RADIUS * NODE_RADIUS) {
                         newHovered = entry.getKey();
                         break;
@@ -228,7 +221,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
                 if (sub1.order() < sub2.order() && isDirectCover(sub1, sub2)) {
                     Point p1 = positions.get(sub1);
                     Point p2 = positions.get(sub2);
-                    g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+                    g2.drawLine(p1.x(), p1.y(), p2.x(), p2.y());
                 }
             }
         }
@@ -268,22 +261,22 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
             // Draw node
             if (hovered) {
                 g2.setColor(new Color(255, 255, 0, 100));
-                g2.fillOval(p.x - NODE_RADIUS - 5, p.y - NODE_RADIUS - 5,
+                g2.fillOval(p.x() - NODE_RADIUS - 5, p.y() - NODE_RADIUS - 5,
                         (NODE_RADIUS + 5) * 2, (NODE_RADIUS + 5) * 2);
             }
 
             g2.setColor(fillColor);
-            g2.fillOval(p.x - NODE_RADIUS, p.y - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
+            g2.fillOval(p.x() - NODE_RADIUS, p.y() - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
 
             g2.setColor(borderColor);
             g2.setStroke(new BasicStroke(hovered ? 3f : 2f));
-            g2.drawOval(p.x - NODE_RADIUS, p.y - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
+            g2.drawOval(p.x() - NODE_RADIUS, p.y() - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
 
             // Draw label
             String label = String.valueOf(sub.order());
             int labelWidth = fm.stringWidth(label);
             g2.setColor(Color.BLACK);
-            g2.drawString(label, p.x - labelWidth / 2, p.y + 5);
+            g2.drawString(label, p.x() - labelWidth / 2, p.y() + 5);
         }
     }
 
@@ -310,7 +303,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
     public static <E extends Element> void show(Group<E> group, String title) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(title);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             SubgroupLatticeViewer<E> viewer = new SubgroupLatticeViewer<>(group);
 
