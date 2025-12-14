@@ -1,10 +1,12 @@
-package d021248.group.conjugacy;
+package d021248.group.demo.archive;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import d021248.group.GroupFactory;
+import d021248.group.conjugacy.ConjugacyAnalyzer;
+import d021248.group.conjugacy.ConjugacyClass;
 import d021248.group.dihedral.DihedralElement;
 import d021248.group.dihedral.DihedralGroup;
 import d021248.group.dihedral.Flip;

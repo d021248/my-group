@@ -1,4 +1,4 @@
-package d021248.group.viz;
+package d021248.group.demo.archive;
 
 import d021248.group.Group;
 import d021248.group.GroupFactory;
@@ -9,6 +9,8 @@ import d021248.group.dihedral.DihedralElement;
 import d021248.group.dihedral.DihedralGroup;
 import d021248.group.symmetric.CayleyPermutationGroup;
 import d021248.group.symmetric.Permutation;
+import d021248.group.viz.CayleyGraphViewer;
+import d021248.group.viz.CayleyTableViewer;
 
 /**
  * Demonstrates Cayley's Theorem: converting any group to a permutation group.

@@ -1,10 +1,13 @@
-package d021248.group.action;
+package d021248.group.demo.archive;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import d021248.group.GroupFactory;
+import d021248.group.action.Action;
+import d021248.group.action.ActionAnalyzer;
+import d021248.group.action.Orbit;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.subgroup.Subgroup;

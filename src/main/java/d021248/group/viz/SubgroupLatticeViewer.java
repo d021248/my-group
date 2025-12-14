@@ -82,9 +82,6 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
     }
 
     private void classifySubgroups() {
-        E identity = group.identity();
-        Set<E> fullGroup = group.elements();
-
         Subgroup<E> center = SubgroupGenerator.center(group);
         Subgroup<E> commutator = SubgroupGenerator.commutatorSubgroup(group);
         Subgroup<E> frattini = SubgroupGenerator.frattiniSubgroup(group);

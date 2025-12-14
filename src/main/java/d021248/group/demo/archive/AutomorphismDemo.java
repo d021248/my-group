@@ -1,8 +1,10 @@
-package d021248.group.automorphism;
+package d021248.group.demo.archive;
 
 import java.util.Set;
 
 import d021248.group.GroupFactory;
+import d021248.group.automorphism.Automorphism;
+import d021248.group.automorphism.AutomorphismAnalyzer;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.homomorphism.GroupHomomorphism;

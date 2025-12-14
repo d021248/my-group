@@ -1,7 +1,9 @@
-package d021248.group.viz;
+package d021248.group.demo.archive;
 
 import d021248.group.Group;
 import d021248.group.GroupFactory;
+import d021248.group.viz.CayleyGraphViewer;
+import d021248.group.viz.CayleyTableViewer;
 
 /**
  * Quick demo to show S_4 visualizations (table and graph only - no lattice due

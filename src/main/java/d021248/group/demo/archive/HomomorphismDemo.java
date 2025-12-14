@@ -1,8 +1,10 @@
-package d021248.group.homomorphism;
+package d021248.group.demo.archive;
 
 import d021248.group.GroupFactory;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
+import d021248.group.homomorphism.Homomorphism;
+import d021248.group.homomorphism.HomomorphismAnalyzer;
 import d021248.group.subgroup.Subgroup;
 import d021248.group.subgroup.SubgroupGenerator;
 import d021248.group.symmetric.Permutation;
