@@ -17,8 +17,8 @@ if [ $# -eq 0 ]; then
     echo "  ./viz.sh Z 12     # Visualize Z_12"
     echo ""
     echo "Or run the interactive demo launcher:"
-    echo "  ./viz.sh demo     # Full demo menu"
-    echo "  ./viz.sh launcher # GUI launcher"
+    echo "  ./viz.sh demo     # Console menu"
+    echo "  ./viz.sh gui      # GUI launcher"
     exit 0
 fi
 
@@ -38,7 +38,7 @@ fi
 # Check if launcher mode
 if [ "$1" = "launcher" ] || [ "$1" = "gui" ]; then
     echo "Launching GUI..."
-    java -cp target/classes d021248.group.viz.examples.VizLauncher
+    java -cp target/classes d021248.group.GroupDemo --gui
     exit 0
 fi
 

@@ -83,11 +83,8 @@ my-group/
 │   │   ├── CayleyTableViewer.java
 │   │   ├── SubgroupLatticeViewer.java
 │   │   ├── CayleyGraphViewer.java
-│   │   └── examples/            📚 Example usage (not launchers)
-│   │       ├── VisualizationExamples.java
-│   │       ├── VizDemo.java
-│   │       ├── VizLauncher.java
-│   │       └── QuickVizTest.java
+│   │   └── examples/            📚 Clean examples
+│   │       └── VisualizationExamples.java  (library methods)
 │   └── demo/
 │       └── archive/             📁 Old demos (preserved)
 └── pom.xml
@@ -95,12 +92,12 @@ my-group/
 
 ## Benefits
 
-1. **Single Entry Point**: `GroupDemo.java` is THE launcher - everything else is in `examples/`
-2. **Clean Organization**: Core viewers in `viz/`, all launcher variations in `viz/examples/`
+1. **Single Entry Point**: `GroupDemo.java` is THE launcher with console menu AND GUI modes
+2. **Clean Organization**: Core viewers in `viz/`, programmatic examples in `viz/examples/`
 3. **Better Separation**: Viewers (library code) vs Examples (usage demonstrations)
 4. **Maintained History**: All old files preserved in archives with READMEs
 5. **Cleaner Codebase**: No scattered demo/launcher files
-6. **Improved Discoverability**: Clear hierarchy - use GroupDemo or explore examples
+6. **Improved Discoverability**: Clear hierarchy - GroupDemo handles everything
 
 ## User Experience Flow
 
@@ -119,23 +116,22 @@ User → README (concise) → ./viz.sh or java GroupDemo → Interactive menu �
 - ✅ All original demos (in archive/)
 - ✅ All implementation notes (in docs/archive/)
 - ✅ All functionality (nothing removed)
-- ✅ VizDemo and VizLauncher (still work independently)
 - ✅ All 168 tests passing
+- ✅ Three launch modes: console menu, GUI, and command-line
 
 ## Quick Commands for Users
 
 ```bash
 # Get started fast
 ./viz.sh S 4                    # Visualize S_4
-./viz.sh demo                   # Interactive menu
+./viz.sh demo                   # Interactive console menu
+./viz.sh gui                    # GUI launcher
 
 # Or direct Java
 mvn compile
-java -cp target/classes d021248.group.GroupDemo
-
-# Original launchers still work
-java -cp target/classes d021248.group.viz.VizDemo S 4
-java -cp target/classes d021248.group.viz.VizLauncher
+java -cp target/classes d021248.group.GroupDemo          # Console menu
+java -cp target/classes d021248.group.GroupDemo --gui    # GUI launcher
+java -cp target/classes d021248.group.GroupDemo viz S 4  # Quick viz
 ```
 
 ## Documentation Hierarchy

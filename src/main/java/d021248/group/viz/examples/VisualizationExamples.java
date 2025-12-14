@@ -9,8 +9,24 @@ import d021248.group.viz.CayleyTableViewer;
 import d021248.group.viz.SubgroupLatticeViewer;
 
 /**
- * Comprehensive examples demonstrating all three visualizations
- * with different groups.
+ * Example methods demonstrating visualization usage patterns.
+ * <p>
+ * These methods show how to use the three visualization tools
+ * (CayleyTableViewer, SubgroupLatticeViewer, CayleyGraphViewer)
+ * with different groups and scenarios.
+ * </p>
+ * 
+ * <p>
+ * Usage from code:
+ * </p>
+ * 
+ * <pre>
+ * // Show all 3 visualizations for Z_8
+ * VisualizationExamples.cyclicGroupExample();
+ * 
+ * // Compare abelian vs non-abelian groups
+ * VisualizationExamples.comparisonExample();
+ * </pre>
  */
 public final class VisualizationExamples {
 
@@ -18,8 +34,10 @@ public final class VisualizationExamples {
     }
 
     /**
-     * Example 1: Cyclic group Z_8
-     * Shows: Simple cyclic structure, all subgroups form a chain
+     * Example: Cyclic group Z_8
+     * <p>
+     * Shows simple cyclic structure where all subgroups form a chain.
+     * </p>
      */
     public static void cyclicGroupExample() {
         System.out.println("Example 1: Cyclic Group Z_8");
@@ -33,8 +51,10 @@ public final class VisualizationExamples {
     }
 
     /**
-     * Example 2: Dihedral group D_4
-     * Shows: Klein four-group as subgroup, non-abelian structure
+     * Example: Dihedral group D_4
+     * <p>
+     * Shows Klein four-group as subgroup and non-abelian structure.
+     * </p>
      */
     public static void dihedralGroupExample() {
         System.out.println("\nExample 2: Dihedral Group D_4");
@@ -48,8 +68,11 @@ public final class VisualizationExamples {
     }
 
     /**
-     * Example 3: Symmetric group S_4
-     * Shows: Rich subgroup structure, 30 subgroups including A_4
+     * Example: Symmetric group S_4
+     * <p>
+     * Shows rich subgroup structure with 30 subgroups including A_4.
+     * Warning: Large lattice visualization!
+     * </p>
      */
     public static void symmetricGroupExample() {
         System.out.println("\nExample 3: Symmetric Group S_4");
@@ -66,8 +89,11 @@ public final class VisualizationExamples {
     }
 
     /**
-     * Example 4: Comparison of Z_6 (abelian) vs D_3 (non-abelian)
-     * Both have order 6 but different structures
+     * Example: Comparison of Z_6 (abelian) vs D_3 (non-abelian)
+     * <p>
+     * Both groups have order 6 but completely different structures.
+     * Demonstrates how group properties affect visualizations.
+     * </p>
      */
     public static void comparisonExample() {
         System.out.println("\nExample 4: Z_6 vs D_3 (both order 6)");
@@ -89,7 +115,11 @@ public final class VisualizationExamples {
     }
 
     /**
-     * Example 5: Just Cayley Graph for exploring generators
+     * Example: Cayley graph for exploring generators
+     * <p>
+     * Shows D_5 with focus on generator structure.
+     * Click elements to highlight generator paths.
+     * </p>
      */
     public static void cayleyGraphFocus() {
         System.out.println("\nExample 5: Cayley Graph Focus");
@@ -102,7 +132,10 @@ public final class VisualizationExamples {
     }
 
     /**
-     * Example 6: Lattice focus - groups with interesting subgroup structures
+     * Example: Subgroup lattice showing divisor structure
+     * <p>
+     * Z_12 lattice clearly shows how subgroups correspond to divisors of 12.
+     * </p>
      */
     public static void latticeFocus() {
         System.out.println("\nExample 6: Subgroup Lattice Focus");
@@ -114,49 +147,28 @@ public final class VisualizationExamples {
         SubgroupLatticeViewer.show(z12, "Z_12 - Divisor Lattice");
     }
 
+    /**
+     * Run all examples sequentially with delays between them.
+     */
+    public static void runAllExamples() {
+        cyclicGroupExample();
+        delay(1000);
+        dihedralGroupExample();
+        delay(1000);
+        symmetricGroupExample();
+        delay(1000);
+        comparisonExample();
+        delay(1000);
+        cayleyGraphFocus();
+        delay(1000);
+        latticeFocus();
+    }
+
     private static void delay() {
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-        }
-    }
-
-    /**
-     * Run all examples
-     */
-    public static void main(String[] args) {
-        if (args.length == 0) {
-            printUsage();
-            return;
-        }
-
-        String example = args[0].toLowerCase();
-
-        switch (example) {
-            case "1", "cyclic" -> cyclicGroupExample();
-            case "2", "dihedral" -> dihedralGroupExample();
-            case "3", "symmetric", "s4" -> symmetricGroupExample();
-            case "4", "compare", "comparison" -> comparisonExample();
-            case "5", "graph" -> cayleyGraphFocus();
-            case "6", "lattice" -> latticeFocus();
-            case "all" -> {
-                cyclicGroupExample();
-                delay(1000);
-                dihedralGroupExample();
-                delay(1000);
-                symmetricGroupExample();
-                delay(1000);
-                comparisonExample();
-                delay(1000);
-                cayleyGraphFocus();
-                delay(1000);
-                latticeFocus();
-            }
-            default -> {
-                System.out.println("Unknown example: " + example);
-                printUsage();
-            }
         }
     }
 
@@ -166,22 +178,5 @@ public final class VisualizationExamples {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-    }
-
-    private static void printUsage() {
-        System.out.println("Group Visualization Examples");
-        System.out.println("\nUsage: VisualizationExamples <example>");
-        System.out.println("\nExamples:");
-        System.out.println("  1 or cyclic     - Z_8 (simple cyclic group)");
-        System.out.println("  2 or dihedral   - D_4 (contains Klein four-group)");
-        System.out.println("  3 or symmetric  - S_4 (30 subgroups!)");
-        System.out.println("  4 or compare    - Z_6 vs D_3 (both order 6)");
-        System.out.println("  5 or graph      - D_5 Cayley graph focus");
-        System.out.println("  6 or lattice    - Z_12 lattice focus");
-        System.out.println("  all             - Run all examples");
-        System.out.println("\nInteractive features:");
-        System.out.println("  - Hover over table cells to see operations");
-        System.out.println("  - Hover over lattice nodes to see details");
-        System.out.println("  - Click graph nodes to highlight paths");
     }
 }

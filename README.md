@@ -13,19 +13,24 @@ Explore groups visually with three interactive tools:
 ```bash
 ./viz.sh S 4      # Visualize S_4
 ./viz.sh D 5      # Visualize D_5
-./viz.sh launcher # GUI launcher
+./viz.sh demo     # Interactive menu
+./viz.sh gui      # GUI launcher
 ```
 
-Or use the unified demo launcher:
+Or use the unified demo launcher directly:
 ```bash
 mvn compile
-java -cp target/classes d021248.group.GroupDemo
+java -cp target/classes d021248.group.GroupDemo       # Interactive menu
+java -cp target/classes d021248.group.GroupDemo --gui # GUI launcher
+java -cp target/classes d021248.group.GroupDemo viz S 4  # Quick viz
 ```
 
-Try curated examples:
-```bash
-java -cp target/classes d021248.group.viz.examples.VisualizationExamples s4
-java -cp target/classes d021248.group.viz.examples.VisualizationExamples compare
+Or use examples programmatically:
+```java
+import d021248.group.viz.examples.VisualizationExamples;
+
+VisualizationExamples.cyclicGroupExample();  // Z_8
+VisualizationExamples.comparisonExample();    // Z_6 vs D_3
 ```
 
 ### 🔬 Learn Group Theory Concepts
@@ -152,11 +157,9 @@ src/main/java/d021248/group/
 │   ├── CayleyTableViewer.java        # Interactive Cayley table
 │   ├── SubgroupLatticeViewer.java    # Subgroup lattice viewer
 │   ├── CayleyGraphViewer.java        # Cayley graph viewer
-│   └── examples/                     # 📚 Example launchers
-│       ├── VisualizationExamples.java
-│       ├── VizDemo.java
-│       ├── VizLauncher.java
-│       └── QuickVizTest.java
+│   └── examples/                     # 📚 Usage examples
+│       ├── VisualizationExamples.java  # Example methods
+│       └── VizLauncher.java            # GUI launcher
 └── demo/archive/                     # Archived old demos
 ```
 

@@ -1,11 +1,24 @@
 package d021248.group;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import d021248.group.action.Action;
 import d021248.group.action.ActionAnalyzer;
 import d021248.group.action.Orbit;
+import d021248.group.api.Element;
 import d021248.group.conjugacy.ConjugacyAnalyzer;
 import d021248.group.conjugacy.ConjugacyClass;
 import d021248.group.cyclic.CyclicElement;
@@ -34,6 +47,15 @@ import d021248.group.viz.SubgroupLatticeViewer;
  * Orbit-Stabilizer)</li>
  * </ul>
  * </p>
+ * <p>
+ * Usage:
+ * <ul>
+ * <li>{@code java GroupDemo} - Interactive console menu</li>
+ * <li>{@code java GroupDemo --gui} - Graphical launcher with dropdowns</li>
+ * <li>{@code java GroupDemo viz <type> <n>} - Quick visualization (types: Z, D,
+ * S, A)</li>
+ * </ul>
+ * </p>
  */
 public final class GroupDemo {
 
@@ -41,6 +63,11 @@ public final class GroupDemo {
 
     public static void main(String[] args) {
         if (args.length > 0) {
+            // Check for GUI mode
+            if (args[0].equals("--gui") || args[0].equals("-g")) {
+                launchGUI();
+                return;
+            }
             // Command-line mode for quick access
             handleCommandLine(args);
             return;
@@ -55,6 +82,10 @@ public final class GroupDemo {
                 case "1" -> visualizationMenu();
                 case "2" -> conceptMenu();
                 case "3" -> theoremMenu();
+                case "g", "G" -> {
+                    System.out.println("Launching GUI...");
+                    launchGUI();
+                }
                 case "q", "Q" -> {
                     System.out.println("Goodbye!");
                     return;
@@ -71,6 +102,7 @@ public final class GroupDemo {
         System.out.println("\n1. 📊 Visualizations (Cayley tables, lattices, graphs)");
         System.out.println("2. 🔬 Concepts (Homomorphisms, conjugacy, actions)");
         System.out.println("3. 📐 Theorems (Cayley, Isomorphism, Orbit-Stabilizer)");
+        System.out.println("G. Switch to GUI mode");
         System.out.println("Q. Quit");
         System.out.print("\nChoice: ");
     }
@@ -383,9 +415,178 @@ public final class GroupDemo {
             }
         } else {
             System.out.println("Usage:");
-            System.out.println("  java GroupDemo                     # Interactive menu");
+            System.out.println("  java GroupDemo                     # Interactive console menu");
+            System.out.println("  java GroupDemo --gui               # Graphical launcher");
             System.out.println("  java GroupDemo viz <type> <n>      # Quick visualization");
             System.out.println("    Types: Z, D, S, A");
+        }
+    }
+
+    // ===== GUI Mode =====
+    private static void launchGUI() {
+        SwingUtilities.invokeLater(() -> {
+            GUILauncher launcher = new GUILauncher();
+            launcher.setVisible(true);
+        });
+    }
+
+    /**
+     * Graphical launcher with dropdown menus for group selection.
+     */
+    private static class GUILauncher extends JFrame {
+        private static final long serialVersionUID = 1L;
+
+        private final JComboBox<String> groupTypeCombo;
+        private final JSpinner paramSpinner;
+
+        public GUILauncher() {
+            super("Group Visualization Launcher");
+
+            groupTypeCombo = new JComboBox<>(new String[] {
+                    "Cyclic (Z_n)",
+                    "Dihedral (D_n)",
+                    "Symmetric (S_n)",
+                    "Alternating (A_n)"
+            });
+
+            paramSpinner = new JSpinner(new SpinnerNumberModel(4, 2, 12, 1));
+
+            setupUI();
+            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            pack();
+            setLocationRelativeTo(null);
+        }
+
+        private void setupUI() {
+            JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+
+            // Selection panel
+            JPanel selectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+            selectionPanel.add(new JLabel("Group Type:"));
+            selectionPanel.add(groupTypeCombo);
+            selectionPanel.add(new JLabel("Parameter n:"));
+            selectionPanel.add(paramSpinner);
+
+            mainPanel.add(selectionPanel, BorderLayout.NORTH);
+
+            // Button panel
+            JPanel buttonPanel = new JPanel(new GridLayout(4, 1, 5, 5));
+
+            var cayleyTableBtn = new javax.swing.JButton("Show Cayley Table");
+            cayleyTableBtn.addActionListener(e -> launchCayleyTable());
+            buttonPanel.add(cayleyTableBtn);
+
+            var latticeBtn = new javax.swing.JButton("Show Subgroup Lattice");
+            latticeBtn.addActionListener(e -> launchSubgroupLattice());
+            buttonPanel.add(latticeBtn);
+
+            var graphBtn = new javax.swing.JButton("Show Cayley Graph");
+            graphBtn.addActionListener(e -> launchCayleyGraph());
+            buttonPanel.add(graphBtn);
+
+            var allBtn = new javax.swing.JButton("Show All Three");
+            allBtn.addActionListener(e -> launchAll());
+            buttonPanel.add(allBtn);
+
+            mainPanel.add(buttonPanel, BorderLayout.CENTER);
+
+            // Info panel
+            JPanel infoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            JLabel info = new JLabel("Select a group and click a button to visualize");
+            info.setFont(info.getFont().deriveFont(11f));
+            infoPanel.add(info);
+            mainPanel.add(infoPanel, BorderLayout.SOUTH);
+
+            setContentPane(mainPanel);
+        }
+
+        private Group<?> createSelectedGroup() {
+            int param = (Integer) paramSpinner.getValue();
+            String type = (String) groupTypeCombo.getSelectedItem();
+
+            if (type == null) {
+                return GroupFactory.symmetric(4);
+            }
+
+            return switch (type) {
+                case "Cyclic (Z_n)" -> GroupFactory.cyclic(param);
+                case "Dihedral (D_n)" -> GroupFactory.dihedral(param);
+                case "Symmetric (S_n)" -> GroupFactory.symmetric(param);
+                case "Alternating (A_n)" -> GroupFactory.alternating(param);
+                default -> GroupFactory.symmetric(4);
+            };
+        }
+
+        private String getGroupTitle() {
+            int param = (Integer) paramSpinner.getValue();
+            String type = (String) groupTypeCombo.getSelectedItem();
+
+            if (type == null) {
+                return "S_4";
+            }
+
+            return switch (type) {
+                case "Cyclic (Z_n)" -> "Z_" + param;
+                case "Dihedral (D_n)" -> "D_" + param;
+                case "Symmetric (S_n)" -> "S_" + param;
+                case "Alternating (A_n)" -> "A_" + param;
+                default -> "S_4";
+            };
+        }
+
+        private void launchCayleyTable() {
+            Group<?> group = createSelectedGroup();
+            showViewer(group, "Cayley Table");
+        }
+
+        private void launchSubgroupLattice() {
+            Group<?> group = createSelectedGroup();
+            showViewer(group, "Subgroup Lattice");
+        }
+
+        private void launchCayleyGraph() {
+            Group<?> group = createSelectedGroup();
+            showViewer(group, "Cayley Graph");
+        }
+
+        private void launchAll() {
+            Group<?> group = createSelectedGroup();
+            String title = getGroupTitle();
+
+            showCayleyTable(group, title);
+            sleep(300);
+            showLattice(group, title);
+            sleep(300);
+            showGraph(group, title);
+        }
+
+        @SuppressWarnings("unchecked")
+        private <E extends Element> void showViewer(Group<?> group, String viewType) {
+            Group<E> g = (Group<E>) group;
+            String title = getGroupTitle() + " - " + viewType;
+
+            if (viewType.contains("Cayley Table")) {
+                CayleyTableViewer.show(g, title);
+            } else if (viewType.contains("Lattice")) {
+                SubgroupLatticeViewer.show(g, title);
+            } else if (viewType.contains("Graph")) {
+                CayleyGraphViewer.show(g, title);
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        private <E extends Element> void showCayleyTable(Group<?> group, String groupName) {
+            CayleyTableViewer.show((Group<E>) group, groupName + " - Cayley Table");
+        }
+
+        @SuppressWarnings("unchecked")
+        private <E extends Element> void showLattice(Group<?> group, String groupName) {
+            SubgroupLatticeViewer.show((Group<E>) group, groupName + " - Subgroup Lattice");
+        }
+
+        @SuppressWarnings("unchecked")
+        private <E extends Element> void showGraph(Group<?> group, String groupName) {
+            CayleyGraphViewer.show((Group<E>) group, groupName + " - Cayley Graph");
         }
     }
 

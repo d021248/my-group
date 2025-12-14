@@ -53,16 +53,25 @@ CayleyGraphViewer.show(d5, "D_5 Cayley Graph");
 
 ## Quick Launch Options
 
-### 1. Unified Demo Launcher (Recommended)
+### 1. Interactive Console Menu (Recommended)
 ```bash
 java -cp target/classes d021248.group.GroupDemo
-# Interactive menu with all features
+# Interactive menu with visualizations, concepts, and theorems
 
 ./viz.sh demo
 # Same as above using shell script
 ```
 
-### 2. Quick Visualization
+### 2. GUI Launcher (Point and Click)
+```bash
+java -cp target/classes d021248.group.GroupDemo --gui
+# Graphical launcher with dropdown menus
+
+./viz.sh gui
+# Same as above using shell script
+```
+
+### 3. Quick Visualization (Command Line)
 ```bash
 ./viz.sh S 4      # S_4 visualizations
 ./viz.sh D 5      # D_5 visualizations
@@ -71,42 +80,30 @@ java -cp target/classes d021248.group.GroupDemo
 # Or directly:
 java -cp target/classes d021248.group.GroupDemo viz S 4
 ```
-
-### 3. VizDemo (All Three Visualizations)
-```bash
-java -cp target/classes d021248.group.viz.examples.VizDemo S 4
-```
-Launches Cayley table, subgroup lattice, and Cayley graph for the specified group.
-
-### 4. GUI Launcher
-```bash
-java -cp target/classes d021248.group.viz.examples.VizLauncher
-# Or:
-./viz.sh launcher
-```
 Interactive GUI with dropdowns to select group type and parameter.
 
-### 5. Curated Examples
-```bash
-java -cp target/classes d021248.group.viz.examples.VisualizationExamples cyclic
-java -cp target/classes d021248.group.viz.examples.VisualizationExamples s4
-java -cp target/classes d021248.group.viz.examples.VisualizationExamples compare
-java -cp target/classes d021248.group.viz.examples.VisualizationExamples all
-```
-Pre-configured examples showing specific educational scenarios:
-- `cyclic` - Z_8 (simple cyclic structure)
-- `dihedral` - D_4 (contains Klein four-group)
-- `s4` - S_4 (30 subgroups!)
-- `compare` - Z_6 vs D_3 (both order 6, different structures)
-- `graph` - D_5 Cayley graph focus
-- `lattice` - Z_12 lattice showing divisors
-- `all` - Run all examples
+### 4. Programmatic Usage (Examples)
+Use `VisualizationExamples` class methods in your code:
+```java
+import d021248.group.viz.examples.VisualizationExamples;
 
-### 6. Quick Test
-```bash
-java -cp target/classes d021248.group.viz.examples.QuickVizTest
+// Show all 3 visualizations for Z_8
+VisualizationExamples.cyclicGroupExample();
+
+// Compare abelian vs non-abelian
+VisualizationExamples.comparisonExample();
+
+// Run all examples
+VisualizationExamples.runAllExamples();
 ```
-Simple test launching D_4 visualizations.
+Available example methods:
+- `cyclicGroupExample()` - Z_8 with simple structure
+- `dihedralGroupExample()` - D_4 with Klein four-group
+- `symmetricGroupExample()` - S_4 with 30 subgroups
+- `comparisonExample()` - Z_6 vs D_3 comparison
+- `cayleyGraphFocus()` - D_5 generator focus
+- `latticeFocus()` - Z_12 divisor lattice
+- `runAllExamples()` - All examples sequentially
 
 ### 4. GUI Launcher
 ```bash
