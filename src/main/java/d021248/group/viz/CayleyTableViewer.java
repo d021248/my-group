@@ -21,6 +21,7 @@ import javax.swing.SwingUtilities;
 
 import d021248.group.Group;
 import d021248.group.api.Element;
+import d021248.group.util.UIConstants;
 
 /**
  * Interactive Swing viewer for Cayley operation tables.
@@ -115,7 +116,7 @@ public class CayleyTableViewer<E extends Element> extends JPanel {
         g2.fillRect(0, 0, cellSize, cellSize);
 
         // Draw headers
-        Font headerFont = new Font("SansSerif", Font.BOLD, Math.max(8, cellSize / 3));
+        Font headerFont = new Font(UIConstants.FONT_SANS_SERIF, Font.BOLD, Math.max(8, cellSize / 3));
         g2.setFont(headerFont);
 
         for (int i = 0; i < n; i++) {
@@ -208,7 +209,7 @@ public class CayleyTableViewer<E extends Element> extends JPanel {
             statusPanel.add(viewer.getStatusLabel(), BorderLayout.WEST);
 
             JLabel infoLabel = new JLabel(String.format("Group order: %d  (hover over cells to see operations)", n));
-            infoLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
+            infoLabel.setFont(new Font(UIConstants.FONT_SANS_SERIF, Font.PLAIN, 12));
             statusPanel.add(infoLabel, BorderLayout.EAST);
 
             mainPanel.add(statusPanel, BorderLayout.SOUTH);

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -23,9 +24,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
+import d021248.group.Generator;
 import d021248.group.Group;
-import d021248.group.GroupHelper;
 import d021248.group.api.Element;
+import d021248.group.util.UIConstants;
 
 /**
  * Interactive Cayley graph visualizer.
@@ -64,14 +66,24 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
         this.group = group;
         this.elements = new ArrayList<>(group.elements());
 
-        // Get generators using GroupHelper strategy
-        GroupHelper<E> helper = new GroupHelper<>(group);
-        try {
-            this.generators = new ArrayList<>(helper.strategyGenerators());
-        } catch (Exception e) {
-            // Fallback: use all non-identity elements as generators for small groups
-            this.generators = new ArrayList<>();
-            E identity = group.identity();
+        // Try to find minimal generators, fallback to all non-identity elements
+        this.generators = new ArrayList<>();
+        E identity = group.identity();
+
+        // For small groups, try each element as potential generator
+        if (group.order() <= 20) {
+            for (E elem : elements) {
+                if (!elem.equals(identity)) {
+                    if (Generator.generate(group, Set.of(elem)).equals(group.elements())) {
+                        generators.add(elem);
+                        break; // Found a generator for cyclic groups
+                    }
+                }
+            }
+        }
+
+        // If no single generator found, use all non-identity elements for small groups
+        if (generators.isEmpty()) {
             for (E elem : elements) {
                 if (!elem.equals(identity) && generators.size() < 6) {
                     generators.add(elem);
@@ -84,7 +96,7 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
 
         this.positions = new HashMap<>();
         this.generatorColors = generateGeneratorColors(generators.size());
-        this.statusLabel = new JLabel("Click elements to highlight their generator paths");
+        this.statusLabel = new JLabel(UIConstants.CLICK_ELEMENTS_MSG);
 
         calculateCircularLayout();
         setBackground(Color.WHITE);
@@ -286,7 +298,7 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
     }
 
     private void drawNodes(Graphics2D g2) {
-        Font labelFont = new Font("SansSerif", Font.BOLD, 11);
+        Font labelFont = new Font(UIConstants.FONT_SANS_SERIF, Font.BOLD, 11);
         g2.setFont(labelFont);
         FontMetrics fm = g2.getFontMetrics();
 
@@ -346,11 +358,11 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
         int y = 20;
         int lineHeight = 25;
 
-        g2.setFont(new Font("SansSerif", Font.BOLD, 12));
+        g2.setFont(new Font(UIConstants.FONT_SANS_SERIF, Font.BOLD, 12));
         g2.setColor(Color.BLACK);
         g2.drawString("Generators:", x, y);
 
-        g2.setFont(new Font("SansSerif", Font.PLAIN, 11));
+        g2.setFont(new Font(UIConstants.FONT_SANS_SERIF, Font.PLAIN, 11));
         for (int i = 0; i < generators.size(); i++) {
             y += lineHeight;
             g2.setColor(generatorColors[i]);
@@ -409,12 +421,12 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
 
             JPanel statusPanel = new JPanel(new BorderLayout());
             statusPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-            viewer.getStatusLabel().setFont(new Font("SansSerif", Font.PLAIN, 12));
+            viewer.getStatusLabel().setFont(new Font(UIConstants.FONT_SANS_SERIF, Font.PLAIN, 12));
             statusPanel.add(viewer.getStatusLabel(), BorderLayout.WEST);
 
             JLabel info = new JLabel(String.format("Group order: %d  |  Generators: %d",
                     group.elements().size(), viewer.generators.size()));
-            info.setFont(new Font("SansSerif", Font.PLAIN, 12));
+            info.setFont(new Font(UIConstants.FONT_SANS_SERIF, Font.PLAIN, 12));
             statusPanel.add(info, BorderLayout.EAST);
 
             mainPanel.add(statusPanel, BorderLayout.SOUTH);

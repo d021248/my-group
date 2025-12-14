@@ -32,6 +32,7 @@ import d021248.group.subgroup.SpecialSubgroups;
 import d021248.group.subgroup.Subgroup;
 import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.util.UIConstants;
 
 /**
  * Interactive Hasse diagram viewer for the subgroup lattice.
@@ -252,7 +253,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
     }
 
     private void drawNodes(Graphics2D g2) {
-        Font labelFont = new Font("SansSerif", Font.BOLD, 11);
+        Font labelFont = new Font(UIConstants.FONT_SANS_SERIF, Font.BOLD, 11);
         g2.setFont(labelFont);
         FontMetrics fm = g2.getFontMetrics();
 
@@ -318,7 +319,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
 
             JPanel statusPanel = new JPanel(new BorderLayout());
             statusPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-            viewer.getStatusLabel().setFont(new Font("SansSerif", Font.PLAIN, 12));
+            viewer.getStatusLabel().setFont(new Font(UIConstants.FONT_SANS_SERIF, Font.PLAIN, 12));
             statusPanel.add(viewer.getStatusLabel(), BorderLayout.WEST);
 
             JLabel legend = new JLabel("<html>Legend: " +
@@ -327,7 +328,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
                     "<span style='color:rgb(255,150,150)'>■</span> Commutator  " +
                     "<span style='color:rgb(150,255,150)'>■</span> Maximal  " +
                     "<span style='color:rgb(150,220,255)'>■</span> Normal</html>");
-            legend.setFont(new Font("SansSerif", Font.PLAIN, 11));
+            legend.setFont(new Font(UIConstants.FONT_SANS_SERIF, Font.PLAIN, 11));
             statusPanel.add(legend, BorderLayout.EAST);
 
             mainPanel.add(statusPanel, BorderLayout.SOUTH);
