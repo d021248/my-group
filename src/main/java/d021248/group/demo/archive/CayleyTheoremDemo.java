@@ -18,6 +18,7 @@ import d021248.group.viz.CayleyTableViewer;
  * representation.
  */
 public class CayleyTheoremDemo {
+    private static final String ORDER_PREFIX = "Order: ";
 
     public static void main(String[] args) {
         demonstrateCyclicGroup();
@@ -31,14 +32,14 @@ public class CayleyTheoremDemo {
         System.out.println("=== Example 1: Cyclic Group Z_4 ===\n");
 
         CyclicGroup z4 = GroupFactory.cyclic(4);
-        System.out.println("Original group: Z_4 (order " + z4.order() + ")");
+        System.out.println("Original group: Z_4 (" + ORDER_PREFIX + z4.order() + ")");
         System.out.println("Elements: " + z4.elements());
 
         // Convert to permutation group using Cayley's theorem
         CayleyPermutationGroup<CyclicElement> permZ4 = new CayleyPermutationGroup<>(z4);
 
         System.out.println("\nCayley permutation representation:");
-        System.out.println("Order: " + permZ4.order() + " (same as original!)");
+        System.out.println(ORDER_PREFIX + permZ4.order() + " (same as original!)");
         System.out.println("\nElement mapping (g -> L_g where L_g(x) = g*x):");
 
         var ordered = permZ4.orderedElements();
@@ -66,14 +67,14 @@ public class CayleyTheoremDemo {
 
         DihedralGroup d3 = GroupFactory.dihedral(3);
         System.out.println("Original group: D_3 (symmetries of triangle)");
-        System.out.println("Order: " + d3.order());
+        System.out.println(ORDER_PREFIX + d3.order());
         System.out.println("Non-abelian: " + !d3.isAbelian());
 
         // Convert to permutation group
         CayleyPermutationGroup<DihedralElement> permD3 = new CayleyPermutationGroup<>(d3);
 
         System.out.println("\nCayley permutation representation:");
-        System.out.println("Order: " + permD3.order());
+        System.out.println(ORDER_PREFIX + permD3.order());
 
         var ordered = permD3.orderedElements();
         System.out.println("\nFirst 3 element mappings:");

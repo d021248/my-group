@@ -31,7 +31,6 @@ public final class QuotientGroupDemo {
     private static void demonstrateCyclicQuotients() {
         System.out.println("=== Cyclic Group Quotients ===");
 
-        // Z_6 / <3> where <3> = {0, 3}
         CyclicGroup z6 = new CyclicGroup(6);
         Subgroup<CyclicElement> h = SubgroupGenerator.generate(z6, Set.of(new CyclicElement(3, 6)));
         QuotientGroup<CyclicElement> z6modH = new QuotientGroup<>(z6, h);
@@ -48,7 +47,6 @@ public final class QuotientGroupDemo {
         Coset<CyclicElement> product = z6modH.operate(coset1, coset1);
         System.out.println("\n  Operation: 1H + 1H = " + product);
 
-        // Z_12 / <4> where <4> = {0, 4, 8}
         System.out.println("\nZ_12 / <4>:");
         CyclicGroup z12 = new CyclicGroup(12);
         Subgroup<CyclicElement> h4 = SubgroupGenerator.generate(z12, Set.of(new CyclicElement(4, 12)));

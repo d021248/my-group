@@ -260,8 +260,8 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
 
     private void drawArrow(Graphics2D g2, int x1, int y1, int x2, int y2) {
         // Calculate direction
-        double dx = x2 - x1;
-        double dy = y2 - y1;
+        double dx = (double) x2 - x1;
+        double dy = (double) y2 - y1;
         double dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < NODE_RADIUS * 2)

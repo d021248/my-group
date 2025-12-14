@@ -107,8 +107,7 @@ public final class SpecialSubgroups {
         List<Subgroup<E>> maximalSubs = maximalSubgroups(parent);
 
         if (maximalSubs.isEmpty()) {
-            // No maximal subgroups (e.g., group of prime order)
-            // Φ(G) = {e}
+            // No maximal subgroups (e.g., group of prime order) - return trivial subgroup
             return SubgroupGenerator.generate(parent, Set.of(parent.identity()));
         }
 
