@@ -1,16 +1,23 @@
 package d021248.group.repl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import d021248.group.Group;
 import d021248.group.GroupFactory;
 import d021248.group.api.Element;
+import d021248.group.conjugacy.ConjugacyAnalyzer;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.dihedral.DihedralElement;
 import d021248.group.subgroup.SpecialSubgroups;
+import d021248.group.subgroup.Subgroup;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.viz.CayleyGraphViewer;
+import d021248.group.viz.CayleyTableViewer;
+import d021248.group.viz.SubgroupLatticeViewer;
 
 /**
  * Evaluates parsed expressions in the context of group theory.
@@ -218,6 +225,144 @@ public class Evaluator {
                 yield power(group, elem, exp);
             }
 
+            case "commutator" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("commutator() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                yield SpecialSubgroups.commutatorSubgroup(group);
+            }
+
+            case "frattini" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("frattini() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                yield SpecialSubgroups.frattiniSubgroup(group);
+            }
+
+            case "maximal" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("maximal() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                yield SpecialSubgroups.maximalSubgroups(group);
+            }
+
+            case "conjugacyClasses", "conjugacy" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("conjugacyClasses() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                yield ConjugacyAnalyzer.conjugacyClasses(group);
+            }
+
+            case "conjugate" -> {
+                if (args.size() != 2 || !(args.get(0) instanceof Element) || !(args.get(1) instanceof Element)) {
+                    throw new EvaluationException("conjugate(g, x) requires two Element arguments - computes xgx^-1");
+                }
+                Element g = (Element) args.get(0);
+                Element x = (Element) args.get(1);
+                Group<Element> group = findGroupContaining(g);
+                yield ConjugacyAnalyzer.conjugate(group, g, x);
+            }
+
+            case "normalizer" -> {
+                if (args.size() != 2 || !(args.get(0) instanceof Group<?>) || !(args.get(1) instanceof Subgroup<?>)) {
+                    throw new EvaluationException("normalizer(G, H) requires Group and Subgroup arguments");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                Subgroup<Element> subgroup = (Subgroup<Element>) args.get(1);
+                yield SubgroupAnalyzer.normalizer(group, subgroup);
+            }
+
+            case "centralizer" -> {
+                if (args.size() == 2 && args.get(0) instanceof Group<?> && args.get(1) instanceof Subgroup<?>) {
+                    Group<Element> group = (Group<Element>) args.get(0);
+                    Subgroup<Element> subgroup = (Subgroup<Element>) args.get(1);
+                    yield SubgroupAnalyzer.centralizer(group, subgroup);
+                } else if (args.size() == 2 && args.get(0) instanceof Group<?> && args.get(1) instanceof Element) {
+                    Group<Element> group = (Group<Element>) args.get(0);
+                    Element element = (Element) args.get(1);
+                    yield ConjugacyAnalyzer.elementCentralizer(group, element);
+                } else {
+                    throw new EvaluationException(
+                            "centralizer(G, H) or centralizer(G, e) requires Group and (Subgroup or Element)");
+                }
+            }
+
+            case "isNormal" -> {
+                if (args.size() != 2 || !(args.get(0) instanceof Group<?>) || !(args.get(1) instanceof Subgroup<?>)) {
+                    throw new EvaluationException("isNormal(G, H) requires Group and Subgroup arguments");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                Subgroup<Element> subgroup = (Subgroup<Element>) args.get(1);
+                yield SubgroupAnalyzer.isNormal(group, subgroup);
+            }
+
+            case "generators" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("generators() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                yield findGenerators(group);
+            }
+
+            case "exponent" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("exponent() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                yield computeExponent(group);
+            }
+
+            case "classEquation" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("classEquation() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                Map<Integer, Long> equation = ConjugacyAnalyzer.classEquation(group);
+                yield formatClassEquation(group, equation);
+            }
+
+            case "show", "cayleyTable" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("show() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                CayleyTableViewer.show(group, "Cayley Table");
+                yield "Cayley table displayed in new window";
+            }
+
+            case "lattice", "subgroupLattice" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("lattice() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                SubgroupLatticeViewer.show(group, "Subgroup Lattice");
+                yield "Subgroup lattice displayed in new window";
+            }
+
+            case "graph", "cayleyGraph" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("graph() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                CayleyGraphViewer.show(group, "Cayley Graph");
+                yield "Cayley graph displayed in new window";
+            }
+
+            case "viz", "visualize" -> {
+                if (args.size() != 1 || !(args.get(0) instanceof Group<?>)) {
+                    throw new EvaluationException("viz() requires one Group argument");
+                }
+                Group<Element> group = (Group<Element>) args.get(0);
+                CayleyTableViewer.show(group, "Cayley Table");
+                SubgroupLatticeViewer.show(group, "Subgroup Lattice");
+                CayleyGraphViewer.show(group, "Cayley Graph");
+                yield "All visualizations displayed";
+            }
+
             case "help" -> {
                 yield getHelp(args.isEmpty() ? null : args.get(0).toString());
             }
@@ -372,16 +517,121 @@ public class Evaluator {
         return false;
     }
 
+    private Set<Element> findGenerators(Group<Element> group) {
+        Set<Element> generators = new java.util.HashSet<>();
+
+        // Find minimal generating set by trying single elements first
+        for (Element g : group.elements()) {
+            Set<Element> generated = new java.util.HashSet<>();
+            Element current = group.identity();
+
+            do {
+                generated.add(current);
+                current = group.operate(current, g);
+            } while (!generated.contains(current) && generated.size() <= group.elements().size());
+
+            if (generated.size() == group.elements().size()) {
+                generators.add(g);
+            }
+        }
+
+        return generators;
+    }
+
+    private int computeExponent(Group<Element> group) {
+        // Exponent is LCM of all element orders
+        int exponent = 1;
+        for (Element e : group.elements()) {
+            int order = group.order(e);
+            exponent = lcm(exponent, order);
+        }
+        return exponent;
+    }
+
+    private int lcm(int a, int b) {
+        return (a * b) / gcd(a, b);
+    }
+
+    private int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    private String formatClassEquation(Group<Element> group, Map<Integer, Long> equation) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("|G| = ").append(group.order()).append(" = ");
+
+        boolean first = true;
+        for (Map.Entry<Integer, Long> entry : equation.entrySet()) {
+            if (!first)
+                sb.append(" + ");
+            int classSize = entry.getKey();
+            long count = entry.getValue();
+            if (count == 1) {
+                sb.append(classSize);
+            } else {
+                sb.append(count).append("×").append(classSize);
+            }
+            first = false;
+        }
+
+        return sb.toString();
+    }
+
     private String getHelp(String topic) {
         if (topic == null) {
             return """
                     Available commands:
-                      Group creation: Z(n), D(n), S(n), A(n)
-                      Operations: *, +, ^
-                      Functions: inverse(e), order(e/g), identity(g), elements(g)
-                                subgroups(g), center(g), isAbelian(g), isCyclic(g)
-                      Properties: g.order, g.identity, e.value
-                      Special: help(), clear, vars, groups, quit
+
+                      GROUP CREATION:
+                        Z(n), D(n), S(n), A(n)          - Cyclic, Dihedral, Symmetric, Alternating groups
+                        Product(g1, g2)                  - Direct product of two groups
+
+                      GROUP ANALYSIS:
+                        isAbelian(g), isCyclic(g)        - Check group properties
+                        order(g), exponent(g)            - Order and exponent of group
+                        generators(g)                    - Find all generators
+                        elements(g), identity(g)         - Access group elements
+
+                      SUBGROUPS:
+                        subgroups(g)                     - All subgroups
+                        center(g)                        - Center Z(G)
+                        commutator(g)                    - Commutator subgroup [G,G]
+                        frattini(g)                      - Frattini subgroup Φ(G)
+                        maximal(g)                       - Maximal subgroups
+                        normalizer(g, h)                 - Normalizer of subgroup
+                        centralizer(g, h/e)              - Centralizer of subgroup or element
+                        isNormal(g, h)                   - Check if H is normal in G
+
+                      CONJUGACY:
+                        conjugacyClasses(g)              - All conjugacy classes
+                        conjugate(g, x)                  - Compute xgx⁻¹
+                        classEquation(g)                 - Class equation
+
+                      ELEMENT OPERATIONS:
+                        inverse(e), order(e)             - Element inverse and order
+                        power(e, n)                      - Compute e^n
+
+                      VISUALIZATIONS:
+                        show(g)                          - Cayley table
+                        lattice(g)                       - Subgroup lattice
+                        graph(g)                         - Cayley graph
+                        viz(g)                           - All visualizations
+
+                      PROPERTIES:
+                        g.order, g.identity, g.elements  - Group properties
+                        e.value, e.modulus               - Element properties
+
+                      SPECIAL:
+                        help()                           - This help message
+                        vars, groups                     - List variables/groups
+                        clear                            - Clear all variables
+                        verbose on/off                   - Toggle verbose mode
+                        quit, exit                       - Exit REPL
                     """;
         }
 

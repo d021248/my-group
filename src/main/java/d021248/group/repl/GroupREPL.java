@@ -94,7 +94,7 @@ public class GroupREPL {
     private void printWelcome() {
         System.out.println("╔═══════════════════════════════════════════════════════════════╗");
         System.out.println("║        Group Theory REPL - Computer Algebra System            ║");
-        System.out.println("║                     Version 1.0                               ║");
+        System.out.println("║                     Version 2.0                               ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════╝");
         System.out.println();
         System.out.println("Welcome to the Group Theory Interactive Shell!");
@@ -106,6 +106,10 @@ public class GroupREPL {
         System.out.println("  g.order           - Get group order");
         System.out.println("  isAbelian(g)      - Check if group is abelian");
         System.out.println("  subgroups(g)      - List all subgroups");
+        System.out.println("  conjugacy(g)      - Find conjugacy classes");
+        System.out.println("  show(g)           - Visualize Cayley table");
+        System.out.println("  lattice(g)        - Display subgroup lattice");
+        System.out.println("  viz(g)            - Show all visualizations");
         System.out.println();
     }
 
@@ -171,6 +175,10 @@ public class GroupREPL {
     private void printResult(Object result) {
         if (result instanceof Group<?>) {
             printGroup((Group<?>) result);
+        } else if (result instanceof d021248.group.subgroup.Subgroup<?>) {
+            printSubgroup((d021248.group.subgroup.Subgroup<?>) result);
+        } else if (result instanceof d021248.group.conjugacy.ConjugacyClass<?>) {
+            printConjugacyClass((d021248.group.conjugacy.ConjugacyClass<?>) result);
         } else if (result instanceof Element) {
             System.out.println(formatElement((Element) result));
         } else if (result instanceof java.util.Set<?>) {
@@ -199,30 +207,30 @@ public class GroupREPL {
             case "CyclicGroup" -> "Z₍" + group.elements().size() + "₎";
             case "DihedralGroup" -> "D₍" + (group.elements().size() / 2) + "₎";
             case "SymmetricGroup" -> {
-                int n = (int) Math.round(factorial(group.elements().size()));
+                // Find n where n! = |G|
+                int order = group.elements().size();
+                int n = findNForFactorial(order);
                 yield "S₍" + n + "₎";
             }
             case "AlternatingGroup" -> {
-                int n = (int) Math.round(factorial(group.elements().size()) * 2);
+                // Find n where n!/2 = |G|
+                int order = group.elements().size();
+                int n = findNForFactorial(order * 2);
                 yield "A₍" + n + "₎";
             }
             default -> className;
         };
     }
 
-    private int factorial(int n) {
-        int result = 1;
+    private int findNForFactorial(int factorial) {
+        // Find n such that n! = factorial
+        int n = 1;
         int fact = 1;
-        while (fact < 10 && factorial(fact) != n) {
-            fact++;
+        while (fact < factorial && n < 20) {
+            n++;
+            fact *= n;
         }
-        return fact;
-    }
-
-    private int factorial2(int n) {
-        if (n <= 1)
-            return 1;
-        return n * factorial2(n - 1);
+        return fact == factorial ? n : -1;
     }
 
     private String formatElement(Element element) {
@@ -256,6 +264,12 @@ public class GroupREPL {
             return;
         }
 
+        // Special handling for lists of ConjugacyClasses
+        if (!list.isEmpty() && list.get(0) instanceof d021248.group.conjugacy.ConjugacyClass) {
+            printConjugacyClassListUnchecked(list);
+            return;
+        }
+
         System.out.println("[ " + String.join(", ",
                 list.stream()
                         .limit(20)
@@ -268,6 +282,11 @@ public class GroupREPL {
     @SuppressWarnings("unchecked")
     private void printSubgroupListUnchecked(List<?> list) {
         printSubgroupList((List<d021248.group.subgroup.Subgroup<?>>) list);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void printConjugacyClassListUnchecked(List<?> list) {
+        printConjugacyClassList((List<d021248.group.conjugacy.ConjugacyClass<?>>) list);
     }
 
     private void printSubgroupList(List<d021248.group.subgroup.Subgroup<?>> subgroups) {
@@ -298,6 +317,65 @@ public class GroupREPL {
             if (i < subgroups.size() - 1) {
                 System.out.println();
             }
+        }
+    }
+
+    private void printConjugacyClassList(List<d021248.group.conjugacy.ConjugacyClass<?>> classes) {
+        System.out.println("Found " + classes.size() + " conjugacy class(es):");
+        System.out.println();
+
+        for (int i = 0; i < classes.size(); i++) {
+            d021248.group.conjugacy.ConjugacyClass<?> cl = classes.get(i);
+            int size = cl.size();
+
+            System.out.println("  Class " + (i + 1) + ":");
+            System.out.println("    Size: " + size);
+            System.out.println("    Representative: " + cl.representative());
+
+            // Show elements if class is small enough
+            if (size <= 8) {
+                System.out.print("    Elements: { ");
+                System.out.print(String.join(", ",
+                        cl.elements().stream()
+                                .map(Object::toString)
+                                .toArray(String[]::new)));
+                System.out.println(" }");
+            } else {
+                System.out.println("    Elements: " + size + " elements (too many to display)");
+            }
+
+            if (i < classes.size() - 1) {
+                System.out.println();
+            }
+        }
+    }
+
+    private void printSubgroup(d021248.group.subgroup.Subgroup<?> subgroup) {
+        int order = subgroup.order();
+        System.out.println("Subgroup (order " + order + ", index " + subgroup.index() + ")");
+
+        if (order <= 12) {
+            System.out.print("Elements: { ");
+            System.out.print(String.join(", ",
+                    subgroup.elements().stream()
+                            .map(Object::toString)
+                            .toArray(String[]::new)));
+            System.out.println(" }");
+        }
+    }
+
+    private void printConjugacyClass(d021248.group.conjugacy.ConjugacyClass<?> cl) {
+        int size = cl.size();
+        System.out.println("Conjugacy class (size " + size + ")");
+        System.out.println("Representative: " + cl.representative());
+
+        if (size <= 12) {
+            System.out.print("Elements: { ");
+            System.out.print(String.join(", ",
+                    cl.elements().stream()
+                            .map(Object::toString)
+                            .toArray(String[]::new)));
+            System.out.println(" }");
         }
     }
 
