@@ -8,12 +8,12 @@ import d021248.group.dihedral.DihedralGroup;
 import d021248.group.subgroup.Subgroup;
 import d021248.group.subgroup.SubgroupGenerator;
 import d021248.group.symmetric.SymmetricGroup;
+import d021248.group.util.Constants;
 
 /**
  * Demonstrates maximal subgroups and Frattini subgroup computation.
  */
 public final class FrattiniDemo {
-    private static final String SEPARATOR = "=".repeat(60);
     private static final String MAXIMAL_PREFIX = "  Maximal subgroups: ";
     private static final String ORDER_PREFIX = "    Order ";
 
@@ -21,9 +21,9 @@ public final class FrattiniDemo {
     }
 
     public static void main(String[] args) {
-        System.out.println(SEPARATOR);
+        System.out.println(Constants.SEPARATOR_60);
         System.out.println("Maximal Subgroups and Frattini Subgroup Demo");
-        System.out.println(SEPARATOR);
+        System.out.println(Constants.SEPARATOR_60);
 
         demonstrateCyclicGroups();
         demonstrateSymmetricGroup();

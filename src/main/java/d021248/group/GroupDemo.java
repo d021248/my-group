@@ -26,10 +26,12 @@ import d021248.group.cyclic.CyclicGroup;
 import d021248.group.homomorphism.Homomorphism;
 import d021248.group.homomorphism.HomomorphismAnalyzer;
 import d021248.group.subgroup.Subgroup;
-import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.symmetric.CayleyPermutationGroup;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
+import d021248.group.util.Constants;
+import d021248.group.util.ThreadUtil;
 import d021248.group.viz.CayleyGraphViewer;
 import d021248.group.viz.CayleyTableViewer;
 import d021248.group.viz.SubgroupLatticeViewer;
@@ -96,9 +98,9 @@ public final class GroupDemo {
     }
 
     private static void showMainMenu() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("        GROUP THEORY DEMO - Interactive Launcher");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
         System.out.println("\n1. 📊 Visualizations (Cayley tables, lattices, graphs)");
         System.out.println("2. 🔬 Concepts (Homomorphisms, conjugacy, actions)");
         System.out.println("3. 📐 Theorems (Cayley, Isomorphism, Orbit-Stabilizer)");
@@ -143,9 +145,9 @@ public final class GroupDemo {
 
             System.out.println("\n✨ Launching visualizations for " + name + "...");
             CayleyTableViewer.show(group, "Cayley Table - " + name);
-            sleep(300);
+            ThreadUtil.sleep(300);
             SubgroupLatticeViewer.show(group, "Subgroup Lattice - " + name);
-            sleep(300);
+            ThreadUtil.sleep(300);
             CayleyGraphViewer.show(group, "Cayley Graph - " + name);
         }
     }
@@ -192,9 +194,9 @@ public final class GroupDemo {
 
     // ===== Homomorphism Demo =====
     private static void demonstrateHomomorphism() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("HOMOMORPHISM: Sign map S_3 → Z_2");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
         CyclicGroup z2 = GroupFactory.cyclic(2);
@@ -224,16 +226,16 @@ public final class GroupDemo {
         System.out.println("\nKernel (alternating group A_3):");
         System.out.println("  Order: " + kernel.order());
         System.out.println("  Elements: " + kernel.elements());
-        System.out.println("  Is normal: " + SubgroupGenerator.isNormal(s3, kernel));
+        System.out.println("  Is normal: " + SubgroupAnalyzer.isNormal(s3, kernel));
 
         pressEnterToContinue();
     }
 
     // ===== Conjugacy Demo =====
     private static void demonstrateConjugacy() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("CONJUGACY CLASSES in S_3");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
         List<ConjugacyClass<Permutation>> classes = ConjugacyAnalyzer.conjugacyClasses(s3);
@@ -257,9 +259,9 @@ public final class GroupDemo {
 
     // ===== Group Action Demo =====
     private static void demonstrateGroupAction() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("GROUP ACTION: Conjugation (S_3 acts on itself)");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
 
@@ -290,9 +292,9 @@ public final class GroupDemo {
 
     // ===== Cayley Theorem Demo =====
     private static void demonstrateCayleyTheorem() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("CAYLEY'S THEOREM: Every group is a permutation group");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         CyclicGroup z4 = GroupFactory.cyclic(4);
         System.out.println("\nOriginal: Z_4 (order " + z4.order() + ")");
@@ -322,9 +324,9 @@ public final class GroupDemo {
 
     // ===== First Isomorphism Theorem =====
     private static void demonstrateFirstIsomorphism() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("FIRST ISOMORPHISM THEOREM: S_3/ker(φ) ≅ im(φ)");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
         CyclicGroup z2 = GroupFactory.cyclic(2);
@@ -352,9 +354,9 @@ public final class GroupDemo {
 
     // ===== Orbit-Stabilizer Theorem =====
     private static void demonstrateOrbitStabilizer() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("ORBIT-STABILIZER THEOREM: |Orbit| × |Stabilizer| = |G|");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
         Action<Permutation, Permutation> conjugation = new Action<>(
@@ -408,9 +410,9 @@ public final class GroupDemo {
                 String name = type + "_" + n;
                 System.out.println("Launching visualizations for " + name);
                 CayleyTableViewer.show(group, "Cayley Table - " + name);
-                sleep(300);
+                ThreadUtil.sleep(300);
                 SubgroupLatticeViewer.show(group, "Subgroup Lattice - " + name);
-                sleep(300);
+                ThreadUtil.sleep(300);
                 CayleyGraphViewer.show(group, "Cayley Graph - " + name);
             }
         } else {
@@ -554,9 +556,9 @@ public final class GroupDemo {
             String title = getGroupTitle();
 
             showCayleyTable(group, title);
-            sleep(300);
+            ThreadUtil.sleep(300);
             showLattice(group, title);
-            sleep(300);
+            ThreadUtil.sleep(300);
             showGraph(group, title);
         }
 
@@ -593,14 +595,6 @@ public final class GroupDemo {
     private static void pressEnterToContinue() {
         System.out.print("\n[Press Enter to continue]");
         scanner.nextLine();
-    }
-
-    private static void sleep(int ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 
     private GroupDemo() {

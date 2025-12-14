@@ -9,22 +9,22 @@ import d021248.group.subgroup.Subgroup;
 import d021248.group.subgroup.SubgroupGenerator;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
+import d021248.group.util.Constants;
 
 /**
  * Demonstrates group properties: center, commutator subgroup, isAbelian,
  * exponent.
  */
 public final class GroupPropertiesDemo {
-    private static final String SEPARATOR = "=".repeat(60);
     private static final String TRIVIAL = " (trivial)";
 
     private GroupPropertiesDemo() {
     }
 
     public static void main(String[] args) {
-        System.out.println(SEPARATOR);
+        System.out.println(Constants.SEPARATOR_60);
         System.out.println("Group Properties Demo");
-        System.out.println(SEPARATOR);
+        System.out.println(Constants.SEPARATOR_60);
 
         demonstrateCenter();
         System.out.println();
