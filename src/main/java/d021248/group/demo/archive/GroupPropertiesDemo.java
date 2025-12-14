@@ -5,8 +5,8 @@ import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.dihedral.DihedralElement;
 import d021248.group.dihedral.DihedralGroup;
+import d021248.group.subgroup.SpecialSubgroups;
 import d021248.group.subgroup.Subgroup;
-import d021248.group.subgroup.SubgroupGenerator;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 import d021248.group.util.Constants;
@@ -41,14 +41,14 @@ public final class GroupPropertiesDemo {
 
         // Abelian group - center is the whole group
         CyclicGroup z6 = GroupFactory.cyclic(6);
-        Subgroup<CyclicElement> centerZ6 = SubgroupGenerator.center(z6);
+        Subgroup<CyclicElement> centerZ6 = SpecialSubgroups.center(z6);
         System.out.println("\nZ_6 (abelian):");
         System.out.println("  Z(Z_6) order: " + centerZ6.order() + " (equals |G| = 6)");
         System.out.println("  For abelian groups: Z(G) = G");
 
         // Non-abelian symmetric group
         SymmetricGroup s3 = GroupFactory.symmetric(3);
-        Subgroup<Permutation> centerS3 = SubgroupGenerator.center(s3);
+        Subgroup<Permutation> centerS3 = SpecialSubgroups.center(s3);
         System.out.println("\nS_3 (non-abelian):");
         System.out.println("  S_3 order: " + s3.order());
         System.out.println("  Z(S_3) order: " + centerS3.order() + TRIVIAL);
@@ -56,7 +56,7 @@ public final class GroupPropertiesDemo {
 
         // Dihedral group D_4
         DihedralGroup d4 = GroupFactory.dihedral(4);
-        Subgroup<DihedralElement> centerD4 = SubgroupGenerator.center(d4);
+        Subgroup<DihedralElement> centerD4 = SpecialSubgroups.center(d4);
         System.out.println("\nD_4 (symmetries of square):");
         System.out.println("  D_4 order: " + d4.order());
         System.out.println("  Z(D_4) order: " + centerD4.order());
@@ -69,14 +69,14 @@ public final class GroupPropertiesDemo {
 
         // Abelian group
         CyclicGroup z12 = GroupFactory.cyclic(12);
-        Subgroup<CyclicElement> commZ12 = SubgroupGenerator.commutatorSubgroup(z12);
+        Subgroup<CyclicElement> commZ12 = SpecialSubgroups.commutatorSubgroup(z12);
         System.out.println("\nZ_12 (abelian):");
         System.out.println("  [Z_12, Z_12] order: " + commZ12.order() + TRIVIAL);
         System.out.println("  For abelian groups: [G,G] = {e}");
 
         // Symmetric group S_3
         SymmetricGroup s3 = GroupFactory.symmetric(3);
-        Subgroup<Permutation> commS3 = SubgroupGenerator.commutatorSubgroup(s3);
+        Subgroup<Permutation> commS3 = SpecialSubgroups.commutatorSubgroup(s3);
         System.out.println("\nS_3:");
         System.out.println("  S_3 order: " + s3.order());
         System.out.println("  [S_3, S_3] order: " + commS3.order());
@@ -85,7 +85,7 @@ public final class GroupPropertiesDemo {
 
         // Symmetric group S_4
         SymmetricGroup s4 = GroupFactory.symmetric(4);
-        Subgroup<Permutation> commS4 = SubgroupGenerator.commutatorSubgroup(s4);
+        Subgroup<Permutation> commS4 = SpecialSubgroups.commutatorSubgroup(s4);
         System.out.println("\nS_4:");
         System.out.println("  S_4 order: " + s4.order());
         System.out.println("  [S_4, S_4] order: " + commS4.order());
@@ -93,7 +93,7 @@ public final class GroupPropertiesDemo {
 
         // Dihedral group
         DihedralGroup d3 = GroupFactory.dihedral(3);
-        Subgroup<DihedralElement> commD3 = SubgroupGenerator.commutatorSubgroup(d3);
+        Subgroup<DihedralElement> commD3 = SpecialSubgroups.commutatorSubgroup(d3);
         System.out.println("\nD_3:");
         System.out.println("  D_3 order: " + d3.order());
         System.out.println("  [D_3, D_3] order: " + commD3.order());

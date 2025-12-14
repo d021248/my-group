@@ -28,7 +28,9 @@ import javax.swing.SwingUtilities;
 
 import d021248.group.Group;
 import d021248.group.api.Element;
+import d021248.group.subgroup.SpecialSubgroups;
 import d021248.group.subgroup.Subgroup;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.subgroup.SubgroupGenerator;
 
 /**
@@ -82,10 +84,10 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
     }
 
     private void classifySubgroups() {
-        Subgroup<E> center = SubgroupGenerator.center(group);
-        Subgroup<E> commutator = SubgroupGenerator.commutatorSubgroup(group);
-        Subgroup<E> frattini = SubgroupGenerator.frattiniSubgroup(group);
-        List<Subgroup<E>> maximalSubs = SubgroupGenerator.maximalSubgroups(group);
+        Subgroup<E> center = SpecialSubgroups.center(group);
+        Subgroup<E> commutator = SpecialSubgroups.commutatorSubgroup(group);
+        Subgroup<E> frattini = SpecialSubgroups.frattiniSubgroup(group);
+        List<Subgroup<E>> maximalSubs = SpecialSubgroups.maximalSubgroups(group);
         Set<Subgroup<E>> maximalSet = new HashSet<>(maximalSubs);
 
         for (Subgroup<E> sub : subgroups) {
@@ -101,7 +103,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
                 types.put(sub, SubgroupType.FRATTINI);
             } else if (maximalSet.contains(sub)) {
                 types.put(sub, SubgroupType.MAXIMAL);
-            } else if (SubgroupGenerator.isNormal(group, sub)) {
+            } else if (SubgroupAnalyzer.isNormal(group, sub)) {
                 types.put(sub, SubgroupType.NORMAL);
             } else {
                 types.put(sub, SubgroupType.REGULAR);
@@ -194,7 +196,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
             sb.append("  |  Type: ").append(type.name());
         }
 
-        boolean normal = SubgroupGenerator.isNormal(group, sub);
+        boolean normal = SubgroupAnalyzer.isNormal(group, sub);
         if (normal && sub.order() != 1 && sub.order() != group.order()) {
             sb.append("  |  NORMAL ⊲");
         }

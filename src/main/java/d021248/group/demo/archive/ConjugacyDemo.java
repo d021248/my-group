@@ -10,8 +10,8 @@ import d021248.group.conjugacy.ConjugacyClass;
 import d021248.group.dihedral.DihedralElement;
 import d021248.group.dihedral.DihedralGroup;
 import d021248.group.dihedral.Flip;
+import d021248.group.subgroup.SpecialSubgroups;
 import d021248.group.subgroup.Subgroup;
-import d021248.group.subgroup.SubgroupGenerator;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 
@@ -72,7 +72,7 @@ public class ConjugacyDemo {
         System.out.println("=== Relationship Between Center and Conjugacy Classes ===");
         DihedralGroup d4 = GroupFactory.dihedral(4);
 
-        Subgroup<DihedralElement> center = SubgroupGenerator.center(d4);
+        Subgroup<DihedralElement> center = SpecialSubgroups.center(d4);
         System.out.println("Center Z(D_4) has order: " + center.order());
 
         List<ConjugacyClass<DihedralElement>> classes = ConjugacyAnalyzer.conjugacyClasses(d4);

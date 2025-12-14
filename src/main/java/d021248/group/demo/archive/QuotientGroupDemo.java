@@ -1,4 +1,4 @@
-package d021248.group.demo;
+package d021248.group.demo.archive;
 
 import java.util.Set;
 
@@ -7,6 +7,7 @@ import d021248.group.cyclic.CyclicGroup;
 import d021248.group.quotient.Coset;
 import d021248.group.quotient.QuotientGroup;
 import d021248.group.subgroup.Subgroup;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.subgroup.SubgroupGenerator;
 import d021248.group.symmetric.AlternatingGroup;
 import d021248.group.symmetric.Permutation;
@@ -69,7 +70,7 @@ public final class QuotientGroupDemo {
 
         System.out.println("S_3 order: " + s3.order());
         System.out.println("A_3 order: " + a3.order());
-        System.out.println("A_3 is normal: " + SubgroupGenerator.isNormal(s3, a3));
+        System.out.println("A_3 is normal: " + SubgroupAnalyzer.isNormal(s3, a3));
 
         QuotientGroup<Permutation> quotient = new QuotientGroup<>(s3, a3);
         System.out.println("\nS_3 / A_3:");

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import d021248.group.Group;
 import d021248.group.api.Element;
 import d021248.group.subgroup.Subgroup;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.subgroup.SubgroupGenerator;
 
 /**
@@ -181,7 +182,7 @@ public final class ConjugacyAnalyzer {
      */
     public static <E extends Element> Subgroup<E> elementCentralizer(Group<E> parent, E element) {
         Subgroup<E> singletonSubgroup = SubgroupGenerator.generate(parent, Set.of(element));
-        return SubgroupGenerator.centralizer(parent, singletonSubgroup);
+        return SubgroupAnalyzer.centralizer(parent, singletonSubgroup);
     }
 
     /**

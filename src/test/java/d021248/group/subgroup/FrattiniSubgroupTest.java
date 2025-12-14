@@ -1,5 +1,7 @@
 package d021248.group.subgroup;
 
+
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,7 +23,7 @@ class FrattiniSubgroupTest {
     @Test
     void testMaximalSubgroupsZ6() {
         CyclicGroup z6 = GroupFactory.cyclic(6);
-        List<Subgroup<CyclicElement>> maximal = SubgroupGenerator.maximalSubgroups(z6);
+        List<Subgroup<CyclicElement>> maximal = SpecialSubgroups.maximalSubgroups(z6);
 
         // Z_6 has two maximal subgroups: Z_2 (order 3) and Z_3 (order 2)
         assertEquals(2, maximal.size());
@@ -32,7 +34,7 @@ class FrattiniSubgroupTest {
     @Test
     void testMaximalSubgroupsZ12() {
         CyclicGroup z12 = GroupFactory.cyclic(12);
-        List<Subgroup<CyclicElement>> maximal = SubgroupGenerator.maximalSubgroups(z12);
+        List<Subgroup<CyclicElement>> maximal = SpecialSubgroups.maximalSubgroups(z12);
 
         // Z_12 has two maximal subgroups: order 4 and order 6
         assertEquals(2, maximal.size());
@@ -43,7 +45,7 @@ class FrattiniSubgroupTest {
     @Test
     void testMaximalSubgroupsPrimeOrder() {
         CyclicGroup z7 = GroupFactory.cyclic(7);
-        List<Subgroup<CyclicElement>> maximal = SubgroupGenerator.maximalSubgroups(z7);
+        List<Subgroup<CyclicElement>> maximal = SpecialSubgroups.maximalSubgroups(z7);
 
         // Prime order groups have only the trivial subgroup which is maximal
         assertEquals(1, maximal.size());
@@ -54,14 +56,14 @@ class FrattiniSubgroupTest {
     void testMaximalSubgroupsTooLarge() {
         CyclicGroup z25 = GroupFactory.cyclic(25);
         assertThrows(IllegalArgumentException.class, () -> {
-            SubgroupGenerator.maximalSubgroups(z25);
+            SpecialSubgroups.maximalSubgroups(z25);
         });
     }
 
     @Test
     void testFrattiniSubgroupZ6() {
         CyclicGroup z6 = GroupFactory.cyclic(6);
-        Subgroup<CyclicElement> frattini = SubgroupGenerator.frattiniSubgroup(z6);
+        Subgroup<CyclicElement> frattini = SpecialSubgroups.frattiniSubgroup(z6);
 
         // Φ(Z_6) = intersection of <2> and <3> = {0} (trivial)
         assertEquals(1, frattini.order());
@@ -71,7 +73,7 @@ class FrattiniSubgroupTest {
     @Test
     void testFrattiniSubgroupZ8() {
         CyclicGroup z8 = GroupFactory.cyclic(8);
-        Subgroup<CyclicElement> frattini = SubgroupGenerator.frattiniSubgroup(z8);
+        Subgroup<CyclicElement> frattini = SpecialSubgroups.frattiniSubgroup(z8);
 
         // Z_8 is a p-group, Frattini contains all elements of order dividing 4
         assertEquals(4, frattini.order());
@@ -84,7 +86,7 @@ class FrattiniSubgroupTest {
     @Test
     void testFrattiniSubgroupZ4() {
         CyclicGroup z4 = GroupFactory.cyclic(4);
-        Subgroup<CyclicElement> frattini = SubgroupGenerator.frattiniSubgroup(z4);
+        Subgroup<CyclicElement> frattini = SpecialSubgroups.frattiniSubgroup(z4);
 
         // Z_4 has one maximal subgroup of order 2
         assertEquals(2, frattini.order());
@@ -95,7 +97,7 @@ class FrattiniSubgroupTest {
     @Test
     void testFrattiniSubgroupPrimeOrder() {
         CyclicGroup z7 = GroupFactory.cyclic(7);
-        Subgroup<CyclicElement> frattini = SubgroupGenerator.frattiniSubgroup(z7);
+        Subgroup<CyclicElement> frattini = SpecialSubgroups.frattiniSubgroup(z7);
 
         // Prime order group has trivial Frattini subgroup
         assertEquals(1, frattini.order());
@@ -105,7 +107,7 @@ class FrattiniSubgroupTest {
     @Test
     void testFrattiniSubgroupS3() {
         SymmetricGroup s3 = GroupFactory.symmetric(3);
-        Subgroup<Permutation> frattini = SubgroupGenerator.frattiniSubgroup(s3);
+        Subgroup<Permutation> frattini = SpecialSubgroups.frattiniSubgroup(s3);
 
         // S_3 is not a p-group, has maximal subgroups of order 2 and 3
         // Intersection is trivial
@@ -115,7 +117,7 @@ class FrattiniSubgroupTest {
     @Test
     void testFrattiniSubgroupD4() {
         DihedralGroup d4 = GroupFactory.dihedral(4);
-        Subgroup<DihedralElement> frattini = SubgroupGenerator.frattiniSubgroup(d4);
+        Subgroup<DihedralElement> frattini = SpecialSubgroups.frattiniSubgroup(d4);
 
         // D_4 is a 2-group of order 8
         // Should have non-trivial Frattini subgroup
@@ -126,7 +128,7 @@ class FrattiniSubgroupTest {
     @Test
     void testMaximalSubgroupsS3() {
         SymmetricGroup s3 = GroupFactory.symmetric(3);
-        List<Subgroup<Permutation>> maximal = SubgroupGenerator.maximalSubgroups(s3);
+        List<Subgroup<Permutation>> maximal = SpecialSubgroups.maximalSubgroups(s3);
 
         // S_3 has 4 maximal subgroups: 3 of order 2 (Sylow 2-subgroups) and 1 of order
         // 3 (A_3)
@@ -141,9 +143,9 @@ class FrattiniSubgroupTest {
     void testFrattiniIsCharacteristic() {
         // The Frattini subgroup is always characteristic (and thus normal)
         CyclicGroup z8 = GroupFactory.cyclic(8);
-        Subgroup<CyclicElement> frattini = SubgroupGenerator.frattiniSubgroup(z8);
+        Subgroup<CyclicElement> frattini = SpecialSubgroups.frattiniSubgroup(z8);
 
-        boolean isNormal = SubgroupGenerator.isNormal(z8, frattini);
+        boolean isNormal = SubgroupAnalyzer.isNormal(z8, frattini);
         assertTrue(isNormal, "Frattini subgroup must be normal");
     }
 }

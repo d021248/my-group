@@ -15,8 +15,8 @@ import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.dihedral.DihedralElement;
 import d021248.group.dihedral.DihedralGroup;
+import d021248.group.subgroup.SpecialSubgroups;
 import d021248.group.subgroup.Subgroup;
-import d021248.group.subgroup.SubgroupGenerator;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 
@@ -121,7 +121,7 @@ class ConjugacyClassTest {
     void testCenterAsUnionOfSingletonClasses() {
         // Elements in center form singleton conjugacy classes
         DihedralGroup d4 = GroupFactory.dihedral(4);
-        Subgroup<DihedralElement> center = SubgroupGenerator.center(d4);
+        Subgroup<DihedralElement> center = SpecialSubgroups.center(d4);
         List<ConjugacyClass<DihedralElement>> classes = ConjugacyAnalyzer.conjugacyClasses(d4);
 
         long singletonClasses = classes.stream().filter(c -> c.size() == 1).count();

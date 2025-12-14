@@ -154,27 +154,8 @@ public interface Group<E extends Element> {
         int exp = 1;
         for (E g : elements()) {
             int elementOrder = order(g);
-            exp = lcm(exp, elementOrder);
+            exp = MathUtil.lcm(exp, elementOrder);
         }
         return exp;
-    }
-
-    /**
-     * Compute least common multiple of two positive integers.
-     */
-    private static int lcm(int a, int b) {
-        return (a / gcd(a, b)) * b;
-    }
-
-    /**
-     * Compute greatest common divisor using Euclidean algorithm.
-     */
-    private static int gcd(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
     }
 }

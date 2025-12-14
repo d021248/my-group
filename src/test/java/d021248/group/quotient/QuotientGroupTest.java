@@ -1,5 +1,6 @@
 package d021248.group.quotient;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -16,6 +17,7 @@ import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.subgroup.Subgroup;
 import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.symmetric.AlternatingGroup;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
@@ -149,7 +151,7 @@ class QuotientGroupTest {
         Permutation trans = Permutation.transposition(1, 2, 3);
         Subgroup<Permutation> h = SubgroupGenerator.generate(s3, Set.of(trans));
 
-        assertFalse(SubgroupGenerator.isNormal(s3, h));
+        assertFalse(SubgroupAnalyzer.isNormal(s3, h));
 
         assertThrows(IllegalArgumentException.class, () -> {
             new QuotientGroup<>(s3, h);

@@ -1,5 +1,7 @@
 package d021248.group;
 
+import d021248.group.subgroup.SubgroupAnalyzer;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -26,7 +28,6 @@ import d021248.group.cyclic.CyclicGroup;
 import d021248.group.homomorphism.Homomorphism;
 import d021248.group.homomorphism.HomomorphismAnalyzer;
 import d021248.group.subgroup.Subgroup;
-import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.symmetric.CayleyPermutationGroup;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
