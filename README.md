@@ -27,7 +27,7 @@ java -cp target/classes d021248.group.GroupDemo viz S 4  # Quick viz
 
 Or use examples programmatically:
 ```java
-import d021248.group.viz.examples.VisualizationExamples;
+import d021248.group.viz.VisualizationExamples;
 
 VisualizationExamples.cyclicGroupExample();  // Z_8
 VisualizationExamples.comparisonExample();    // Z_6 vs D_3

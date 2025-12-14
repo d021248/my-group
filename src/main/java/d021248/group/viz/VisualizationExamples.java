@@ -1,12 +1,9 @@
-package d021248.group.viz.examples;
+package d021248.group.viz;
 
 import d021248.group.GroupFactory;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.dihedral.DihedralGroup;
 import d021248.group.symmetric.SymmetricGroup;
-import d021248.group.viz.CayleyGraphViewer;
-import d021248.group.viz.CayleyTableViewer;
-import d021248.group.viz.SubgroupLatticeViewer;
 
 /**
  * Example methods demonstrating visualization usage patterns.

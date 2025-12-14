@@ -38,7 +38,6 @@ module d021248.group {
 
     // Visualizations
     exports d021248.group.viz;
-    exports d021248.group.viz.examples;
 
     // Internal packages (not exported)
     // d021248.group.base

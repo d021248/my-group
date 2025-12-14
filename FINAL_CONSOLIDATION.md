@@ -42,8 +42,7 @@ src/main/java/d021248/group/
 │   ├── CayleyTableViewer.java
 │   ├── SubgroupLatticeViewer.java
 │   ├── CayleyGraphViewer.java
-│   └── examples/
-│       └── VisualizationExamples.java  (library methods only)
+│   └── VisualizationExamples.java  (library methods)
 └── demo/
     └── archive/             (old demos preserved)
 ```

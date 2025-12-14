@@ -79,12 +79,11 @@ my-group/
 │   ├── cyclic/, dihedral/, symmetric/
 │   ├── product/, subgroup/
 │   ├── homomorphism/, conjugacy/, action/
-│   ├── viz/                     🎨 Core visualization components
+│   ├── viz/                     🎨 Visualization components
 │   │   ├── CayleyTableViewer.java
 │   │   ├── SubgroupLatticeViewer.java
 │   │   ├── CayleyGraphViewer.java
-│   │   └── examples/            📚 Clean examples
-│   │       └── VisualizationExamples.java  (library methods)
+│   │   └── VisualizationExamples.java  (example methods)
 │   └── demo/
 │       └── archive/             📁 Old demos (preserved)
 └── pom.xml
