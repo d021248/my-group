@@ -1,24 +1,13 @@
 package d021248.group;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
 
 import d021248.group.action.Action;
 import d021248.group.action.ActionAnalyzer;
 import d021248.group.action.Orbit;
-import d021248.group.api.Element;
 import d021248.group.conjugacy.ConjugacyAnalyzer;
 import d021248.group.conjugacy.ConjugacyClass;
 import d021248.group.cyclic.CyclicElement;
@@ -26,10 +15,13 @@ import d021248.group.cyclic.CyclicGroup;
 import d021248.group.homomorphism.Homomorphism;
 import d021248.group.homomorphism.HomomorphismAnalyzer;
 import d021248.group.subgroup.Subgroup;
-import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.symmetric.CayleyPermutationGroup;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
+import d021248.group.util.Constants;
+import d021248.group.util.ThreadUtil;
+import d021248.group.util.UIConstants;
 import d021248.group.viz.CayleyGraphViewer;
 import d021248.group.viz.CayleyTableViewer;
 import d021248.group.viz.SubgroupLatticeViewer;
@@ -96,15 +88,15 @@ public final class GroupDemo {
     }
 
     private static void showMainMenu() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("        GROUP THEORY DEMO - Interactive Launcher");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
         System.out.println("\n1. 📊 Visualizations (Cayley tables, lattices, graphs)");
         System.out.println("2. 🔬 Concepts (Homomorphisms, conjugacy, actions)");
         System.out.println("3. 📐 Theorems (Cayley, Isomorphism, Orbit-Stabilizer)");
         System.out.println("G. Switch to GUI mode");
         System.out.println("Q. Quit");
-        System.out.print("\nChoice: ");
+        System.out.print(UIConstants.CHOICE_PROMPT);
     }
 
     private static void visualizationMenu() {
@@ -113,8 +105,8 @@ public final class GroupDemo {
         System.out.println("2. Dihedral group D_n");
         System.out.println("3. Symmetric group S_n");
         System.out.println("4. Alternating group A_n");
-        System.out.println("B. Back");
-        System.out.print("\nChoice: ");
+        System.out.println(UIConstants.BACK_OPTION);
+        System.out.print(UIConstants.CHOICE_PROMPT);
 
         String choice = scanner.nextLine().trim();
         if (choice.equalsIgnoreCase("B")) {
@@ -143,9 +135,9 @@ public final class GroupDemo {
 
             System.out.println("\n✨ Launching visualizations for " + name + "...");
             CayleyTableViewer.show(group, "Cayley Table - " + name);
-            sleep(300);
+            ThreadUtil.sleep(300);
             SubgroupLatticeViewer.show(group, "Subgroup Lattice - " + name);
-            sleep(300);
+            ThreadUtil.sleep(300);
             CayleyGraphViewer.show(group, "Cayley Graph - " + name);
         }
     }
@@ -155,8 +147,8 @@ public final class GroupDemo {
         System.out.println("1. Homomorphisms & kernels (sign: S_3 → Z_2)");
         System.out.println("2. Conjugacy classes (in S_3 and D_4)");
         System.out.println("3. Group actions (orbits & stabilizers)");
-        System.out.println("B. Back");
-        System.out.print("\nChoice: ");
+        System.out.println(UIConstants.BACK_OPTION);
+        System.out.print(UIConstants.CHOICE_PROMPT);
 
         String choice = scanner.nextLine().trim();
 
@@ -165,7 +157,7 @@ public final class GroupDemo {
             case "2" -> demonstrateConjugacy();
             case "3" -> demonstrateGroupAction();
             case "B", "b" -> {
-            }
+                /* Return to main menu */ }
             default -> System.out.println("Invalid choice.");
         }
     }
@@ -175,8 +167,8 @@ public final class GroupDemo {
         System.out.println("1. Cayley's Theorem (every group is a permutation group)");
         System.out.println("2. First Isomorphism Theorem (S_3/A_3 ≅ Z_2)");
         System.out.println("3. Orbit-Stabilizer Theorem (|Orbit| × |Stabilizer| = |G|)");
-        System.out.println("B. Back");
-        System.out.print("\nChoice: ");
+        System.out.println(UIConstants.BACK_OPTION);
+        System.out.print(UIConstants.CHOICE_PROMPT);
 
         String choice = scanner.nextLine().trim();
 
@@ -185,16 +177,16 @@ public final class GroupDemo {
             case "2" -> demonstrateFirstIsomorphism();
             case "3" -> demonstrateOrbitStabilizer();
             case "B", "b" -> {
-            }
+                /* Return to main menu */ }
             default -> System.out.println("Invalid choice.");
         }
     }
 
     // ===== Homomorphism Demo =====
     private static void demonstrateHomomorphism() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("HOMOMORPHISM: Sign map S_3 → Z_2");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
         CyclicGroup z2 = GroupFactory.cyclic(2);
@@ -211,9 +203,9 @@ public final class GroupDemo {
         Permutation transposition = new Permutation(new int[] { 2, 1, 3 });
         Permutation threeCycle = new Permutation(new int[] { 2, 3, 1 });
 
-        System.out.println("  sign(" + identity + ") = " + sign.apply(identity) + " (even)");
-        System.out.println("  sign(" + transposition + ") = " + sign.apply(transposition) + " (odd)");
-        System.out.println("  sign(" + threeCycle + ") = " + sign.apply(threeCycle) + " (even)");
+        System.out.println(UIConstants.INDENT_SIGN + identity + ") = " + sign.apply(identity) + " (even)");
+        System.out.println(UIConstants.INDENT_SIGN + transposition + ") = " + sign.apply(transposition) + " (odd)");
+        System.out.println(UIConstants.INDENT_SIGN + threeCycle + ") = " + sign.apply(threeCycle) + " (even)");
 
         System.out.println("\nProperties:");
         System.out.println("  ✓ Is homomorphism: " + HomomorphismAnalyzer.isHomomorphism(sign));
@@ -223,17 +215,17 @@ public final class GroupDemo {
         Subgroup<Permutation> kernel = HomomorphismAnalyzer.kernel(sign);
         System.out.println("\nKernel (alternating group A_3):");
         System.out.println("  Order: " + kernel.order());
-        System.out.println("  Elements: " + kernel.elements());
-        System.out.println("  Is normal: " + SubgroupGenerator.isNormal(s3, kernel));
+        System.out.println(UIConstants.INDENT_ELEMENTS + kernel.elements());
+        System.out.println("  Is normal: " + SubgroupAnalyzer.isNormal(s3, kernel));
 
         pressEnterToContinue();
     }
 
     // ===== Conjugacy Demo =====
     private static void demonstrateConjugacy() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("CONJUGACY CLASSES in S_3");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
         List<ConjugacyClass<Permutation>> classes = ConjugacyAnalyzer.conjugacyClasses(s3);
@@ -244,7 +236,7 @@ public final class GroupDemo {
             ConjugacyClass<Permutation> cl = classes.get(i);
             System.out.println("Class " + (i + 1) + " (size " + cl.size() + "):");
             System.out.println("  Representative: " + cl.representative());
-            System.out.println("  Elements: " + cl.elements());
+            System.out.println(UIConstants.INDENT_ELEMENTS + cl.elements());
             System.out.println();
         }
 
@@ -257,9 +249,9 @@ public final class GroupDemo {
 
     // ===== Group Action Demo =====
     private static void demonstrateGroupAction() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("GROUP ACTION: Conjugation (S_3 acts on itself)");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
 
@@ -290,9 +282,9 @@ public final class GroupDemo {
 
     // ===== Cayley Theorem Demo =====
     private static void demonstrateCayleyTheorem() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("CAYLEY'S THEOREM: Every group is a permutation group");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         CyclicGroup z4 = GroupFactory.cyclic(4);
         System.out.println("\nOriginal: Z_4 (order " + z4.order() + ")");
@@ -322,9 +314,9 @@ public final class GroupDemo {
 
     // ===== First Isomorphism Theorem =====
     private static void demonstrateFirstIsomorphism() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("FIRST ISOMORPHISM THEOREM: S_3/ker(φ) ≅ im(φ)");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
         CyclicGroup z2 = GroupFactory.cyclic(2);
@@ -352,9 +344,9 @@ public final class GroupDemo {
 
     // ===== Orbit-Stabilizer Theorem =====
     private static void demonstrateOrbitStabilizer() {
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + Constants.SEPARATOR_60);
         System.out.println("ORBIT-STABILIZER THEOREM: |Orbit| × |Stabilizer| = |G|");
-        System.out.println("=".repeat(60));
+        System.out.println(Constants.SEPARATOR_60);
 
         SymmetricGroup s3 = GroupFactory.symmetric(3);
         Action<Permutation, Permutation> conjugation = new Action<>(
@@ -372,11 +364,11 @@ public final class GroupDemo {
 
         System.out.println("\nOrbit (conjugacy class):");
         System.out.println("  Size: " + orbit.size());
-        System.out.println("  Elements: " + orbit.elements());
+        System.out.println(UIConstants.INDENT_ELEMENTS + orbit.elements());
 
         System.out.println("\nStabilizer:");
         System.out.println("  Size: " + stabilizer.order());
-        System.out.println("  Elements: " + stabilizer.elements());
+        System.out.println(UIConstants.INDENT_ELEMENTS + stabilizer.elements());
 
         System.out.println("\nOrbit-Stabilizer Theorem:");
         System.out.println("  |Orbit| × |Stabilizer| = " + orbit.size() + " × " + stabilizer.order() +
@@ -408,9 +400,9 @@ public final class GroupDemo {
                 String name = type + "_" + n;
                 System.out.println("Launching visualizations for " + name);
                 CayleyTableViewer.show(group, "Cayley Table - " + name);
-                sleep(300);
+                ThreadUtil.sleep(300);
                 SubgroupLatticeViewer.show(group, "Subgroup Lattice - " + name);
-                sleep(300);
+                ThreadUtil.sleep(300);
                 CayleyGraphViewer.show(group, "Cayley Graph - " + name);
             }
         } else {
@@ -425,182 +417,14 @@ public final class GroupDemo {
     // ===== GUI Mode =====
     private static void launchGUI() {
         SwingUtilities.invokeLater(() -> {
-            GUILauncher launcher = new GUILauncher();
+            GroupDemoGUI launcher = new GroupDemoGUI();
             launcher.setVisible(true);
         });
-    }
-
-    /**
-     * Graphical launcher with dropdown menus for group selection.
-     */
-    private static class GUILauncher extends JFrame {
-        private static final long serialVersionUID = 1L;
-
-        private final JComboBox<String> groupTypeCombo;
-        private final JSpinner paramSpinner;
-
-        public GUILauncher() {
-            super("Group Visualization Launcher");
-
-            groupTypeCombo = new JComboBox<>(new String[] {
-                    "Cyclic (Z_n)",
-                    "Dihedral (D_n)",
-                    "Symmetric (S_n)",
-                    "Alternating (A_n)"
-            });
-
-            paramSpinner = new JSpinner(new SpinnerNumberModel(4, 2, 12, 1));
-
-            setupUI();
-            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            pack();
-            setLocationRelativeTo(null);
-        }
-
-        private void setupUI() {
-            JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-
-            // Selection panel
-            JPanel selectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-            selectionPanel.add(new JLabel("Group Type:"));
-            selectionPanel.add(groupTypeCombo);
-            selectionPanel.add(new JLabel("Parameter n:"));
-            selectionPanel.add(paramSpinner);
-
-            mainPanel.add(selectionPanel, BorderLayout.NORTH);
-
-            // Button panel
-            JPanel buttonPanel = new JPanel(new GridLayout(4, 1, 5, 5));
-
-            var cayleyTableBtn = new javax.swing.JButton("Show Cayley Table");
-            cayleyTableBtn.addActionListener(e -> launchCayleyTable());
-            buttonPanel.add(cayleyTableBtn);
-
-            var latticeBtn = new javax.swing.JButton("Show Subgroup Lattice");
-            latticeBtn.addActionListener(e -> launchSubgroupLattice());
-            buttonPanel.add(latticeBtn);
-
-            var graphBtn = new javax.swing.JButton("Show Cayley Graph");
-            graphBtn.addActionListener(e -> launchCayleyGraph());
-            buttonPanel.add(graphBtn);
-
-            var allBtn = new javax.swing.JButton("Show All Three");
-            allBtn.addActionListener(e -> launchAll());
-            buttonPanel.add(allBtn);
-
-            mainPanel.add(buttonPanel, BorderLayout.CENTER);
-
-            // Info panel
-            JPanel infoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            JLabel info = new JLabel("Select a group and click a button to visualize");
-            info.setFont(info.getFont().deriveFont(11f));
-            infoPanel.add(info);
-            mainPanel.add(infoPanel, BorderLayout.SOUTH);
-
-            setContentPane(mainPanel);
-        }
-
-        private Group<?> createSelectedGroup() {
-            int param = (Integer) paramSpinner.getValue();
-            String type = (String) groupTypeCombo.getSelectedItem();
-
-            if (type == null) {
-                return GroupFactory.symmetric(4);
-            }
-
-            return switch (type) {
-                case "Cyclic (Z_n)" -> GroupFactory.cyclic(param);
-                case "Dihedral (D_n)" -> GroupFactory.dihedral(param);
-                case "Symmetric (S_n)" -> GroupFactory.symmetric(param);
-                case "Alternating (A_n)" -> GroupFactory.alternating(param);
-                default -> GroupFactory.symmetric(4);
-            };
-        }
-
-        private String getGroupTitle() {
-            int param = (Integer) paramSpinner.getValue();
-            String type = (String) groupTypeCombo.getSelectedItem();
-
-            if (type == null) {
-                return "S_4";
-            }
-
-            return switch (type) {
-                case "Cyclic (Z_n)" -> "Z_" + param;
-                case "Dihedral (D_n)" -> "D_" + param;
-                case "Symmetric (S_n)" -> "S_" + param;
-                case "Alternating (A_n)" -> "A_" + param;
-                default -> "S_4";
-            };
-        }
-
-        private void launchCayleyTable() {
-            Group<?> group = createSelectedGroup();
-            showViewer(group, "Cayley Table");
-        }
-
-        private void launchSubgroupLattice() {
-            Group<?> group = createSelectedGroup();
-            showViewer(group, "Subgroup Lattice");
-        }
-
-        private void launchCayleyGraph() {
-            Group<?> group = createSelectedGroup();
-            showViewer(group, "Cayley Graph");
-        }
-
-        private void launchAll() {
-            Group<?> group = createSelectedGroup();
-            String title = getGroupTitle();
-
-            showCayleyTable(group, title);
-            sleep(300);
-            showLattice(group, title);
-            sleep(300);
-            showGraph(group, title);
-        }
-
-        @SuppressWarnings("unchecked")
-        private <E extends Element> void showViewer(Group<?> group, String viewType) {
-            Group<E> g = (Group<E>) group;
-            String title = getGroupTitle() + " - " + viewType;
-
-            if (viewType.contains("Cayley Table")) {
-                CayleyTableViewer.show(g, title);
-            } else if (viewType.contains("Lattice")) {
-                SubgroupLatticeViewer.show(g, title);
-            } else if (viewType.contains("Graph")) {
-                CayleyGraphViewer.show(g, title);
-            }
-        }
-
-        @SuppressWarnings("unchecked")
-        private <E extends Element> void showCayleyTable(Group<?> group, String groupName) {
-            CayleyTableViewer.show((Group<E>) group, groupName + " - Cayley Table");
-        }
-
-        @SuppressWarnings("unchecked")
-        private <E extends Element> void showLattice(Group<?> group, String groupName) {
-            SubgroupLatticeViewer.show((Group<E>) group, groupName + " - Subgroup Lattice");
-        }
-
-        @SuppressWarnings("unchecked")
-        private <E extends Element> void showGraph(Group<?> group, String groupName) {
-            CayleyGraphViewer.show((Group<E>) group, groupName + " - Cayley Graph");
-        }
     }
 
     private static void pressEnterToContinue() {
         System.out.print("\n[Press Enter to continue]");
         scanner.nextLine();
-    }
-
-    private static void sleep(int ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 
     private GroupDemo() {

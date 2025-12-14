@@ -1,5 +1,7 @@
 package d021248.group.subgroup;
 
+
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +24,7 @@ class CenterSubgroupTest {
     void testCenterOfAbelianGroup() {
         // For abelian groups, Z(G) = G
         CyclicGroup z6 = GroupFactory.cyclic(6);
-        Subgroup<CyclicElement> center = SubgroupGenerator.center(z6);
+        Subgroup<CyclicElement> center = SpecialSubgroups.center(z6);
 
         assertEquals(z6.order(), center.order());
         assertEquals(z6.elements(), center.elements());
@@ -32,7 +34,7 @@ class CenterSubgroupTest {
     void testCenterOfCyclicGroup() {
         // All cyclic groups are abelian
         CyclicGroup z12 = GroupFactory.cyclic(12);
-        Subgroup<CyclicElement> center = SubgroupGenerator.center(z12);
+        Subgroup<CyclicElement> center = SpecialSubgroups.center(z12);
 
         assertEquals(12, center.order());
     }
@@ -41,7 +43,7 @@ class CenterSubgroupTest {
     void testCenterOfS3() {
         // S_3 is non-abelian, center should be trivial
         SymmetricGroup s3 = GroupFactory.symmetric(3);
-        Subgroup<Permutation> center = SubgroupGenerator.center(s3);
+        Subgroup<Permutation> center = SpecialSubgroups.center(s3);
 
         // Only identity element
         assertEquals(1, center.order());
@@ -52,7 +54,7 @@ class CenterSubgroupTest {
     void testCenterOfDihedralGroup() {
         // D_3 (order 6) has trivial center
         DihedralGroup d3 = GroupFactory.dihedral(3);
-        Subgroup<DihedralElement> center = SubgroupGenerator.center(d3);
+        Subgroup<DihedralElement> center = SpecialSubgroups.center(d3);
 
         assertEquals(1, center.order());
     }
@@ -60,7 +62,7 @@ class CenterSubgroupTest {
     @Test
     void centerOfDihedralGroup() {
         DihedralGroup d4 = GroupFactory.dihedral(4);
-        Subgroup<DihedralElement> center = SubgroupGenerator.center(d4);
+        Subgroup<DihedralElement> center = SpecialSubgroups.center(d4);
 
         assertEquals(2, center.order());
         assertTrue(center.elements().contains(d4.identity()));
@@ -70,15 +72,15 @@ class CenterSubgroupTest {
     void testCenterIsNormal() {
         // Center is always normal
         SymmetricGroup s4 = GroupFactory.symmetric(4);
-        Subgroup<Permutation> center = SubgroupGenerator.center(s4);
+        Subgroup<Permutation> center = SpecialSubgroups.center(s4);
 
-        assertTrue(SubgroupGenerator.isNormal(s4, center));
+        assertTrue(SubgroupAnalyzer.isNormal(s4, center));
     }
 
     @Test
     void testCenterOfTrivialGroup() {
         CyclicGroup z1 = GroupFactory.cyclic(1);
-        Subgroup<CyclicElement> center = SubgroupGenerator.center(z1);
+        Subgroup<CyclicElement> center = SpecialSubgroups.center(z1);
 
         assertEquals(1, center.order());
     }

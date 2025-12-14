@@ -12,7 +12,7 @@ import d021248.group.cyclic.CyclicGroup;
 import d021248.group.dihedral.DihedralElement;
 import d021248.group.dihedral.DihedralGroup;
 import d021248.group.subgroup.Subgroup;
-import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 
@@ -138,7 +138,7 @@ class HomomorphismTest {
 
         Subgroup<Permutation> kernel = HomomorphismAnalyzer.kernel(sign);
 
-        assertTrue(SubgroupGenerator.isNormal(s3, kernel));
+        assertTrue(SubgroupAnalyzer.isNormal(s3, kernel));
     }
 
     @Test

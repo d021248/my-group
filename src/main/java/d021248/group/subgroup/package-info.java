@@ -23,10 +23,12 @@
  * System.out.println(h.index()); // 3 (Lagrange's theorem: 12/4)
  * 
  * List<Subgroup<CyclicElement>> allSubs = SubgroupGenerator.allSubgroups(z12);
- * boolean isNormal = SubgroupGenerator.isNormal(z12, h);
+ * boolean isNormal = SubgroupAnalyzer.isNormal(z12, h);
  * }</pre>
  * 
  * @see d021248.group.subgroup.SubgroupGenerator
+ * @see d021248.group.subgroup.SubgroupAnalyzer
+ * @see d021248.group.subgroup.SpecialSubgroups
  * @see d021248.group.subgroup.Subgroup
  */
 package d021248.group.subgroup;

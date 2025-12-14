@@ -4,6 +4,8 @@ import d021248.group.GroupFactory;
 import d021248.group.cyclic.CyclicGroup;
 import d021248.group.dihedral.DihedralGroup;
 import d021248.group.symmetric.SymmetricGroup;
+import d021248.group.util.Constants;
+import d021248.group.util.ThreadUtil;
 
 /**
  * Example methods demonstrating visualization usage patterns.
@@ -157,23 +159,15 @@ public final class VisualizationExamples {
         comparisonExample();
         delay(1000);
         cayleyGraphFocus();
-        delay(1000);
+        ThreadUtil.sleep(1000);
         latticeFocus();
     }
 
     private static void delay() {
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        ThreadUtil.sleep(Constants.DEFAULT_SLEEP_MS);
     }
 
     private static void delay(int ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        ThreadUtil.sleep(ms);
     }
 }

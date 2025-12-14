@@ -8,7 +8,7 @@ import d021248.group.Group;
 import d021248.group.api.Element;
 import d021248.group.api.Operation;
 import d021248.group.subgroup.Subgroup;
-import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.subgroup.SubgroupAnalyzer;
 
 /**
  * Quotient group G/H where H is a normal subgroup of G.
@@ -58,7 +58,7 @@ public final class QuotientGroup<E extends Element> implements Group<Coset<E>> {
         this.parent = Objects.requireNonNull(parent, "parent group must not be null");
         this.normalSubgroup = Objects.requireNonNull(normalSubgroup, "normal subgroup must not be null");
 
-        if (!SubgroupGenerator.isNormal(parent, normalSubgroup)) {
+        if (!SubgroupAnalyzer.isNormal(parent, normalSubgroup)) {
             throw new IllegalArgumentException("Subgroup must be normal for quotient group to be well-defined");
         }
 

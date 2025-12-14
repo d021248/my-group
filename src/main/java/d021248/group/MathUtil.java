@@ -27,4 +27,15 @@ public final class MathUtil {
         }
         return Math.abs(a);
     }
+
+    /**
+     * Compute the least common multiple (LCM) of two positive integers.
+     * 
+     * @param a first integer
+     * @param b second integer
+     * @return the LCM of a and b
+     */
+    public static int lcm(int a, int b) {
+        return (a / gcd(a, b)) * b;
+    }
 }

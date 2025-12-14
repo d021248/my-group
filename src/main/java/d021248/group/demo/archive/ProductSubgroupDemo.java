@@ -1,4 +1,4 @@
-package d021248.group.demo;
+package d021248.group.demo.archive;
 
 import java.util.List;
 import java.util.Set;
@@ -11,6 +11,7 @@ import d021248.group.dihedral.DihedralGroup;
 import d021248.group.product.DirectProduct;
 import d021248.group.product.ProductElement;
 import d021248.group.subgroup.Subgroup;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.subgroup.SubgroupGenerator;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
@@ -18,7 +19,7 @@ import d021248.group.symmetric.SymmetricGroup;
 /**
  * Demonstration of direct product and subgroup features.
  */
-public class ProductSubgroupDemo {
+public final class ProductSubgroupDemo {
     private static final String ORDER_PREFIX = "  Order: ";
     private static final String ELEMENTS_PREFIX = "  Elements: ";
 
@@ -92,7 +93,7 @@ public class ProductSubgroupDemo {
         CyclicGroup z8 = GroupFactory.cyclic(8);
         Subgroup<CyclicElement> h = SubgroupGenerator.generate(z8, Set.of(new CyclicElement(2, 8)));
         System.out.println("Subgroup <2> of Z_8:");
-        System.out.println("  Is normal? " + SubgroupGenerator.isNormal(z8, h));
+        System.out.println("  Is normal? " + SubgroupAnalyzer.isNormal(z8, h));
         System.out.println("  (All subgroups of abelian groups are normal)");
 
         // 2. Non-normal subgroup in S_3
@@ -100,15 +101,15 @@ public class ProductSubgroupDemo {
         List<Subgroup<Permutation>> s3Subs = SubgroupGenerator.allSubgroups(s3);
         System.out.println("\nSubgroups of S_3:");
         for (var sub : s3Subs) {
-            boolean normal = SubgroupGenerator.isNormal(s3, sub);
+            boolean normal = SubgroupAnalyzer.isNormal(s3, sub);
             System.out.println("    Order " + sub.order() + ": normal=" + normal);
         }
 
         // 3. Normalizer and centralizer
         CyclicGroup z6 = GroupFactory.cyclic(6);
         Subgroup<CyclicElement> k = SubgroupGenerator.generate(z6, Set.of(new CyclicElement(2, 6)));
-        Subgroup<CyclicElement> normalizer = SubgroupGenerator.normalizer(z6, k);
-        Subgroup<CyclicElement> centralizer = SubgroupGenerator.centralizer(z6, k);
+        Subgroup<CyclicElement> normalizer = SubgroupAnalyzer.normalizer(z6, k);
+        Subgroup<CyclicElement> centralizer = SubgroupAnalyzer.centralizer(z6, k);
         System.out.println("\nFor subgroup <2> of Z_6:");
         System.out.println("  Normalizer order: " + normalizer.order());
         System.out.println("  Centralizer order: " + centralizer.order());

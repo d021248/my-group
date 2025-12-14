@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import d021248.group.Group;
 import d021248.group.api.Element;
 import d021248.group.subgroup.Subgroup;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.subgroup.SubgroupGenerator;
 
 /**
@@ -50,6 +51,10 @@ public final class ConjugacyAnalyzer {
      * <li>Elements in center form singleton classes</li>
      * <li>|cl(g)| divides |G| (by orbit-stabilizer)</li>
      * </ul>
+     * <p>
+     * <b>Performance:</b> O(n³) where n is the group order.
+     * Computes conjugacy class for each unvisited element.
+     * </p>
      * 
      * @param parent the parent group
      * @return list of all conjugacy classes
@@ -75,6 +80,10 @@ public final class ConjugacyAnalyzer {
      * Compute the conjugacy class of a single element.
      * <p>
      * Returns cl(g) = {xgx⁻¹ : x ∈ G}
+     * </p>
+     * <p>
+     * <b>Performance:</b> O(n²) where n is the group order.
+     * Conjugates the element by each group element.
      * </p>
      * 
      * @param parent  the parent group
@@ -181,7 +190,7 @@ public final class ConjugacyAnalyzer {
      */
     public static <E extends Element> Subgroup<E> elementCentralizer(Group<E> parent, E element) {
         Subgroup<E> singletonSubgroup = SubgroupGenerator.generate(parent, Set.of(element));
-        return SubgroupGenerator.centralizer(parent, singletonSubgroup);
+        return SubgroupAnalyzer.centralizer(parent, singletonSubgroup);
     }
 
     /**

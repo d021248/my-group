@@ -1,5 +1,7 @@
 package d021248.group.subgroup;
 
+
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +24,7 @@ class CommutatorSubgroupTest {
     @Test
     void commutatorOfAbelianGroup() {
         CyclicGroup z6 = GroupFactory.cyclic(6);
-        Subgroup<CyclicElement> commutator = SubgroupGenerator.commutatorSubgroup(z6);
+        Subgroup<CyclicElement> commutator = SpecialSubgroups.commutatorSubgroup(z6);
 
         assertEquals(1, commutator.order());
         assertTrue(commutator.elements().contains(z6.identity()));
@@ -32,7 +34,7 @@ class CommutatorSubgroupTest {
     void testCommutatorOfCyclicGroup() {
         // All cyclic groups are abelian
         CyclicGroup z12 = GroupFactory.cyclic(12);
-        Subgroup<CyclicElement> commutator = SubgroupGenerator.commutatorSubgroup(z12);
+        Subgroup<CyclicElement> commutator = SpecialSubgroups.commutatorSubgroup(z12);
 
         assertEquals(1, commutator.order());
     }
@@ -41,7 +43,7 @@ class CommutatorSubgroupTest {
     void testCommutatorOfS3() {
         // [S_3, S_3] = A_3 (alternating group)
         SymmetricGroup s3 = GroupFactory.symmetric(3);
-        Subgroup<Permutation> commutator = SubgroupGenerator.commutatorSubgroup(s3);
+        Subgroup<Permutation> commutator = SpecialSubgroups.commutatorSubgroup(s3);
 
         // A_3 has order 3
         assertEquals(3, commutator.order());
@@ -55,7 +57,7 @@ class CommutatorSubgroupTest {
     void testCommutatorOfS4() {
         // [S_4, S_4] = A_4
         SymmetricGroup s4 = GroupFactory.symmetric(4);
-        Subgroup<Permutation> commutator = SubgroupGenerator.commutatorSubgroup(s4);
+        Subgroup<Permutation> commutator = SpecialSubgroups.commutatorSubgroup(s4);
 
         // A_4 has order 12
         assertEquals(12, commutator.order());
@@ -69,16 +71,16 @@ class CommutatorSubgroupTest {
     void testCommutatorIsNormal() {
         // Commutator subgroup is always normal
         DihedralGroup d4 = GroupFactory.dihedral(4);
-        Subgroup<DihedralElement> commutator = SubgroupGenerator.commutatorSubgroup(d4);
+        Subgroup<DihedralElement> commutator = SpecialSubgroups.commutatorSubgroup(d4);
 
-        assertTrue(SubgroupGenerator.isNormal(d4, commutator));
+        assertTrue(SubgroupAnalyzer.isNormal(d4, commutator));
     }
 
     @Test
     void testCommutatorOfDihedralGroup() {
         // [D_n, D_n] is the cyclic subgroup of rotations
         DihedralGroup d3 = GroupFactory.dihedral(3);
-        Subgroup<DihedralElement> commutator = SubgroupGenerator.commutatorSubgroup(d3);
+        Subgroup<DihedralElement> commutator = SpecialSubgroups.commutatorSubgroup(d3);
 
         // For D_3, commutator has order 3 (the rotation subgroup)
         assertEquals(3, commutator.order());
@@ -87,7 +89,7 @@ class CommutatorSubgroupTest {
     @Test
     void testCommutatorOfTrivialGroup() {
         CyclicGroup z1 = GroupFactory.cyclic(1);
-        Subgroup<CyclicElement> commutator = SubgroupGenerator.commutatorSubgroup(z1);
+        Subgroup<CyclicElement> commutator = SpecialSubgroups.commutatorSubgroup(z1);
 
         assertEquals(1, commutator.order());
     }

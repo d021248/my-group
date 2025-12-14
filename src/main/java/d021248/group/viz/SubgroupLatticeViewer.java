@@ -25,11 +25,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import d021248.group.Group;
 import d021248.group.api.Element;
+import d021248.group.subgroup.SpecialSubgroups;
 import d021248.group.subgroup.Subgroup;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.util.Point;
+import d021248.group.util.UIConstants;
 
 /**
  * Interactive Hasse diagram viewer for the subgroup lattice.
@@ -58,15 +63,6 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
         NORMAL, CENTER, COMMUTATOR, FRATTINI, MAXIMAL, TRIVIAL, FULL, REGULAR
     }
 
-    private static class Point {
-        final int x, y;
-
-        Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
     public SubgroupLatticeViewer(Group<E> group) {
         this.group = group;
         this.subgroups = SubgroupGenerator.allSubgroups(group);
@@ -82,13 +78,10 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
     }
 
     private void classifySubgroups() {
-        E identity = group.identity();
-        Set<E> fullGroup = group.elements();
-
-        Subgroup<E> center = SubgroupGenerator.center(group);
-        Subgroup<E> commutator = SubgroupGenerator.commutatorSubgroup(group);
-        Subgroup<E> frattini = SubgroupGenerator.frattiniSubgroup(group);
-        List<Subgroup<E>> maximalSubs = SubgroupGenerator.maximalSubgroups(group);
+        Subgroup<E> center = SpecialSubgroups.center(group);
+        Subgroup<E> commutator = SpecialSubgroups.commutatorSubgroup(group);
+        Subgroup<E> frattini = SpecialSubgroups.frattiniSubgroup(group);
+        List<Subgroup<E>> maximalSubs = SpecialSubgroups.maximalSubgroups(group);
         Set<Subgroup<E>> maximalSet = new HashSet<>(maximalSubs);
 
         for (Subgroup<E> sub : subgroups) {
@@ -104,7 +97,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
                 types.put(sub, SubgroupType.FRATTINI);
             } else if (maximalSet.contains(sub)) {
                 types.put(sub, SubgroupType.MAXIMAL);
-            } else if (SubgroupGenerator.isNormal(group, sub)) {
+            } else if (SubgroupAnalyzer.isNormal(group, sub)) {
                 types.put(sub, SubgroupType.NORMAL);
             } else {
                 types.put(sub, SubgroupType.REGULAR);
@@ -157,8 +150,8 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
 
                 for (Map.Entry<Subgroup<E>, Point> entry : positions.entrySet()) {
                     Point p = entry.getValue();
-                    int dx = e.getX() - p.x;
-                    int dy = e.getY() - p.y;
+                    int dx = e.getX() - p.x();
+                    int dy = e.getY() - p.y();
                     if (dx * dx + dy * dy <= NODE_RADIUS * NODE_RADIUS) {
                         newHovered = entry.getKey();
                         break;
@@ -197,7 +190,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
             sb.append("  |  Type: ").append(type.name());
         }
 
-        boolean normal = SubgroupGenerator.isNormal(group, sub);
+        boolean normal = SubgroupAnalyzer.isNormal(group, sub);
         if (normal && sub.order() != 1 && sub.order() != group.order()) {
             sb.append("  |  NORMAL ⊲");
         }
@@ -228,7 +221,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
                 if (sub1.order() < sub2.order() && isDirectCover(sub1, sub2)) {
                     Point p1 = positions.get(sub1);
                     Point p2 = positions.get(sub2);
-                    g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+                    g2.drawLine(p1.x(), p1.y(), p2.x(), p2.y());
                 }
             }
         }
@@ -253,7 +246,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
     }
 
     private void drawNodes(Graphics2D g2) {
-        Font labelFont = new Font("SansSerif", Font.BOLD, 11);
+        Font labelFont = new Font(UIConstants.FONT_SANS_SERIF, Font.BOLD, 11);
         g2.setFont(labelFont);
         FontMetrics fm = g2.getFontMetrics();
 
@@ -268,22 +261,22 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
             // Draw node
             if (hovered) {
                 g2.setColor(new Color(255, 255, 0, 100));
-                g2.fillOval(p.x - NODE_RADIUS - 5, p.y - NODE_RADIUS - 5,
+                g2.fillOval(p.x() - NODE_RADIUS - 5, p.y() - NODE_RADIUS - 5,
                         (NODE_RADIUS + 5) * 2, (NODE_RADIUS + 5) * 2);
             }
 
             g2.setColor(fillColor);
-            g2.fillOval(p.x - NODE_RADIUS, p.y - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
+            g2.fillOval(p.x() - NODE_RADIUS, p.y() - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
 
             g2.setColor(borderColor);
             g2.setStroke(new BasicStroke(hovered ? 3f : 2f));
-            g2.drawOval(p.x - NODE_RADIUS, p.y - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
+            g2.drawOval(p.x() - NODE_RADIUS, p.y() - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
 
             // Draw label
             String label = String.valueOf(sub.order());
             int labelWidth = fm.stringWidth(label);
             g2.setColor(Color.BLACK);
-            g2.drawString(label, p.x - labelWidth / 2, p.y + 5);
+            g2.drawString(label, p.x() - labelWidth / 2, p.y() + 5);
         }
     }
 
@@ -310,7 +303,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
     public static <E extends Element> void show(Group<E> group, String title) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(title);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             SubgroupLatticeViewer<E> viewer = new SubgroupLatticeViewer<>(group);
 
@@ -319,7 +312,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
 
             JPanel statusPanel = new JPanel(new BorderLayout());
             statusPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-            viewer.getStatusLabel().setFont(new Font("SansSerif", Font.PLAIN, 12));
+            viewer.getStatusLabel().setFont(new Font(UIConstants.FONT_SANS_SERIF, Font.PLAIN, 12));
             statusPanel.add(viewer.getStatusLabel(), BorderLayout.WEST);
 
             JLabel legend = new JLabel("<html>Legend: " +
@@ -328,7 +321,7 @@ public class SubgroupLatticeViewer<E extends Element> extends JPanel {
                     "<span style='color:rgb(255,150,150)'>■</span> Commutator  " +
                     "<span style='color:rgb(150,255,150)'>■</span> Maximal  " +
                     "<span style='color:rgb(150,220,255)'>■</span> Normal</html>");
-            legend.setFont(new Font("SansSerif", Font.PLAIN, 11));
+            legend.setFont(new Font(UIConstants.FONT_SANS_SERIF, Font.PLAIN, 11));
             statusPanel.add(legend, BorderLayout.EAST);
 
             mainPanel.add(statusPanel, BorderLayout.SOUTH);

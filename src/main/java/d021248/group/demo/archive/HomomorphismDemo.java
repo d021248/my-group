@@ -1,10 +1,12 @@
-package d021248.group.homomorphism;
+package d021248.group.demo.archive;
 
 import d021248.group.GroupFactory;
 import d021248.group.cyclic.CyclicElement;
 import d021248.group.cyclic.CyclicGroup;
+import d021248.group.homomorphism.Homomorphism;
+import d021248.group.homomorphism.HomomorphismAnalyzer;
 import d021248.group.subgroup.Subgroup;
-import d021248.group.subgroup.SubgroupGenerator;
+import d021248.group.subgroup.SubgroupAnalyzer;
 import d021248.group.symmetric.Permutation;
 import d021248.group.symmetric.SymmetricGroup;
 
@@ -59,7 +61,7 @@ public final class HomomorphismDemo {
         Subgroup<Permutation> kernel = HomomorphismAnalyzer.kernel(sign);
         System.out.println("\nKernel (alternating group A_3):");
         System.out.println(ORDER_PREFIX + kernel.order());
-        System.out.println("  Is normal: " + SubgroupGenerator.isNormal(s3, kernel));
+        System.out.println("  Is normal: " + SubgroupAnalyzer.isNormal(s3, kernel));
 
         Subgroup<CyclicElement> image = HomomorphismAnalyzer.image(sign);
         System.out.println("\nImage:");
