@@ -118,7 +118,7 @@ public class Parser {
         Expression expr = primary();
 
         // Handle property access: expr.property
-        while (match(".")) {
+        while (match(TokenType.DOT)) {
             if (!check(TokenType.IDENTIFIER)) {
                 throw new Tokenizer.ParseException("Expected property name after '.'");
             }
