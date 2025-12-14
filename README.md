@@ -4,6 +4,38 @@ Educational miniature algebra library for exploring finite group theory through 
 
 ## ✨ What You Can Do
 
+### 🖥️ Interactive REPL (NEW!)
+Explore group theory through an interactive Computer Algebra System:
+```bash
+./repl.sh
+```
+
+Example session:
+```
+group> g = Z(6)
+Z₍6₎ (order 6)
+
+group> isAbelian(g)
+true
+
+group> h = D(4)
+D₍4₎ (order 8)
+
+group> subgroups(h)
+[ ... list of all subgroups ... ]
+
+group> center(h)
+(center subgroup)
+```
+
+Features:
+- **Create groups**: Z(n), D(n), S(n), A(n), Product(g1, g2)
+- **Analyze properties**: order, isAbelian, isCyclic, center, subgroups
+- **Compute**: inverse, power, element operations
+- **Interactive shell**: variables, help, history
+
+See [REPL_GUIDE.md](REPL_GUIDE.md) for complete documentation.
+
 ### 🎨 Interactive Visualizations
 Explore groups visually with three interactive tools:
 - **Cayley Tables**: Color-coded operation tables with hover tooltips
