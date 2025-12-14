@@ -98,7 +98,7 @@ public class Parser {
         // Check for function calls/group creation like inverse(a), order(a), Z(6)
         if (check(TokenType.IDENTIFIER) && peekAhead(1).type() == TokenType.LPAREN) {
             String name = advance().value();
-            
+
             // Determine if it's a group type first
             if (isGroupType(name)) {
                 consume(TokenType.LPAREN, "Expected '(' after group type");
