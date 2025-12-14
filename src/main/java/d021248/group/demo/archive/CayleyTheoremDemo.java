@@ -17,7 +17,7 @@ import d021248.group.viz.CayleyTableViewer;
  * Every group G is isomorphic to a subgroup of S_n via the left regular
  * representation.
  */
-public class CayleyTheoremDemo {
+public final class CayleyTheoremDemo {
     private static final String ORDER_PREFIX = "Order: ";
 
     public static void main(String[] args) {

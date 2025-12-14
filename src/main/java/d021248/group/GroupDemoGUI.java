@@ -169,7 +169,7 @@ public final class GroupDemoGUI extends JFrame {
         showGraph(group, title);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // Safe: group type verified by createSelectedGroup()
     private <E extends Element> void showViewer(Group<?> group, String viewType) {
         Group<E> g = (Group<E>) group;
         String title = getGroupTitle() + " - " + viewType;
@@ -183,17 +183,17 @@ public final class GroupDemoGUI extends JFrame {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // Safe: group type verified by createSelectedGroup()
     private <E extends Element> void showCayleyTable(Group<?> group, String groupName) {
         CayleyTableViewer.show((Group<E>) group, groupName + " - Cayley Table");
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // Safe: group type verified by createSelectedGroup()
     private <E extends Element> void showLattice(Group<?> group, String groupName) {
         SubgroupLatticeViewer.show((Group<E>) group, groupName + " - Subgroup Lattice");
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // Safe: group type verified by createSelectedGroup()
     private <E extends Element> void showGraph(Group<?> group, String groupName) {
         CayleyGraphViewer.show((Group<E>) group, groupName + " - Cayley Graph");
     }

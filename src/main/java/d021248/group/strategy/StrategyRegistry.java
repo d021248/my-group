@@ -58,7 +58,7 @@ public final class StrategyRegistry {
         REGISTRY.putAll(newMap);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // Safe: registry stores strategies matching their class key
     public static <E extends Element> GenerationStrategy<E> lookup(Class<?> clazz) {
         return (GenerationStrategy<E>) REGISTRY.get(clazz);
     }

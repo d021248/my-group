@@ -17,7 +17,7 @@ import d021248.group.symmetric.SymmetricGroup;
 /**
  * Demonstrates group actions, orbits, stabilizers, and Burnside's Lemma.
  */
-public class ActionDemo {
+public final class ActionDemo {
 
     public static void main(String[] args) {
         demonstrateConjugationAction();

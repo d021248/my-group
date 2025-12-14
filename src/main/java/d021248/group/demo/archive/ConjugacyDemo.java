@@ -18,7 +18,7 @@ import d021248.group.symmetric.SymmetricGroup;
 /**
  * Demonstrates conjugacy class computations.
  */
-public class ConjugacyDemo {
+public final class ConjugacyDemo {
 
     public static void main(String[] args) {
         demonstrateS3();

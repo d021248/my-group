@@ -19,7 +19,7 @@ import d021248.group.symmetric.SymmetricGroup;
 /**
  * Demonstration of direct product and subgroup features.
  */
-public class ProductSubgroupDemo {
+public final class ProductSubgroupDemo {
     private static final String ORDER_PREFIX = "  Order: ";
     private static final String ELEMENTS_PREFIX = "  Elements: ";
 
