@@ -1,4 +1,4 @@
-gpackage d021248.group.repl;
+package d021248.group.repl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -250,6 +250,12 @@ public class GroupREPL {
             return;
         }
 
+        // Special handling for lists of Subgroups
+        if (!list.isEmpty() && list.get(0) instanceof d021248.group.subgroup.Subgroup) {
+            printSubgroupListUnchecked(list);
+            return;
+        }
+
         System.out.println("[ " + String.join(", ",
                 list.stream()
                         .limit(20)
@@ -257,6 +263,42 @@ public class GroupREPL {
                         .toArray(String[]::new))
                 +
                 (list.size() > 20 ? ", ... (" + list.size() + " total)" : "") + " ]");
+    }
+
+    @SuppressWarnings("unchecked")
+    private void printSubgroupListUnchecked(List<?> list) {
+        printSubgroupList((List<d021248.group.subgroup.Subgroup<?>>) list);
+    }
+
+    private void printSubgroupList(List<d021248.group.subgroup.Subgroup<?>> subgroups) {
+        System.out.println("Found " + subgroups.size() + " subgroup(s):");
+        System.out.println();
+
+        for (int i = 0; i < subgroups.size(); i++) {
+            d021248.group.subgroup.Subgroup<?> subgroup = subgroups.get(i);
+            int order = subgroup.order();
+            int index = subgroup.index();
+
+            System.out.println("  Subgroup " + (i + 1) + ":");
+            System.out.println("    Order: " + order);
+            System.out.println("    Index: " + index);
+
+            // Show elements if subgroup is small enough
+            if (order <= 8) {
+                System.out.print("    Elements: { ");
+                System.out.print(String.join(", ",
+                        subgroup.elements().stream()
+                                .map(Object::toString)
+                                .toArray(String[]::new)));
+                System.out.println(" }");
+            } else {
+                System.out.println("    Elements: " + order + " elements (too many to display)");
+            }
+
+            if (i < subgroups.size() - 1) {
+                System.out.println();
+            }
+        }
     }
 
     private void printVariables() {
