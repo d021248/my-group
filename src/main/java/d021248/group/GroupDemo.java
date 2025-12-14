@@ -156,7 +156,8 @@ public final class GroupDemo {
             case "1" -> demonstrateHomomorphism();
             case "2" -> demonstrateConjugacy();
             case "3" -> demonstrateGroupAction();
-            case "B", "b" -> { /* Return to main menu */ }
+            case "B", "b" -> {
+                /* Return to main menu */ }
             default -> System.out.println("Invalid choice.");
         }
     }
@@ -175,7 +176,8 @@ public final class GroupDemo {
             case "1" -> demonstrateCayleyTheorem();
             case "2" -> demonstrateFirstIsomorphism();
             case "3" -> demonstrateOrbitStabilizer();
-            case "B", "b" -> { /* Return to main menu */ }
+            case "B", "b" -> {
+                /* Return to main menu */ }
             default -> System.out.println("Invalid choice.");
         }
     }
