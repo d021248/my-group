@@ -1,105 +1,180 @@
 # my-group
 
-Educational miniature algebra library focusing on finite groups. Provides:
+Educational miniature algebra library for exploring finite group theory through code and interactive visualizations.
 
-* Minimal interfaces: `Element`, `Operation<E>`, `Group<E>`
-* Concrete implementations: cyclic groups (Z_n), dihedral groups (D_n), symmetric groups (S_n)
-* **Direct products**: construct G₁ × G₂ from any two finite groups
-* **Subgroup generation**: generate subgroups from generators, enumerate all subgroups, compute normalizers/centralizers
-* Utilities: group verifier (axioms), operation (Cayley) table formatter (plain text / Markdown / LaTeX)
-* Property-based tests (jqwik) asserting axioms for randomly chosen cyclic groups
+## ✨ What You Can Do
+
+### 🎨 Interactive Visualizations
+Explore groups visually with three interactive tools:
+- **Cayley Tables**: Color-coded operation tables with hover tooltips
+- **Subgroup Lattices**: Hasse diagrams showing containment hierarchies
+- **Cayley Graphs**: Generator-based graph representations
+
+```bash
+./viz.sh S 4      # Visualize S_4
+./viz.sh D 5      # Visualize D_5
+./viz.sh launcher # GUI launcher
+```
+
+Or use the unified demo launcher:
+```bash
+mvn compile
+java -cp target/classes d021248.group.GroupDemo
+```
+
+Try curated examples:
+```bash
+java -cp target/classes d021248.group.viz.examples.VisualizationExamples s4
+java -cp target/classes d021248.group.viz.examples.VisualizationExamples compare
+```
+
+### 🔬 Learn Group Theory Concepts
+Interactive demonstrations of:
+- Homomorphisms & kernels (First Isomorphism Theorem)
+- Conjugacy classes & class equations
+- Group actions & Orbit-Stabilizer Theorem
+- Cayley's Theorem (every group is a permutation group)
+
+### 🧮 Compute with Groups
+Work with cyclic, dihedral, symmetric, and alternating groups. Build direct products, generate subgroups, compute homomorphisms, and more.
 
 ## Why
-Designed as a teaching aid: show how abstract algebra definitions map to small, immutable Java types using modern language features (records, pattern matching, streams) while keeping API friction low.
+Designed as a teaching aid: see how abstract algebra definitions map to clean Java code using modern language features (records, pattern matching, streams) while keeping friction low.
 
-## Getting Started
+## Quick Start
 
-```java
-import d021248.group.cyclic.CyclicGroup;
-import d021248.group.cyclic.CyclicElement;
-
-var g = new CyclicGroup(7); // Z_7 under addition mod 7
-var a = new CyclicElement(3, 7);
-var b = new CyclicElement(6, 7);
-var sum = g.operate(a, b); // 3 + 6 = 9 ≡ 2 (mod 7)
-System.out.println(sum); // 2 (mod 7)
-System.out.println(a.inverse()); // 4 (mod 7)
+### Build and Run
+```bash
+mvn compile
+java -cp target/classes d021248.group.GroupDemo    # Interactive menu
+./viz.sh S 4                                        # Quick visualization
 ```
 
-Generate / visualize an operation (Cayley) table:
-
-```java
-import d021248.group.GroupTableFormatter;
-import d021248.group.FiniteGroup;
-
-FiniteGroup<?> fg = g; // any finite group
-var cfg = GroupTableFormatter.forGroup(fg).build();
-System.out.println(GroupTableFormatter.toMarkdown(cfg)); // Markdown
-System.out.println(GroupTableFormatter.toPlainText(cfg)); // tab-separated
-System.out.println(GroupTableFormatter.toLatex(cfg)); // LaTeX tabular
-```
-
-Custom ordering & identity highlighting control:
-
-```java
-var cfgCustom = GroupTableFormatter.forGroup(fg)
-	.ordering((e1, e2) -> e1.toString().compareTo(e2.toString()))
-	.highlightIdentity(false)
-	.build();
-System.out.println(GroupTableFormatter.toMarkdown(cfgCustom));
-```
-
-Verify axioms and check properties:
-
-```java
-import d021248.group.util.GroupVerifier;
-var result = GroupVerifier.verify(g);
-System.out.println(result.summary());
-
-// Check if group is abelian
-boolean abelian = g.isAbelian(); // true for cyclic groups
-
-// Compute exponent (lcm of element orders)
-int exp = g.exponent(); // for Z_6, exponent = 6
-```
-
-Build direct products:
-
+### Basic Group Operations
 ```java
 import d021248.group.GroupFactory;
-import d021248.group.product.DirectProduct;
-import d021248.group.product.ProductElement;
+import d021248.group.cyclic.CyclicElement;
 
-var z2 = GroupFactory.cyclic(2);
-var z3 = GroupFactory.cyclic(3);
-var z2xz3 = GroupFactory.directProduct(z2, z3);
-System.out.println("Z_2 × Z_3 order: " + z2xz3.order()); // 6
+// Create a cyclic group Z_7
+var z7 = GroupFactory.cyclic(7);
+var a = new CyclicElement(3, 7);
+var b = new CyclicElement(6, 7);
+var sum = z7.operate(a, b);  // 3 + 6 ≡ 2 (mod 7)
 
-// Klein four-group V_4 = Z_2 × Z_2
-var v4 = GroupFactory.directProduct(GroupFactory.cyclic(2), GroupFactory.cyclic(2));
+System.out.println(sum);          // 2 (mod 7)
+System.out.println(a.inverse());  // 4 (mod 7)
+System.out.println(a.order(z7));  // 7
 ```
 
-Generate and analyze subgroups:
-
+### Generate and Visualize Groups
 ```java
-import d021248.group.subgroup.SubgroupGenerator;
-import d021248.group.subgroup.Subgroup;
+var s4 = GroupFactory.symmetric(4);           // S_4 (order 24)
+var d5 = GroupFactory.dihedral(5);            // D_5 (order 10)
+var v4 = GroupFactory.directProduct(          // Klein four-group
+    GroupFactory.cyclic(2), 
+    GroupFactory.cyclic(2)
+);
 
+// Launch interactive visualizations
+CayleyTableViewer.show(s4, "S_4");
+SubgroupLatticeViewer.show(s4, "S_4 Subgroups");
+CayleyGraphViewer.show(s4, "S_4 Generators");
+```
+
+### Explore Subgroups
+```java
 var z12 = GroupFactory.cyclic(12);
-// Generate subgroup from generators
-Subgroup<CyclicElement> h = SubgroupGenerator.generate(z12, Set.of(new CyclicElement(3, 12)));
-System.out.println("Order: " + h.order()); // 4
-System.out.println("Index: " + h.index()); // 3 (Lagrange's theorem)
+var g = new CyclicElement(3, 12);
 
-// Find all cyclic subgroups
-List<Subgroup<CyclicElement>> cyclicSubs = SubgroupGenerator.cyclicSubgroups(z12);
+// Generate subgroup from element
+var h = SubgroupGenerator.generate(z12, Set.of(g));
+System.out.println("Order: " + h.order());    // 4
+System.out.println("Index: " + h.index());    // 3 (Lagrange)
 
-// Check normality
-boolean normal = SubgroupGenerator.isNormal(z12, h); // true (abelian group)
+// Find all subgroups
+var allSubs = SubgroupGenerator.allSubgroups(z12);
+var center = SubgroupGenerator.center(z12);
+```
 
-// Compute normalizer and centralizer
-Subgroup<CyclicElement> normalizer = SubgroupGenerator.normalizer(z12, h);
-Subgroup<CyclicElement> centralizer = SubgroupGenerator.centralizer(z12, h);
+### Study Homomorphisms
+```java
+var s3 = GroupFactory.symmetric(3);
+var z2 = GroupFactory.cyclic(2);
+
+// Sign homomorphism
+var sign = new Homomorphism<>(s3, z2,
+    p -> new CyclicElement(p.sign() == 1 ? 0 : 1, 2));
+
+var kernel = HomomorphismAnalyzer.kernel(sign);  // A_3
+var image = HomomorphismAnalyzer.image(sign);    // Z_2
+
+// First Isomorphism Theorem: S_3/A_3 ≅ Z_2
+```
+
+## What's Included
+
+### Group Types
+- **Cyclic** (Z_n): Addition mod n
+- **Dihedral** (D_n): Symmetries of regular n-gons
+- **Symmetric** (S_n): All permutations
+- **Alternating** (A_n): Even permutations
+- **Direct Products**: G₁ × G₂ from any two groups
+
+### Advanced Features
+- **Subgroups**: Generate, enumerate, test normality
+- **Homomorphisms**: Kernels, images, First Isomorphism Theorem
+- **Conjugacy**: Classes, centralizers, class equations
+- **Group Actions**: Orbits, stabilizers, Burnside's Lemma
+- **Cayley's Theorem**: Convert any group to permutations
+
+### Utilities
+- Operation table formatter (Markdown/LaTeX/plain text)
+- Group axiom verifier
+- Property-based testing (jqwik)
+
+📖 **See [FEATURES.md](FEATURES.md) for complete documentation**
+
+## Project Structure
+```
+src/main/java/d021248/group/
+├── Group.java, Element.java          # Core interfaces
+├── GroupFactory.java                 # Convenience factory
+├── GroupDemo.java                    # 🎯 Unified demo launcher
+├── cyclic/                           # Z_n implementation
+├── dihedral/                         # D_n implementation  
+├── symmetric/                        # S_n, A_n, permutations
+├── product/                          # Direct products
+├── subgroup/                         # Subgroup generation
+├── homomorphism/                     # Homomorphisms
+├── conjugacy/                        # Conjugacy classes
+├── action/                           # Group actions
+├── viz/                              # 🎨 Visualizations
+│   ├── CayleyTableViewer.java        # Interactive Cayley table
+│   ├── SubgroupLatticeViewer.java    # Subgroup lattice viewer
+│   ├── CayleyGraphViewer.java        # Cayley graph viewer
+│   └── examples/                     # 📚 Example launchers
+│       ├── VisualizationExamples.java
+│       ├── VizDemo.java
+│       ├── VizLauncher.java
+│       └── QuickVizTest.java
+└── demo/archive/                     # Archived old demos
+```
+
+## Requirements
+- Java 21+
+- Maven 3.6+
+
+## Tests
+```bash
+mvn test  # Run 168 tests (all passing)
+```
+
+Includes property-based tests verifying group axioms for random instances.
+
+## References
+- Dummit & Foote, *Abstract Algebra* (3rd ed.)
+- Judson, *Abstract Algebra: Theory and Applications*
+
 
 // Find maximal subgroups (proper subgroups that are not contained in any other proper subgroup)
 List<Subgroup<CyclicElement>> maximal = SubgroupGenerator.maximalSubgroups(z12);
@@ -353,6 +428,34 @@ boolean isOuter = !AutomorphismAnalyzer.isInner(outer); // true (not identity)
 | Group Properties | isAbelian() check | ✅ Complete |
 | | exponent() computation | ✅ Complete |
 
+## Interactive Visualizations
+
+Three Swing-based GUI visualizations are available:
+
+1. **Cayley Table Viewer**: Interactive operation table with hover tooltips
+2. **Subgroup Lattice Viewer**: Hasse diagram showing containment hierarchy
+3. **Cayley Graph Viewer**: Graph representation with colored generator edges
+
+```java
+import d021248.group.viz.*;
+
+// Launch all three visualizations
+SymmetricGroup s4 = GroupFactory.symmetric(4);
+CayleyTableViewer.show(s4, "S_4 Cayley Table");
+SubgroupLatticeViewer.show(s4, "S_4 Subgroup Lattice");
+CayleyGraphViewer.show(s4, "S_4 Cayley Graph");
+```
+
+Or run from command line:
+```bash
+mvn compile
+java -cp target/classes d021248.group.viz.VizDemo S 4    # S_4
+java -cp target/classes d021248.group.viz.VizDemo D 5    # D_5
+java -cp target/classes d021248.group.viz.VizDemo Z 12   # Z_12
+```
+
+See [VISUALIZATIONS.md](VISUALIZATIONS.md) for detailed documentation.
+
 ## Limitations / Future Ideas
 
 | Idea | Description | Effort |
@@ -366,6 +469,7 @@ boolean isOuter = !AutomorphismAnalyzer.isInner(outer); // true (not identity)
 | Homomorphisms | Group morphisms, kernels, and First Isomorphism Theorem | ✅ Done |
 | Group actions | Orbits, stabilizers, and Burnside's Lemma | ✅ Done |
 | Automorphisms | Aut(G), Inn(G), and Inn(G) ≅ G/Z(G) | ✅ Done |
+| Interactive visualizations | Swing-based Cayley tables, lattices, and graphs | ✅ Done |
 | Sylow subgroups | Sylow p-subgroup computation | Medium |
 | Web demo | HTTP endpoints exposing Cayley tables | Medium |
 | CLI REPL | Interactive exploration and verification | Low |

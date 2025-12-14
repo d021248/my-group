@@ -36,11 +36,15 @@ module d021248.group {
     exports d021248.group.util;
     exports d021248.group.export;
 
+    // Visualizations
+    exports d021248.group.viz;
+    exports d021248.group.viz.examples;
+
     // Internal packages (not exported)
     // d021248.group.base
     // d021248.group.strategy
     // d021248.group.demo
 
     // Dependencies
-    requires transitive java.desktop; // For cayley table image generation (BufferedImage, Graphics2D)
+    requires transitive java.desktop; // For Cayley table image generation and Swing visualizations
 }
