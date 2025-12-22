@@ -431,7 +431,7 @@ public final class GroupDemo {
         System.out.println(Constants.SEPARATOR_60);
         System.out.println("\nEntering REPL mode...");
         System.out.println("Type 'help' for available commands, 'exit' to return to menu.\n");
-        
+
         try {
             d021248.group.repl.GroupREPL repl = new d021248.group.repl.GroupREPL();
             repl.run();
