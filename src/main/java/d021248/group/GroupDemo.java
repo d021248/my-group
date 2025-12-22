@@ -74,6 +74,7 @@ public final class GroupDemo {
                 case "1" -> visualizationMenu();
                 case "2" -> conceptMenu();
                 case "3" -> theoremMenu();
+                case "4" -> launchREPL();
                 case "g", "G" -> {
                     System.out.println("Launching GUI...");
                     launchGUI();
@@ -94,6 +95,7 @@ public final class GroupDemo {
         System.out.println("\n1. 📊 Visualizations (Cayley tables, lattices, graphs)");
         System.out.println("2. 🔬 Concepts (Homomorphisms, conjugacy, actions)");
         System.out.println("3. 📐 Theorems (Cayley, Isomorphism, Orbit-Stabilizer)");
+        System.out.println("4. 💻 Interactive REPL (Computer Algebra System)");
         System.out.println("G. Switch to GUI mode");
         System.out.println("Q. Quit");
         System.out.print(UIConstants.CHOICE_PROMPT);
@@ -420,6 +422,22 @@ public final class GroupDemo {
             GroupDemoGUI launcher = new GroupDemoGUI();
             launcher.setVisible(true);
         });
+    }
+
+    // ===== REPL Mode =====
+    private static void launchREPL() {
+        System.out.println("\n" + Constants.SEPARATOR_60);
+        System.out.println("        INTERACTIVE REPL - Computer Algebra System");
+        System.out.println(Constants.SEPARATOR_60);
+        System.out.println("\nEntering REPL mode...");
+        System.out.println("Type 'help' for available commands, 'exit' to return to menu.\n");
+        
+        try {
+            d021248.group.repl.GroupREPL repl = new d021248.group.repl.GroupREPL();
+            repl.run();
+        } catch (Exception e) {
+            System.err.println("Error launching REPL: " + e.getMessage());
+        }
     }
 
     private static void pressEnterToContinue() {
