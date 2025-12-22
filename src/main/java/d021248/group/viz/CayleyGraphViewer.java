@@ -64,14 +64,31 @@ public class CayleyGraphViewer<E extends Element> extends JPanel {
         E identity = group.identity();
 
         // For small groups, try each element as potential generator
+        // For cyclic groups, prefer smaller elements (e.g., 1 over n-1)
         if (group.order() <= 20) {
+            List<E> candidates = new ArrayList<>();
             for (E elem : elements) {
                 if (!elem.equals(identity)) {
                     if (Generator.generate(group, Set.of(elem)).equals(group.elements())) {
-                        generators.add(elem);
-                        break; // Found a generator for cyclic groups
+                        candidates.add(elem);
                     }
                 }
+            }
+
+            // If we found generators, pick the "smallest" one (works well for
+            // CyclicElement)
+            if (!candidates.isEmpty()) {
+                // For cyclic groups, prefer element with smaller value
+                E bestGen = candidates.get(0);
+                for (E candidate : candidates) {
+                    if (candidate instanceof d021248.group.cyclic.CyclicElement ce1 &&
+                            bestGen instanceof d021248.group.cyclic.CyclicElement ce2) {
+                        if (ce1.value() < ce2.value()) {
+                            bestGen = candidate;
+                        }
+                    }
+                }
+                generators.add(bestGen);
             }
         }
 
