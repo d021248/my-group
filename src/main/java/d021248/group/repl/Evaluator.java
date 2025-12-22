@@ -405,10 +405,10 @@ public class Evaluator {
                 yield GroupFactory.alternating((Integer) params.get(0));
             }
 
-            case "Product" -> {
+            case "Product", "product" -> {
                 if (params.size() != 2 || !(params.get(0) instanceof Group<?>) ||
                         !(params.get(1) instanceof Group<?>)) {
-                    throw new EvaluationException("Product(G, H) requires two group arguments");
+                    throw new EvaluationException("product(g, h) requires two group arguments");
                 }
                 @SuppressWarnings("unchecked")
                 Group<Element> g1 = (Group<Element>) params.get(0);
@@ -589,7 +589,7 @@ public class Evaluator {
 
                       GROUP CREATION:
                         Z(n), D(n), S(n), A(n)          - Cyclic, Dihedral, Symmetric, Alternating groups
-                        Product(g1, g2)                  - Direct product of two groups
+                        product(g1, g2)                  - Direct product of two groups
 
                       GROUP ANALYSIS:
                         isAbelian(g), isCyclic(g)        - Check group properties
@@ -632,6 +632,15 @@ public class Evaluator {
                         clear                            - Clear all variables
                         verbose on/off                   - Toggle verbose mode
                         quit, exit                       - Exit REPL
+
+                      EXAMPLES:
+                        g = Z(6)                         - Create cyclic group
+                        h = D(4)                         - Create dihedral group
+                        p = product(g, h)                - Form direct product
+                        v4 = product(Z(2), Z(2))         - Klein four-group
+                        order(p)                         - Get order
+                        subgroups(v4)                    - Find subgroups
+                        viz(g)                           - Launch visualizations
                     """;
         }
 

@@ -188,7 +188,7 @@ public class Parser {
         if (!check(TokenType.RPAREN)) {
             do {
                 args.add(expression());
-            } while (match(","));
+            } while (match(TokenType.COMMA));
         }
 
         return args;
@@ -199,7 +199,7 @@ public class Parser {
                 name.equals("D") || // Dihedral
                 name.equals("S") || // Symmetric
                 name.equals("A") || // Alternating
-                name.equals("Product") || // Direct product
+                name.equals("Product") || name.equals("product") || // Direct product
                 name.equals("Quotient"); // Quotient group
     }
 
